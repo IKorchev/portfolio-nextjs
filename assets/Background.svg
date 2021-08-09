@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="997.532" height="1110.907" viewBox="0 0 997.532 1110.907">
+  <defs>
+    <linearGradient id="linear-gradient" x1="1.011" x2="0.121" y2="0.576" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#9100ff"/>
+      <stop offset="1" stop-color="#ad39ff"/>
+      <stop offset="1" stop-color="#a403ff"/>
+    </linearGradient>
+    <filter id="Background" x="0" y="0" width="980.004" height="1110.907" filterUnits="userSpaceOnUse">
+      <feOffset dx="-3" dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="7.5" result="blur"/>
+      <feFlood flood-opacity="0.588"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient-2" x1="1.011" x2="0.121" y2="0.576" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#e404ff"/>
+      <stop offset="1" stop-color="#8103ff"/>
+    </linearGradient>
+    <filter id="Background-2" x="168.519" y="3" width="804.737" height="1061.115" filterUnits="userSpaceOnUse">
+      <feOffset dx="-3" dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="6.5" result="blur-2"/>
+      <feFlood flood-opacity="0.302"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient-3" x1="1.011" x2="0.121" y2="0.576" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#4a0053"/>
+      <stop offset="1" stop-color="#8103ff"/>
+    </linearGradient>
+    <filter id="Background-3" x="302.335" y="8" width="667.503" height="1025.181" filterUnits="userSpaceOnUse">
+      <feOffset dx="3" dy="2" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="4.5" result="blur-3"/>
+      <feFlood flood-opacity="0.588"/>
+      <feComposite operator="in" in2="blur-3"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient-4" x1="1.011" x2="0.121" y2="0.576" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#550265"/>
+      <stop offset="1" stop-color="#8103ff"/>
+    </linearGradient>
+    <filter id="Background-4" x="423.719" y="6.5" width="573.813" height="984.16" filterUnits="userSpaceOnUse">
+      <feOffset dx="3" dy="2" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="5" result="blur-4"/>
+      <feFlood flood-opacity="0.361"/>
+      <feComposite operator="in" in2="blur-4"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Background-5" data-name="Background" transform="translate(-970.981 19.5)">
+    <g transform="matrix(1, 0, 0, 1, 970.98, -19.5)" filter="url(#Background)">
+      <path id="Background-6" data-name="Background" d="M972.216,16.592S825.559,322.217,1157.5,513.256s254.2,97.188,357,350.522c51.5,126.921,161.083,188.949,275.138,201.358,126.729,14.477,74.758,17.363,74.758,17.363V16.592Z" transform="translate(-914.44 2.91)" fill="url(#linear-gradient)"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, 970.98, -19.5)" filter="url(#Background-2)">
+      <path id="Background-7" data-name="Background" d="M966.056,16.592S847.391,312.7,1115.974,497.785s205.685,94.16,288.859,339.6c41.67,122.968,130.338,183.063,222.624,195.085,102.54,14.026,74.8,0,74.8,0V16.592Z" transform="translate(-748.92 2.91)" fill="url(#linear-gradient-2)"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, 970.98, -19.5)" filter="url(#Background-3)">
+      <path id="Background-8" data-name="Background" d="M953.957,33.9S842.671,319.881,1109.132,504.969s191.323,110.995,273.84,356.438c37.958,112.9,104.767,141.953,188.436,170.672-6.772-10.159-6.772-623.074,0-998.181Z" transform="translate(-618.07 -14.4)" fill="url(#linear-gradient-3)"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, 970.98, -19.5)" filter="url(#Background-4)">
+      <path id="Background-9" data-name="Background" d="M950.608,60.953S842.458,316.528,1108.25,499.5s154.308,154.456,236.618,397.093c24.858,73.276,54.875,84.657,94.815,104.974h0V60.953Z" transform="translate(-493.12 -41.45)" fill="url(#linear-gradient-4)"/>
+    </g>
+  </g>
+</svg>
