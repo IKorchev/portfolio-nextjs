@@ -4,6 +4,9 @@ module.exports = {
   purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    fontFamily: {
+      oswald: ["Oswald", "sans-serif"],
+    },
     colors: {
       white: "white",
       transparent: "transparent",
@@ -23,8 +26,12 @@ module.exports = {
       amber: colors.amber,
       orange: colors.orange,
     },
-    extend: {
+    letterSpacing: {
+      wider: "0.25em",
+      widest: ".15em",
+      giant: "0.25em",
     },
+    extend: {},
   },
   variants: {
     extend: {

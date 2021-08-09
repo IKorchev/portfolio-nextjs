@@ -17,7 +17,7 @@ const Skills = () => {
               alt={el.alt}
             />
           </div>
-          <p className='font-semibold text-gray-900 mt-2'>{el.title}</p>
+          <p className='font-semibold text-gray-100 mt-2'>{el.title}</p>
         </div>
       ))}
     </div>

@@ -17,16 +17,16 @@ const Navbar = () => {
         </Link>
       </div>
       <Link className='nav-link' to='home'>
-        Home
+        home
       </Link>
       <Link className='nav-link' to='aboutme'>
-        About me
+        about me
       </Link>
       <Link className='nav-link' to='projects'>
-        Projects
+        projects
       </Link>
       <Link className='nav-link' to='contact'>
-        Contact
+        contact
       </Link>
     </div>
   )

@@ -1,6 +1,6 @@
 import Head from "next/head"
 import LandingPage from "../components/LandingPage"
-import Skill from "../components/Skills"
+import Skills from "../components/Skills"
 import Navbar from "../components/Navbar"
 import Projects from "../components/Projects"
 import { fetchContentfulData } from "../utils/contentfulProjects"
@@ -18,6 +18,7 @@ export default function Home({ data }) {
         <LandingPage />
       </header>
       <main className='container mx-auto'>
+        <Skills />
         <Projects data={data} />
       </main>
     </div>

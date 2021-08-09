@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="746" height="159.54" viewBox="0 0 746 159.54">
   <g id="Logo" transform="translate(-644 -255)">
-    <text id="Ivaylo_Korchev" data-name="Ivaylo Korchev" transform="translate(649 365)" fill="#4C1D95" stroke="#4C1D95" stroke-width="5" font-size="100" font-family="Poppins-Medium, Poppins" font-weight="500"><tspan x="0" y="0">Ivaylo Korchev</tspan></text>
-    <g id="Rectangle_1" data-name="Rectangle 1" transform="translate(813.809 400)" fill="#4C1D95" stroke="#4C1D95" stroke-width="1">
+    <text id="Ivaylo_Korchev" data-name="Ivaylo Korchev" transform="translate(649 365)" fill="#fff" stroke="#fff" stroke-width="5" font-size="100" font-family="Poppins-Medium, Poppins" font-weight="500"><tspan x="0" y="0">Ivaylo Korchev</tspan></text>
+    <g id="Rectangle_1" data-name="Rectangle 1" transform="translate(813.809 400)" fill="#fff" stroke="#fff" stroke-width="1">
       <rect width="406.382" height="14.54" stroke="none"/>
       <rect x="0.5" y="0.5" width="405.382" height="13.54" fill="none"/>
     </g>
