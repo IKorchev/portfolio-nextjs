@@ -1,12 +1,11 @@
 import Head from "next/head"
 import LandingPage from "../components/LandingPage"
-import Skills from "../components/Skills"
 import Navbar from "../components/Navbar"
 import Projects from "../components/Projects"
 import { fetchContentfulData } from "../utils/contentfulProjects"
 export default function Home({ data }) {
   return (
-    <div className='bg-black overflow-x-hidden'>
+    <div className='bg-black'>
       <Head>
         <title>Ivaylo Korchev | Portfolio </title>
         <link rel='icon' href='/favicon.ico' />
@@ -14,11 +13,10 @@ export default function Home({ data }) {
       <nav className='lg:px-24'>
         <Navbar />
       </nav>
-      <header className='container mx-auto '>
+      <header className='container mx-auto'>
         <LandingPage />
       </header>
-      <main className='container mx-auto'>
-        <Skills />
+      <main className='mx-auto'>
         <Projects data={data} />
       </main>
     </div>

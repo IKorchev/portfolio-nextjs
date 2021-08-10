@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
+  <g id="Bootstrap" transform="translate(-131 -375)">
+    <rect id="Rectangle_5" data-name="Rectangle 5" width="180" height="180" transform="translate(131 375)" fill="#fff"/>
+    <g id="bootstrap-fill" transform="translate(138.822 382.822)">
+      <path id="Path_305" data-name="Path 305" d="M6.375,30V4.658H24.66c9.995,0,15.84,4.694,15.84,12.707C40.5,25.6,34.295,30,22.379,30Zm0,38.644h19.5c12.162,0,18.593-4.931,18.593-14.145,0-9.091-6.677-13.847-19.373-13.847H6.375V68.644Z" transform="translate(59.09 43.19)" stroke="#707070" stroke-width="1"/>
+      <path id="Path_306" data-name="Path 306" d="M41.091,0A41.089,41.089,0,0,0,0,41.089v82.178a41.089,41.089,0,0,0,41.089,41.089h82.178a41.089,41.089,0,0,0,41.089-41.089V41.089A41.089,41.089,0,0,0,123.269,0H41.091ZM51.979,123.267V36.415H86.895c16.3,0,26.122,8.31,26.122,21.674,0,9.081-6.677,17.206-15.234,18.654v1.027c11.741,1.2,19.558,9.563,19.558,20.883,0,15.285-11.135,24.612-29.666,24.612Z" transform="translate(-0.002)" stroke="#707070" stroke-width="1"/>
+    </g>
+  </g>
+</svg>

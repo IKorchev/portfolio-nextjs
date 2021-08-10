@@ -3,12 +3,14 @@ import React from "react"
 import skills from "../utils/skillsData"
 import Image from "next/image"
 
-const Skills = () => {
+const Skills = ({ skillsRef }) => {
   return (
-    <div className='container md:px-32 flex flex-wrap lg:grid-cols-9 mt-12 gap-2 justify-center items-center'>
+    <div
+      ref={skillsRef}
+      className='container mx-auto xl:ml-auto xl:mx-0 -ml-5 lg:ml-0 lg:max-w-sm lg:-mt-50 grid grid-cols-5 my-8 place-items-center'>
       {skills.map((el) => (
-        <div className='w-24 md:w-32 flex flex-col items-center rounded-lg p-5'>
-          <div key={el.title} className='relative h-12 w-12'>
+        <div className='w-20 md:w-32 flex flex-col items-center rounded-lg p-2'>
+          <div key={el.title} className='relative h-10 w-10'>
             <Image
               layout='fill'
               objectFit='cover'
@@ -17,7 +19,6 @@ const Skills = () => {
               alt={el.alt}
             />
           </div>
-          <p className='font-semibold text-gray-100 mt-2'>{el.title}</p>
         </div>
       ))}
     </div>

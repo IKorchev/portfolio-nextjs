@@ -10,7 +10,8 @@ module.exports = {
     colors: {
       white: "white",
       transparent: "transparent",
-      black: "black",
+      black: colors.black,
+      trueGray: colors.trueGray,
       gray: colors.coolGray,
       purple: colors.purple,
       pink: colors.pink,
@@ -25,11 +26,12 @@ module.exports = {
       lime: colors.lime,
       amber: colors.amber,
       orange: colors.orange,
+      darkgray: "#050505",
     },
     letterSpacing: {
       wider: "0.25em",
       widest: ".15em",
-      giant: "0.25em",
+      giant: "0.3em",
     },
     extend: {},
   },
