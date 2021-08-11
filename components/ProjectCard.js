@@ -1,25 +1,60 @@
 import gsap from "gsap"
 import Image from "next/image"
+import GithubIcon from "../assets/github.svg"
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
+import { PlayIcon } from "@heroicons/react/solid"
+import { CodeIcon } from "@heroicons/react/solid"
 gsap.registerPlugin(ScrollTrigger)
 const ProjectCard = ({ project }) => {
-  const { projectImage, title, projectDescription, githubLink, demoLink } = project
+  const { projectImage, title, projectDescription, githubLink, demoLink, techStack } =
+    project
   const imageURL = `https:${projectImage.fields.file.url}`
-
   return (
-    <div
-      className='project w-full container mt-5 flex flex-col border 
-    lg:flex-row-reverse odd:lg:flex-row even:border-l-1 odd:border-r-1'>
-      <div className='relative min-h-2/4 w-full'>
-        <Image layout='fill' objectFit='cover' objectPosition="right" src={imageURL} />
+    <div className='project'>
+      <div className='project-img relative w-full '>
+        <a href={demoLink} target='_blank' rel='noreferrer'>
+          <Image
+            layout='responsive'
+            width={500}
+            height={300}
+            objectFit='cover'
+            className='transition-all duration-300 filter saturate-100 hover:saturate-50'
+            objectPosition='top'
+            src={imageURL}
+          />
+        </a>
       </div>
       <div className='container font-oswald flex'>
         <div className='p-12 2xl:px-18 flex flex-col '>
-          <h1 className='text-4xl text-white font-semibold'>{title}</h1>
+          <h1 className='text-teal-100 text-4xl text-white font-normal'>{title}</h1>
+          <div className='pr-12 text-gray-500 flex flex-wrap justify-start py-5'>
+            {techStack?.map((el) => (
+              <span
+                key={el}
+                className='text-lg text-gray-100 bg-customgray px-2 mr-4 mt-2'>
+                {el}
+              </span>
+            ))}
+          </div>
           <p className='text-gray-400 mt-8 text-xl'>{projectDescription}</p>
-        </div>
-        <div className='flex'>
-          <a className='cto-button'>Github</a>
+          <div className='flex place-items-center mt-10'>
+            <a
+              href={demoLink}
+              target='_blank'
+              rel='noreferrer'
+              className='cto-link flex bg-white text-black font-normal px-2 py-1 mr-5 border hover:text-white hover:bg-transparent'>
+              DEMO
+              <PlayIcon className='h-7 ml-3' />
+            </a>
+            <a
+              href={githubLink}
+              target='_blank'
+              rel='noreferrer'
+              className='cto-link flex px-2 py-1 font-normal border hover:bg-white  hover:text-black'>
+              CODE
+              <CodeIcon className='h-7 ml-3' />
+            </a>
+          </div>
         </div>
       </div>
     </div>

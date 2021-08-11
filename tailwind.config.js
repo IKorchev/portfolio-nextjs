@@ -26,7 +26,8 @@ module.exports = {
       lime: colors.lime,
       amber: colors.amber,
       orange: colors.orange,
-      darkgray: "#050505",
+      darkgray: "#0f0f0f",
+      customgray: "#363636",
     },
     letterSpacing: {
       wider: "0.25em",

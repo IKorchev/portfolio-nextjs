@@ -2,6 +2,8 @@ import Head from "next/head"
 import LandingPage from "../components/LandingPage"
 import Navbar from "../components/Navbar"
 import Projects from "../components/Projects"
+import Aboutme from "../components/Aboutme"
+import Contact from "../components/Contact"
 import { fetchContentfulData } from "../utils/contentfulProjects"
 export default function Home({ data }) {
   return (
@@ -16,9 +18,13 @@ export default function Home({ data }) {
       <header className='container mx-auto'>
         <LandingPage />
       </header>
-      <main className='mx-auto'>
+      <main className='container mx-auto'>
         <Projects data={data} />
+        <Aboutme />
       </main>
+      <footer>
+        <Contact />
+      </footer>
     </div>
   )
 }

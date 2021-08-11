@@ -9,8 +9,10 @@ const Skills = ({ skillsRef }) => {
       ref={skillsRef}
       className='container mx-auto xl:ml-auto xl:mx-0 -ml-5 lg:ml-0 lg:max-w-sm lg:-mt-50 grid grid-cols-5 my-8 place-items-center'>
       {skills.map((el) => (
-        <div className='w-20 md:w-32 flex flex-col items-center rounded-lg p-2'>
-          <div key={el.title} className='relative h-10 w-10'>
+        <div
+          key={el.title}
+          className='w-20 md:w-32 flex flex-col items-center rounded-lg p-2'>
+          <div className='relative h-10 w-10'>
             <Image
               layout='fill'
               objectFit='cover'

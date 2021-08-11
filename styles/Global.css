@@ -17,6 +17,20 @@
     @apply font-oswald lg:px-4 py-2 text-xl  text-center font-semibold text-gray-100 hover:underline hover:text-gray-200;
   }
   .cto-link {
-    @apply px-4 py-2 shadow-md  text-white font-semibold text-sm md:text-xl active:scale-95;
+    @apply px-4 py-2 shadow-md  text-white font-semibold text-sm md:text-xl active:scale-95 transition-all duration-300;
+  }
+  .project {
+    @apply w-full container mb-12 flex flex-col bg-darkgray 
+    lg:flex-row-reverse odd:lg:flex-row lg:even:border-l-4 lg:odd:border-r-4;
+  }
+}
+
+.project {
+  height: max-content;
+}
+
+@media (min-width: 997px) {
+  .project {
+    height: max-content;
   }
 }
