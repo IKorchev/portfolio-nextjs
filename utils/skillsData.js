@@ -1,13 +1,13 @@
 import NodejsIcon from "../assets/Nodejs.svg"
-import HTMLIcon from "../assets/html5.svg"
+import HTMLIcon from "../assets/HTML.svg"
 import GitIcon from "../assets/git.svg"
 import GitHubIcon from "../assets/github.svg"
 import JavaScriptIcon from "../assets/javascript.svg"
 import CSSIcon from "../assets/css.svg"
-import SCSSIcon from "../assets/sass.svg"
+import SCSSIcon from "../assets/Sass.svg"
 import ReactIcon from "../assets/React.svg"
 import BStrapIcon from "../assets/Bootstrap.svg"
-import ExpressJsIcon from "../assets/express.svg"
+import ExpressJsIcon from "../assets/Express.svg"
 
 export default [
   { image: HTMLIcon, alt: "HTML icon" },
