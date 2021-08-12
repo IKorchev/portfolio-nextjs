@@ -1,5 +1,5 @@
 import NodejsIcon from "../assets/Nodejs.svg"
-import HTMLIcon from "../assets/HTML.svg"
+import HTMLIcon from "../assets/HTML5.svg"
 import GitIcon from "../assets/git.svg"
 import GitHubIcon from "../assets/github.svg"
 import JavaScriptIcon from "../assets/javascript.svg"
