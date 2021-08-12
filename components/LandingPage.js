@@ -16,7 +16,7 @@ const LandingPage = () => {
   }, [])
 
   return (
-    <div className='lg:px-24 py-12 container mx-auto min-h-screen'>
+    <header className='lg:px-24 py-12 container mx-auto min-h-screen'>
       <div className='container flex flex-col justify-between mt-12 pl-10 lg:pl-0 '>
         <BackgroundObjects className='z-0' />
         <div ref={parentRef} className='lg:mt-12 z-20'>
@@ -63,7 +63,7 @@ const LandingPage = () => {
           <ChevronDoubleDownIcon className='h-10' fill='#fff' />
         </button>
       </div>
-    </div>
+    </header>
   )
 }
 

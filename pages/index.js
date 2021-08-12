@@ -12,16 +12,10 @@ export default function Home({ data }) {
     <div className='bg-black'>
       <Meta />
       <Navbar />
-      <header>
-        <LandingPage />
-      </header>
-      <main>
-        <Projects data={data} />
-        <Aboutme />
-      </main>
-      <footer>
-        <Contact />
-      </footer>
+      <LandingPage />
+      <Projects data={data} />
+      <Aboutme />
+      <Contact />
     </div>
   )
 }
