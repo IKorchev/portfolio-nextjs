@@ -9,26 +9,26 @@ const LandingPage = () => {
   const skillsRef = useRef()
   useEffect(() => {
     const tl = gsap.timeline()
-    // tl.from(parentRef.current.children, {
-    //   opacity: 0,
-    //   x: -250,
-    //   duration: 2,
-    //   stagger: 0.1,
-    //   ease: "power4.inOut",
-    // })
-    //   .from(skillsRef.current.children, {
-    //     opacity: 0,
-    //     y: 20,
-    //     duration: 0.5,
-    //     stagger: 0.2,
-    //   })
-    //   .to("#scroll-down-button", {
-    //     opacity: 1,
-    //   })
+    tl.from(parentRef.current.children, {
+      opacity: 0,
+      x: -250,
+      duration: 2,
+      stagger: 0.1,
+      ease: "power4.inOut",
+    })
+      .from(skillsRef.current.children, {
+        opacity: 0,
+        y: 20,
+        duration: 0.5,
+        stagger: 0.2,
+      })
+      .to("#scroll-down-button", {
+        opacity: 1,
+      })
   }, [])
 
   return (
-    <div className='lg:px-24 py-12 container'>
+    <div className='lg:px-24 py-12 container min-h-screen'>
       <div className='flex flex-col justify-between mt-12 pl-10 lg:pl-0 '>
         <BackgroundObjects className='z-0' />
         <div ref={parentRef} className='lg:mt-12 z-20'>
@@ -51,17 +51,19 @@ const LandingPage = () => {
               href='https://linkedin.com/in/ivaylo-korchev'>
               Contact me
             </a>
-            <button href='' className='cto-link text-white underline hover:opacity-90'>
-              <Link to='projects'>My work</Link>
-            </button>
+            <Link
+              className='cto-link text-white underline hover:opacity-90'
+              to='projects'>
+              My work
+            </Link>
           </div>
         </div>
         <Skills skillsRef={skillsRef} />
       </div>
       <div className='overflow-x-hidden mt-12 flex flex-col justify-center items-center'>
         <Link
-          id='scroll-down-button '
-          className=' animate-bounce justify-center font-semibold  hover:opacity-80'
+          id='scroll-down-button'
+          className=' animate-bounce justify-center font-semibold opacity-0 hover:opacity-80'
           to='projects'>
           <ChevronDoubleDownIcon className='h-10' fill='#fff' />
         </Link>

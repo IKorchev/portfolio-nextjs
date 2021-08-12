@@ -16,7 +16,7 @@ const Navbar = () => {
           />
         </Link>
       </div>
-      <div className='flex justify-around'>
+      <div className='flex mt-8 lg:mt-0 justify-around'>
         <Link className='nav-link' to='home'>
           home
         </Link>

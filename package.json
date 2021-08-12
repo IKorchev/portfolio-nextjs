@@ -7,10 +7,12 @@
   },
   "dependencies": {
     "@heroicons/react": "^1.0.3",
+    "@material-ui/icons": "4.11.2",
     "bootstrap-icons": "^1.5.0",
     "contentful": "^8.4.2",
     "gsap": "^3.7.1",
     "next": "latest",
+    "nodemailer": "^6.6.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scroll": "^1.8.3"

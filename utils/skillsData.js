@@ -12,7 +12,7 @@ import ExpressJsIcon from "../assets/express.svg"
 export default [
   { image: HTMLIcon, title: "HTML", alt: "HTML icon" },
   { image: CSSIcon, title: "CSS", alt: "CSS icon" },
-  { image: SCSSIcon, title: "CSS", alt: "CSS icon" },
+  { image: SCSSIcon, title: "SCSS", alt: "SCSS icon" },
   { image: BStrapIcon, title: "Bootstrap", alt: "Bootstrap icon" },
   { image: JavaScriptIcon, title: "JavaScript", alt: "JavaScript icon" },
   { image: ReactIcon, title: "React", alt: "ReactJS icon" },

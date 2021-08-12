@@ -11,21 +11,19 @@ const ProjectCard = ({ project }) => {
   const imageURL = `https:${projectImage.fields.file.url}`
   return (
     <div className='project'>
-      <div className='project-img relative w-full '>
+      <div className='project-img relative w-full min-h-60 lg:h-max'>
         <a href={demoLink} target='_blank' rel='noreferrer'>
           <Image
-            layout='responsive'
-            width={500}
-            height={300}
+            layout='fill'
             objectFit='cover'
-            className='transition-all duration-300 filter saturate-100 hover:saturate-50'
+            className='transition duration-300 filter saturate-100 hover:saturate-50'
             objectPosition='top'
             src={imageURL}
           />
         </a>
       </div>
       <div className='container font-oswald flex'>
-        <div className='p-12 2xl:px-18 flex flex-col '>
+        <div className='p-5 2xl:px-18 flex flex-col '>
           <h1 className='text-teal-100 text-4xl text-white font-normal'>{title}</h1>
           <div className='pr-12 text-gray-500 flex flex-wrap justify-start py-5'>
             {techStack?.map((el) => (
@@ -44,7 +42,7 @@ const ProjectCard = ({ project }) => {
               rel='noreferrer'
               className='cto-link flex bg-white text-black font-normal px-2 py-1 mr-5 border hover:text-white hover:bg-transparent'>
               DEMO
-              <PlayIcon className='h-7 ml-3' />
+              <PlayIcon className='h-5 ml-1 md:h-7 md:ml-3' />
             </a>
             <a
               href={githubLink}
@@ -52,7 +50,7 @@ const ProjectCard = ({ project }) => {
               rel='noreferrer'
               className='cto-link flex px-2 py-1 font-normal border hover:bg-white  hover:text-black'>
               CODE
-              <CodeIcon className='h-7 ml-3' />
+              <CodeIcon className='h-5 ml-1 md:h-7 md:ml-3' />
             </a>
           </div>
         </div>

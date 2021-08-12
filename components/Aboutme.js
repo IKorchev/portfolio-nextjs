@@ -1,7 +1,9 @@
+import {SectionTitle} from "./SectionTitle"
+
 export const Aboutme = () => {
   return (
     <div className='container mx-auto p-5 mt-12 text-white font-mono' id='aboutme'>
-      <h1 className='text-black bg-gray-200 text-5xl   '>about me</h1>
+      <SectionTitle name='about me' />
       <div className='flex justify-between  py-5 flex-col-reverse'>
         <p className='font-normal w-1/2 text-xl'>
           My name is Ivaylo and I am a passionate Web Developer based in London. I believe
