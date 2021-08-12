@@ -4,21 +4,18 @@ import Navbar from "../components/Navbar"
 import Projects from "../components/Projects"
 import Aboutme from "../components/Aboutme"
 import Contact from "../components/Contact"
+
 import { fetchContentfulData } from "../utils/contentfulProjects"
+import Meta from "../components/Meta"
 export default function Home({ data }) {
   return (
     <div className='bg-black'>
-      <Head>
-        <title>Ivaylo Korchev | Portfolio </title>
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
-      <nav className='lg:px-24'>
-        <Navbar />
-      </nav>
-      <header className='container mx-auto'>
+      <Meta />
+      <Navbar />
+      <header>
         <LandingPage />
       </header>
-      <main className='container mx-auto'>
+      <main>
         <Projects data={data} />
         <Aboutme />
       </main>

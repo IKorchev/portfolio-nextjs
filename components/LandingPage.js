@@ -1,35 +1,23 @@
 import { useRef, useEffect } from "react"
-import { Link } from "react-scroll"
-import gsap from "gsap"
 import { ChevronDoubleDownIcon } from "@heroicons/react/solid"
 import Skills from "./Skills"
 import BackgroundObjects from "./BackgroundObjects"
+import { handleScrollDown, landingPageAnimation } from "../utils/animations"
+
 const LandingPage = () => {
   const parentRef = useRef()
   const skillsRef = useRef()
+  const scrollDownBtnRef = useRef()
   useEffect(() => {
-    const tl = gsap.timeline()
-    tl.from(parentRef.current.children, {
-      opacity: 0,
-      x: -250,
-      duration: 2,
-      stagger: 0.1,
-      ease: "power4.inOut",
-    })
-      .from(skillsRef.current.children, {
-        opacity: 0,
-        y: 20,
-        duration: 0.5,
-        stagger: 0.2,
-      })
-      .to("#scroll-down-button", {
-        opacity: 1,
-      })
+    const childEls = parentRef.current.children
+    const skills = skillsRef.current.children
+    const buttonRef = scrollDownBtnRef.current
+    landingPageAnimation(childEls, skills, buttonRef)
   }, [])
 
   return (
-    <div className='lg:px-24 py-12 container min-h-screen'>
-      <div className='flex flex-col justify-between mt-12 pl-10 lg:pl-0 '>
+    <div className='lg:px-24 py-12 container mx-auto min-h-screen'>
+      <div className='container flex flex-col justify-between mt-12 pl-10 lg:pl-0 '>
         <BackgroundObjects className='z-0' />
         <div ref={parentRef} className='lg:mt-12 z-20'>
           <div className='inline-flex '>
@@ -51,22 +39,29 @@ const LandingPage = () => {
               href='https://linkedin.com/in/ivaylo-korchev'>
               Contact me
             </a>
-            <Link
-              className='cto-link text-white underline hover:opacity-90'
-              to='projects'>
-              My work
-            </Link>
+            <button
+              onClick={(e) => {
+                e.preventDefault()
+                handleScrollDown("#projects", 1)
+              }}
+              className='cto-link text-white underline hover:opacity-90'>
+              View my work
+            </button>
           </div>
         </div>
         <Skills skillsRef={skillsRef} />
       </div>
-      <div className='overflow-x-hidden mt-12 flex flex-col justify-center items-center'>
-        <Link
+      <div className='overflow-x-hidden mt-5 flex flex-col justify-center items-center'>
+        <button
+          ref={scrollDownBtnRef}
+          onClick={(e) => {
+            e.preventDefault()
+            handleScrollDown("#projects", 1)
+          }}
           id='scroll-down-button'
-          className=' animate-bounce justify-center font-semibold opacity-0 hover:opacity-80'
-          to='projects'>
+          className='animate-bounce justify-center font-semibold opacity-0 hover:opacity-80'>
           <ChevronDoubleDownIcon className='h-10' fill='#fff' />
-        </Link>
+        </button>
       </div>
     </div>
   )

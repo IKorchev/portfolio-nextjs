@@ -1,12 +1,11 @@
-import { Link } from "react-scroll"
 import Logo from "../assets/Logo.svg"
 import Image from "next/image"
-
+import NavButton from "./NavButton"
 const Navbar = () => {
   return (
-    <div className='container mx-auto pt-5 lg:px-24 flex flex-col lg:flex-row lg:justify-between lg:items-center'>
+    <nav className='container mx-auto pt-5 lg:px-24 flex flex-col lg:flex-row lg:justify-between lg:items-center'>
       <div className='relative mx-auto lg:mx-0 w-48 h-12'>
-        <Link to='/nav'>
+        <NavButton title='' to='#home'>
           <Image
             objectPosition='left'
             layout='fill'
@@ -14,23 +13,15 @@ const Navbar = () => {
             src={Logo}
             alt='Ivaylo Korchev (logo)'
           />
-        </Link>
+        </NavButton>
       </div>
       <div className='flex mt-8 lg:mt-0 justify-around'>
-        <Link className='nav-link' to='home'>
-          home
-        </Link>
-        <Link className='nav-link whitespace-nowrap' to='aboutme'>
-          about me
-        </Link>
-        <Link className='nav-link' to='projects'>
-          projects
-        </Link>
-        <Link className='nav-link' to='contact'>
-          contact
-        </Link>
+        <NavButton title='home' to='#home' />
+        <NavButton title='projects' to='#projects' duration={1} />
+        <NavButton title='about' to='#about' duration={2} />
+        <NavButton title='contact' to='#contact' duration={2} />
       </div>
-    </div>
+    </nav>
   )
 }
 
