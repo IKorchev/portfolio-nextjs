@@ -4,7 +4,7 @@ import Github from "@material-ui/icons/GitHub"
 import Email from "@material-ui/icons/Email"
 const SocialLinks = () => {
   return (
-    <div className='w-full mt-12 lg:mt-0 lg:px-0 mx-auto'>
+    <div className='w-full flex flex-col mt-12 lg:mt-0 lg:px-0 mx-auto'>
       <h3 className='text-3xl text-center'>Connect with me</h3>
       <div className='flex justify-center mt-8 lg:px-24'>
         <Link
