@@ -1,4 +1,4 @@
-import NodejsIcon from "../assets/nodejs.svg"
+import NodejsIcon from "../assets/Nodejs.svg"
 import HTMLIcon from "../assets/html5.svg"
 import GitIcon from "../assets/git.svg"
 import GitHubIcon from "../assets/github.svg"
@@ -10,14 +10,14 @@ import BStrapIcon from "../assets/Bootstrap.svg"
 import ExpressJsIcon from "../assets/express.svg"
 
 export default [
-  { image: HTMLIcon, title: "HTML", alt: "HTML icon" },
-  { image: CSSIcon, title: "CSS", alt: "CSS icon" },
-  { image: SCSSIcon, title: "SCSS", alt: "SCSS icon" },
-  { image: BStrapIcon, title: "Bootstrap", alt: "Bootstrap icon" },
-  { image: JavaScriptIcon, title: "JavaScript", alt: "JavaScript icon" },
-  { image: ReactIcon, title: "React", alt: "ReactJS icon" },
-  { image: NodejsIcon, title: "Node.js", alt: "Node.js icon" },
-  { image: ExpressJsIcon, title: "Express", alt: "Express.js icon" },
-  { image: GitHubIcon, title: "GitHub", alt: "Github icon" },
-  { image: GitIcon, title: "GIT", alt: "Git icon" },
+  { image: HTMLIcon, alt: "HTML icon" },
+  { image: CSSIcon, alt: "CSS icon" },
+  { image: SCSSIcon, alt: "SCSS icon" },
+  { image: BStrapIcon, alt: "Bootstrap icon" },
+  { image: JavaScriptIcon, alt: "JavaScript icon" },
+  { image: ReactIcon, alt: "ReactJS icon" },
+  { image: NodejsIcon, alt: "Node.js icon" },
+  { image: ExpressJsIcon, alt: "Express.js icon" },
+  { image: GitHubIcon, alt: "Github icon" },
+  { image: GitIcon, alt: "Git icon" },
 ]
