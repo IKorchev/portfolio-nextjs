@@ -16,7 +16,7 @@ const LandingPage = () => {
   }, [])
 
   return (
-    <header className='lg:px-24 py-12 container mx-auto min-h-screen'>
+    <header className='lg:px-24 py-12 container mx-auto min-h-screen overflow-x-hidden'>
       <div className='container flex flex-col justify-between mt-12 pl-10 lg:pl-0 '>
         <BackgroundObjects className='z-0' />
         <div ref={parentRef} className='lg:mt-12 z-20'>

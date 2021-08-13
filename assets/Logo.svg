@@ -1,9 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="746" height="159.54" viewBox="0 0 746 159.54">
-  <g id="Logo" transform="translate(-644 -255)">
-    <text id="Ivaylo_Korchev" data-name="Ivaylo Korchev" transform="translate(649 365)" fill="#fff" stroke="#fff" stroke-width="5" font-size="100" font-family="Poppins-Medium, Poppins" font-weight="500"><tspan x="0" y="0">Ivaylo Korchev</tspan></text>
-    <g id="Rectangle_1" data-name="Rectangle 1" transform="translate(813.809 400)" fill="#fff" stroke="#fff" stroke-width="1">
-      <rect width="406.382" height="14.54" stroke="none"/>
-      <rect x="0.5" y="0.5" width="405.382" height="13.54" fill="none"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="145.792" height="107.587" viewBox="0 0 145.792 107.587">
+  <g id="Logo" transform="translate(-696.471 -572)">
+    <g id="Logo-2" data-name="Logo" transform="translate(-45.529)">
+      <g id="Group_3" data-name="Group 3" transform="translate(742 577)">
+        <g id="Group_2" data-name="Group 2">
+          <g id="Group_1" data-name="Group 1">
+            <g id="Logo-3" data-name="Logo">
+              <text id="Ivaylo_Korchev" data-name="Ivaylo Korchev" transform="translate(41.529 72)" fill="#fff" stroke="#fff" stroke-width="5" font-size="69" font-family="Poppins-Medium, Poppins" font-weight="500"><tspan x="0" y="0">IK</tspan></text>
+              <g id="Rectangle_1" data-name="Rectangle 1" transform="translate(0 96.047)" fill="#fff" stroke="#fff" stroke-width="1">
+                <rect width="145.792" height="6.54" stroke="none"/>
+                <rect x="0.5" y="0.5" width="144.792" height="5.54" fill="none"/>
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
     </g>
   </g>
 </svg>
