@@ -15,7 +15,7 @@ const Meta = () => {
       <meta property='og:title' content='Ivaylo Korchev | Portfolio' />
       <meta
         property='og:description'
-        content='Offering tour packages for individuals or groups.'
+        content='Portfolio showcasing my skills and projects that I have done throughout my coding journey.'
       />
       <meta property='og:image' content='https://i.ibb.co/SBmGbrd/ikorchev-com.png' />
       <meta
