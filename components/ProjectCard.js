@@ -24,7 +24,7 @@ const ProjectCard = ({ project }) => {
       </div>
       <div className='container font-oswald flex'>
         <div className='p-5 2xl:px-18 flex flex-col '>
-          <h1 className='text-teal-100 text-4xl text-white font-normal'>{title}</h1>
+          <h1 className='text-teal-100 text-4xl  font-normal'>{title}</h1>
           <div className='pr-12 text-gray-500 flex flex-wrap justify-start py-5'>
             {techStack?.map((el) => (
               <span

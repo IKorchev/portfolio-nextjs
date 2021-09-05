@@ -5,7 +5,7 @@ export const Aboutme = () => {
     <div id='about'>
       <SectionTitle name='about me' />
       <div className='container mx-auto p-5  text-white font-mono' id='aboutme'>
-        <div className='font-normal w-full py-5 mx-auto lg:w-1/2 text-xl flex justify-center py-5 flex-col'>
+        <div className='font-normal w-full mx-auto lg:w-1/2 text-xl flex justify-center py-5 flex-col'>
           <p className='font-sans'>
             My name is Ivaylo and I am a passionate Web Developer based in London. I
             believe in learning by building! I love to build projects and improve with
