@@ -24,7 +24,7 @@ const ProjectCard = ({ project }) => {
       </div>
       <div className='container font-oswald flex'>
         <div className='p-5 2xl:px-18 flex flex-col '>
-          <h1 className='text-teal-100 text-4xl  font-normal'>{title}</h1>
+          <h1 className='text-teal-400 text-4xl font-normal'>{title}</h1>
           <div className='pr-12 text-gray-500 flex flex-wrap justify-start py-5'>
             {techStack?.map((el) => (
               <span
@@ -40,7 +40,7 @@ const ProjectCard = ({ project }) => {
               href={demoLink}
               target='_blank'
               rel='noreferrer'
-              className='cto-link flex bg-white text-black font-normal px-2 py-1 mr-5 border hover:text-white hover:bg-transparent'>
+              className='cta-link flex bg-white text-black font-normal px-2 py-1 mr-5 border hover:text-white hover:bg-transparent'>
               DEMO
               <PlayIcon className='h-5 ml-1 md:h-7 md:ml-3' />
             </a>
@@ -48,7 +48,7 @@ const ProjectCard = ({ project }) => {
               href={githubLink}
               target='_blank'
               rel='noreferrer'
-              className='cto-link flex px-2 py-1 font-normal border hover:bg-white  hover:text-black'>
+              className='cta-link flex px-2 py-1 font-normal border hover:bg-white  hover:text-black'>
               CODE
               <CodeIcon className='h-5 ml-1 md:h-7 md:ml-3' />
             </a>

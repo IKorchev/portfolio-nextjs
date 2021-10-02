@@ -16,12 +16,12 @@
   .nav-link {
     @apply font-oswald lg:px-4 py-2 text-2xl  text-center  text-white hover:underline hover:text-gray-200;
   }
-  .cto-link {
+  .cta-link {
     @apply px-4 py-2 shadow-md  text-white font-semibold text-sm md:text-xl active:scale-95 transition-all duration-300;
   }
   .project {
     @apply w-full container mb-12 flex flex-col bg-darkgray 
-    lg:flex-row-reverse odd:lg:flex-row lg:even:border-l-4 lg:odd:border-r-4;
+    lg:flex-row-reverse lg:odd:flex-row lg:even:border-l-4 lg:odd:border-r-4 border-teal-500;
   }
   .form-input {
     @apply px-3 py-1 text-lg text-black rounded-sm;

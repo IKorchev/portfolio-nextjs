@@ -10,9 +10,10 @@ export const landingPageAnimation = (ref1, ref2, ref3) => {
   const tl = gsap.timeline()
   tl.to(ref1, {
     opacity: 1,
+    y: 0,
     x: 0,
     duration: 1,
-    stagger: 0.15,
+    stagger: 0.2,
     ease: "back.out",
   })
     .from(ref2, {

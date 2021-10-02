@@ -11,9 +11,18 @@ const Contact = () => {
         <SocialLinks />
       </div>
       <GithubLinks />
-      <p className='pt-12 pb-5 mx-auto text-center text-trueGray-100'>
-        Copyright &copy; 2021 ikorchev.com
-      </p>
+      <div className='container px-36 mx-auto mt-12 pb-5 text-trueGray-500'>
+        <p className='text-center'>
+          Copyright &copy; 2021
+          <a
+            href='https://ikorchev.com/'
+            rel='noreferrer'
+            target='_blank'
+            className='text-center lg:text-right ml-2'>
+            IKORCHEV.COM
+          </a>
+        </p>
+      </div>
     </footer>
   )
 }

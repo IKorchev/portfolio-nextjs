@@ -20,32 +20,32 @@ const LandingPage = () => {
       <div className='container flex flex-col justify-between mt-12 pl-10 lg:pl-0 '>
         <BackgroundObjects className='z-0' />
         <div ref={parentRef} className='lg:mt-12 z-20 '>
-          <div className='inline-flex transform -translate-x-96 opacity-0'>
+          <div className='inline-flex transform -translate-y-24 -translate-x-12 opacity-0'>
             <h1 className='text-white text-3xl lg:text-7xl font-hahmlet tracking-giant'>
               <span className='text-5xl lg:text-8xl'>I</span>VAYLO
             </h1>
           </div>
-          <h1 className='text-white text-4xl lg:text-7xl font-hahmlet tracking-giant transform -translate-x-96 opacity-0'>
+          <h1 className='text-white text-4xl lg:text-7xl font-hahmlet tracking-giant transform -translate-y-24 -translate-x-12 opacity-0'>
             <span className='text-5xl lg:text-8xl'>K</span>ORCHEV
           </h1>
-          <h2 className='text-gray-500 text-2xl lg:text-5xl font-semibold tracking-widest mt-5 max-w-sm lg:max-w-full md:mb-16 transform -translate-x-96 opacity-0'>
+          <h2 className='text-gray-500 text-2xl lg:text-5xl font-semibold tracking-widest mt-5 max-w-sm lg:max-w-full md:mb-16 transform -translate-y-24 -translate-x-12 opacity-0'>
             FRONT END DEVELOPER
           </h2>
-          <div className='flex my-12 md:mb-16 md:justify-start  transform -translate-x-96 opacity-0'>
-            <a
-              className='cto-link text-black border bg-white mr-5 hover:bg-black hover:border-white hover:text-white'
-              target='_blank'
-              rel='noreferrer'
-              href='https://linkedin.com/in/ivaylo-korchev'>
-              Contact me
-            </a>
+          <div className='flex my-12 md:mb-16 md:justify-start  transform -translate-y-24 -translate-x-12  opacity-0'>
+              <a
+                className='cta-link text-black border bg-white mr-5 hover:bg-black hover:border-white hover:text-white'
+                target='_blank'
+                rel='noreferrer'
+                href='https://linkedin.com/in/ivaylo-korchev'>
+                Contact me
+              </a>
             <button
               onClick={(e) => {
                 e.preventDefault()
                 handleScrollDown("#projects", 1)
               }}
-              className='cto-link text-white underline hover:opacity-90'>
-              View my work
+              className='cta-link text-white underline hover:opacity-90'>
+              SEE PROJECTS
             </button>
           </div>
         </div>
