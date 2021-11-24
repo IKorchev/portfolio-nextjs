@@ -5,10 +5,12 @@ import Aboutme from "../components/Aboutme"
 import Contact from "../components/Contact"
 import { fetchContentfulData } from "../utils/contentfulProjects"
 import Meta from "../components/Meta"
+import FloatingSocials from "../components/FloatingSocials"
 
 export default function Home({ data }) {
   return (
     <div className='bg-black'>
+      <FloatingSocials />
       <Meta />
       <Navbar />
       <LandingPage />

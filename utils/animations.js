@@ -12,7 +12,7 @@ export const landingPageAnimation = (ref1, ref2, ref3) => {
     opacity: 1,
     y: 0,
     x: 0,
-    duration: 1,
+    duration: 0.5,
     stagger: 0.2,
     ease: "back.out",
   })
