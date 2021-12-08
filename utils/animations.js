@@ -9,12 +9,10 @@ export const handleScrollDown = (ref, duration) => {
 export const landingPageAnimation = (ref1, ref2, ref3) => {
   const tl = gsap.timeline()
   tl.to(ref1, {
-    opacity: 1,
-    y: 0,
     x: 0,
-    duration: 0.5,
-    stagger: 0.2,
-    ease: "back.out",
+    opacity: 1,
+    duration: 1,
+    stagger: 0.5,
   })
     .from(ref2, {
       opacity: 0,
