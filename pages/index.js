@@ -6,17 +6,18 @@ import Contact from "../components/Contact"
 import { fetchContentfulData } from "../utils/contentfulProjects"
 import Meta from "../components/Meta"
 import FloatingSocials from "../components/FloatingSocials"
+import BackgroundObjects from "../components/BackgroundObjects"
 
 export default function Home({ data }) {
   return (
-    <div className='bg-black'>
+    <div className='bg-black '>
       <FloatingSocials />
       <Meta />
       <Navbar />
-      <LandingPage />
-      <Projects data={data} />
-      <Aboutme />
-      <Contact />
+      <BackgroundObjects data={data} />
+      {/* <Projects data={data} /> */}
+      {/* <Aboutme />
+      <Contact /> */}
     </div>
   )
 }

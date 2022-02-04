@@ -29,6 +29,11 @@
   label {
     @apply text-xl;
   }
+  body,
+  #root,
+  html {
+    @apply overflow-x-hidden bg-black;
+  }
 }
 .project-img {
   min-height: 20rem;

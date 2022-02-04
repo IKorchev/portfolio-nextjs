@@ -1,21 +1,27 @@
 {
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "dev": "SET NODE_OPTIONS=--openssl-legacy-provider && next dev",
+    "build": "SET NODE_OPTIONS=--openssl-legacy-provider && next build",
+    "start": "SET NODE_OPTIONS=--openssl-legacy-provider && next start"
   },
   "dependencies": {
     "@heroicons/react": "^1.0.3",
     "@material-ui/icons": "4.11.2",
+    "@react-spring/three": "^9.4.2",
+    "@react-three/drei": "^8.8.1",
+    "@react-three/fiber": "^7.0.26",
     "bootstrap-icons": "^1.5.0",
     "contentful": "^8.4.2",
     "gsap": "^3.7.1",
-    "next": "latest",
+    "next": "^12.0.10",
     "nodemailer": "^6.6.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-scroll": "^1.8.3"
+    "react-merge-refs": "^1.1.0",
+    "react-scroll": "^1.8.3",
+    "tailwind": "^4.0.0",
+    "three": "^0.137.5"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.6",

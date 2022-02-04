@@ -3,7 +3,7 @@ import Image from "next/image"
 import NavButton from "./NavButton"
 const Navbar = () => {
   return (
-    <nav className='container mx-auto pt-5 lg:px-24 flex flex-col lg:flex-row lg:justify-between lg:items-center'>
+    <nav className='container mx-auto absolute z-50 pt-5 lg:px-24 flex flex-col lg:flex-row lg:justify-between lg:items-center'>
       <div className='relative mx-auto lg:mx-0 w-16 h-12'>
         <NavButton title='' to='#home'>
           <Image

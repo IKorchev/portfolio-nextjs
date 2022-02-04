@@ -5,12 +5,11 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
 import { PlayIcon } from "@heroicons/react/solid"
 import { CodeIcon } from "@heroicons/react/solid"
 gsap.registerPlugin(ScrollTrigger)
-const ProjectCard = ({ project }) => {
-  const { projectImage, title, projectDescription, githubLink, demoLink, techStack } =
-    project
+const ProjectCard = ({ project, ...props }) => {
+  const { projectImage, title, projectDescription, githubLink, demoLink, techStack } = project
   const imageURL = `https:${projectImage.fields.file.url}`
   return (
-    <div className='project'>
+    <div className={`project ${props.className}`}>
       <div className='project-img relative w-full min-h-60 lg:h-max'>
         <a href={demoLink} target='_blank' rel='noreferrer'>
           <Image
@@ -27,9 +26,7 @@ const ProjectCard = ({ project }) => {
           <h1 className='text-teal-400 text-4xl font-normal'>{title}</h1>
           <div className='pr-12 text-gray-500 flex flex-wrap justify-start py-5'>
             {techStack?.map((el) => (
-              <span
-                key={el}
-                className='text-lg text-gray-100 bg-customgray px-2 mr-4 mt-2'>
+              <span key={el} className='text-lg text-gray-100 bg-customgray px-2 mr-4 mt-2'>
                 {el}
               </span>
             ))}
