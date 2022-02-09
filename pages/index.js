@@ -10,10 +10,10 @@ import BackgroundObjects from "../components/BackgroundObjects"
 
 export default function Home({ data }) {
   return (
-    <div className='bg-black '>
-      <FloatingSocials />
+    <div className=' '>
+      {/* <FloatingSocials />
       <Meta />
-      <Navbar />
+      <Navbar /> */}
       <BackgroundObjects data={data} />
       {/* <Projects data={data} /> */}
       {/* <Aboutme />

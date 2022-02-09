@@ -1,144 +1,311 @@
-import { useRef, Suspense, useEffect, useState } from "react"
-import { useThree, Canvas, useFrame } from "@react-three/fiber"
-import LandingPage from "./LandingPage"
-import {
-  Billboard,
-  Box,
-  Float,
-  ScrollControls,
-  Scroll,
-  Text,
-  useTexture,
-  Environment,
-  Stars,
-} from "@react-three/drei"
-import { boxesData } from "../utils/boxesData"
-import { useSpring, animated as a } from "@react-spring/three"
-import * as THREE from "three"
-import { handleScrollDown } from "../utils/animations"
-import Aboutme from "./Aboutme"
-import Contact from "./Contact"
-import Projects from "./Projects"
+// import { Suspense, useRef } from "react"
+// import { Canvas, useFrame, useThree } from "@react-three/fiber"
+// import { Box, Environment, MeshReflectorMaterial } from "@react-three/drei"
+// // import { Water } from "three-stdlib"
+// import gsap from "gsap"
+// import ScrollTrigger from "gsap/ScrollTrigger"
+// import Particles from "./Particles"
 
-const BackgroundObjects = ({ data }) => {
+// gsap.registerPlugin(ScrollTrigger)
+
+// function ParticlesObj() {
+//   const mousex = useRef([0, 0])
+//   const { mouse } = useThree()
+//   useFrame((e) => {
+//     mousex.current[0] = mouse.x * 50
+//     mousex.current[1] = -mouse.y * 50
+//   })
+
+//   return <Particles count={100} mouse={mousex} />
+// }
+
+// export default function BackgroundObjects({ data }) {
+//   return (
+//     <div className='relative h-[100vh] w-[100vw]'>
+//       <Canvas className='h-screen w-screen' camera={{ position: [0, 0, 55], fov: 100 }}>
+//         <Suspense fallback={null}>
+//           <ParticlesObj />
+//           <Environment preset='city' />
+//           <mesh rotation={[-Math.PI / 4, 0, 0]} position={[0, 0, 0]} scale={50}>
+//             <planeGeometry args={[100, 100]} />
+//             <MeshReflectorMaterial
+//               blur={[0, 0]}
+//               resolution={0}
+//               mixBlur={1}
+//               mixStrength={60}
+//               roughness={1}
+//               depthScale={1.2}
+//               minDepthThreshold={0.4}
+//               maxDepthThreshold={1.4}
+//               color='black'
+//               metalness={0.5}
+//             />
+//           </mesh>
+//         </Suspense>
+//       </Canvas>
+//     </div>
+//   )
+// }
+
+// function Ocean() {
+//   const tl = gsap.timeline()
+//   const ref = useRef()
+//   const [vec] = useState(() => new THREE.Vector3())
+//   const { gl, mouse, camera } = useThree()
+//   useFrame((state, delta) => {
+//     camera.position.lerp(vec.set(mouse.x * 0.5, mouse.y * 0.5, 16), 0.1)
+//   })
+//   const [waterNormals] = useTexture([WaterNormals.src])
+//   waterNormals.wrapS = waterNormals.wrapT = THREE.RepeatWrapping
+//   const geom = useMemo(() => new THREE.PlaneGeometry(3000, 300), [])
+//   const config = useMemo(
+//     () => ({
+//       textureWidth: 512,
+//       textureHeight: 512,
+//       waterNormals,
+//       sunDirection: new THREE.Vector3(),
+//       sunColor: 0xffffff,
+//       waterColor: 0x001e0f,
+//       distortionScale: 3.7,
+//       fog: true,
+//       format: gl.encoding,
+//     }),
+//     [waterNormals]
+//   )
+//   useFrame((state, delta) => (ref.current.material.uniforms.time.value += delta))
+//   return (
+//     <water
+//       onClick={(e) => console.log("lol")}
+//       ref={ref}
+//       position={[0, -30, 0]}
+//       args={[geom, config]}
+//       rotation-x={-Math.PI / 3}
+//     />
+//   )
+// }
+
+const GOLDENRATIO = 1.61803398875
+
+import * as THREE from "three"
+import { Suspense, useEffect, useRef, useState } from "react"
+import { Canvas, useFrame, useThree } from "@react-three/fiber"
+import {
+  useCursor,
+  Image,
+  Text,
+  softShadows,
+  Box,
+  OrbitControls,
+  Plane,
+  Reflector,
+  useTexture,
+  Billboard,
+  Environment,
+} from "@react-three/drei"
+import { useRoute, useLocation } from "wouter"
+import Particles from "./Particles"
+import { Vector3 } from "three"
+
+// Reference to a set of active KeyboardEvent.code entries
+const useCodes = () => {
+  const codes = useRef(new Set())
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      console.log(e.code)
+      codes.current.add(e.code)
+    }
+    const onKeyUp = (e) => codes.current.delete(e.code)
+    window.addEventListener("keydown", onKeyDown)
+    window.addEventListener("keyup", onKeyUp)
+    return () => {
+      window.removeEventListener("keydown", onKeyDown)
+      window.removeEventListener("keyup", onKeyUp)
+    }
+  }, [])
+  return codes
+}
+
+const vec = new Vector3()
+
+// Rotation logic from three/examples/jsm/controls/PointerLockControls.js
+function WasdControls({ setIgnore }) {
+  const { camera } = useThree()
+  const code = useCodes()
+  const [location, setLocation] = useLocation()
+  const moveForward = (distance) => {
+    setIgnore(true)
+    vec.setFromMatrixColumn(camera.matrix, 0)
+    vec.crossVectors(camera.up, vec)
+    camera.position.addScaledVector(vec, distance)
+    return setIgnore(false)
+  }
+  const moveRight = (distance) => {
+    setIgnore(true)
+    vec.setFromMatrixColumn(camera.matrix, 0)
+    camera.position.addScaledVector(vec, distance)
+    return setIgnore(false)
+  }
+  useFrame((_, delta) => {
+    const speed = code.current.has("ShiftLeft") ? 20 : 10
+    if (code.current.has("KeyW")) moveForward(delta * speed)
+    if (code.current.has("KeyA")) moveRight(-delta * speed)
+    if (code.current.has("KeyS")) moveForward(-delta * speed)
+    if (code.current.has("KeyD")) moveRight(delta * speed)
+    if (code.current.has("Escape")) setLocation("/")
+  })
+  return null
+}
+
+const trunc = (str) => str.substr(0, 160) + "..."
+
+const getPosX = (i) => {
+  const factor = 1.5
+  switch (i) {
+    case 0:
+      return [-3 / factor, 0.5, 0]
+    case 1:
+      return [-3.15 / factor, 0.5, 1.5]
+    case 2:
+      return [-3.3 / factor, 0.5, 2.8]
+    case 3:
+      return [-3.45 / factor, 0.5, 4]
+    case 4:
+      return [3.45 / factor, 0.5, 4]
+    case 5:
+      return [3.3 / factor, 0.5, 2.8]
+    case 6:
+      return [3.15 / factor, 0.5, 1.5]
+    case 7:
+      return [3 / factor, 0.5, 0]
+  }
+}
+
+export default function App({ data }) {
+  const images = data.map((el, i) => {
+    console.log(el)
+    return {
+      position: getPosX(i),
+      rotation: [0, i >= data.length / 2 ? -Math.PI / 2.5 : Math.PI / 2.5, 0],
+      url: `https:${el.projectImage.fields.file.url}`,
+      id: el.projectImage.sys.id,
+      title: el.title,
+
+      description: el.projectDescription,
+    }
+  })
+
+  const [ignoreCam, setIgnore] = useState(false)
+  if (!data) return null
+
   return (
-    <div className='overflow-hidden  mx-auto '>
-      <div className='z-0  top-0 left-0 relative w-screen h-screen overflow-hidden'>
-        <Canvas camera={{ position: [0, 0, 55], fov: 100, zoom: 2 }}>
-          <Stars count={2000} depth={500} />
-          <Suspense fallback={null}>
-            <Environment preset='studio' />
-            <SkillsBoxes />
-          </Suspense>
-          <ScrollControls damping={15} pages={7}>
-            <Scroll html className='w-full h-screen z-0'>
-              <LandingPage />
-              <Projects data={data} />
-              <Aboutme />
-              <Contact />
-            </Scroll>
-          </ScrollControls>
+    <div className='h-screen'>
+      <Suspense fallback={null}>
+        <Canvas shadows gl={{ alpha: false }} dpr={[1, 1.5]} camera={{ fov: 70 }}>
+          <fog attach='fog' args={["#191920", 1, 55]} />
+          <Environment preset='city' />
+          <Plane
+            receiveShadows
+            rotation={[-Math.PI / 2.1, 0, 0]}
+            scale={50}
+            position={[0, -1, 5]}
+            args={[100, 150, 150]}>
+            <meshStandardMaterial attach='material' color={"white"} />
+          </Plane>
+          <Text color='black' position={[0, 0, 3]} fontSize={0.7} rotation={[-Math.PI / 2, 0, 0]}>
+            Projects
+          </Text>
+          <Text color='black' position={[0, 0, 4]} fontSize={0.1} rotation={[-Math.PI / 2, 0, 0]}>
+            WASD keys to slightly move
+          </Text>
+          <Text color='black' position={[0, 0, 4.2]} fontSize={0.1} rotation={[-Math.PI / 2, 0, 0]}>
+            Click on the image to turn towards it
+          </Text>
+          <WasdControls setIgnore={setIgnore} />
+          <group position={[0, -0.5, 0]}>
+            <Frames ignore={ignoreCam} images={images} />
+          </group>
+          <Particles count={100} mouse={{ current: [0, 0] }} />
         </Canvas>
-      </div>
+      </Suspense>
     </div>
   )
 }
-function SkillsBoxes() {
+
+function Frames({ ignore, images, q = new THREE.Quaternion(), p = new THREE.Vector3() }) {
   const ref = useRef()
-  const vec = new THREE.Vector3()
-  const { mouse } = useThree()
-  useFrame(() => {
-    ref.current.position.lerp(vec.set(-mouse.x * 1, -mouse.y * 1, 0), 0.1)
-    ref.current.rotation.y = THREE.MathUtils.lerp(
-      ref.current.rotation.y,
-      (-mouse.x * Math.PI) / 70,
-      0.01
-    )
+  const clicked = useRef()
+  const [, params] = useRoute("/item/:id")
+  const [location, setLocation] = useLocation()
+  const { camera, mouse } = useThree()
+
+  useEffect(() => {
+    clicked.current = ref.current.getObjectByName(params?.id)
+    if (clicked.current) {
+      clicked.current.parent.updateWorldMatrix(true, true)
+      clicked.current.parent.localToWorld(p.set(0, GOLDENRATIO / 2, 1.5))
+      clicked.current.parent.getWorldQuaternion(q)
+    } else {
+      p.set(0, 1, 6.5)
+      q.identity()
+    }
   })
 
+  useFrame((state, dt) => {
+    camera.position.lerp(p, THREE.MathUtils.damp(0, 1, 3, dt))
+    camera.quaternion.slerp(q, THREE.MathUtils.damp(0, 1, 3, dt))
+  })
   return (
-    <group ref={ref} position={[0, 0, 5]}>
-      <Billboard position={[40, 0, 0]}>
-        <Text fontSize={1}>My skils</Text>
-      </Billboard>
-      {boxesData.map((el, i) => {
-        const isSecondRow = i > 3
-        const xPos = isSecondRow ? i * 5 : i * 5 + 20
-        const yPos = isSecondRow ? 2 : 6
-        return (
-          <CustomBox
-            index={i}
-            key={el.text}
-            text={el.text}
-            position={[xPos, -yPos, 3]}
-            image={el.image}
-          />
-        )
-      })}
+    <group ref={ref}>
+      {images.map(
+        (props, i) => {
+          const {url} = props
+          return   <Frame current={clicked.current} setLocation={setLocation} url={url} description={props.description} id={props.id} key={props.id} {...props} />} /* prettier-ignore */
+      )}
     </group>
   )
 }
-function CustomBox({ index, image, text, ...props }) {
-  const mesh = useRef()
-  const [hovered, setHovered] = useState(false)
-  const [active, setActive] = useState(0)
-  const [texture1] = useTexture([image])
-  const { spring: hoveredSpring } = useSpring({
-    spring: hovered,
-    config: { mass: 2, tension: 352, friction: 20, precision: 0.001 },
-  })
-  const { spring: textSpring } = useSpring({
-    spring: hovered,
-    config: { mass: 5, tension: 255, friction: 50, precision: 0.0001 },
-  })
-  useEffect(() => {
-    document.body.style.cursor = hovered && "pointer"
-    return () => (document.body.style.cursor = !hovered && "auto")
-  }, [hovered])
 
-  const scale = hoveredSpring.to([0, 1], [2, 2.5])
-  const rotation = hoveredSpring.to([0, 1], [1.5, Math.PI / 3])
-  const textRotation = textSpring.to([0, 1], [Math.PI / 3, 0])
-  const scaleText = textSpring.to([0, 1], [0, 0.8])
-  const textPosY = textSpring.to([0, 1], [0, 2])
-  const color = hoveredSpring.to([0, 1], ["#cfe8e5", "rgb(45, 212, 191)"])
+function Frame({ current, setLocation, url, id, description, c = new THREE.Color(), ...props }) {
+  const [hovered, hover] = useState(false)
+  const image = useRef()
+  const frame = useRef()
+  useCursor(hovered)
 
   return (
-    <Float
-      speed={1} // Animation speed, defaults to 1
-      rotationIntensity={0.02} // XYZ rotation intensity, defaults to 1
-      floatIntensity={0.001} // Up/down float intensity, defaults to 1
-    >
-      <group
-        position={props.position}
-        onPointerOver={() => setHovered(1)}
-        onPointerOut={() => {
-          setActive(0)
-          setHovered(0)
-        }}
-        onClick={() => setActive(Number(!active))}
-        ref={mesh}>
-        <a.mesh
-          castShadow
-          scale={scaleText}
-          position-z={15}
-          position-y={textPosY}
-          rotation-x={textRotation}>
-          <Billboard>
-            <Text color={"white"} fontSize={1}>
-              {text}
-              <a.meshStandardMaterial attach='material' color={color} />
-            </Text>
-          </Billboard>
-        </a.mesh>
-        <a.mesh scale={scale} rotation-y={rotation} position-z={15}>
-          <Box>
-            <a.meshStandardMaterial map={texture1} color={color} />
-          </Box>
-        </a.mesh>
-      </group>
-    </Float>
+    <group
+      onPointerOver={(e) => (e.stopPropagation(), hover(true))}
+      onPointerOut={() => hover(false)}
+      onPointerMissed={() => setLocation("/")}
+      onClick={(e) => {
+        e.stopPropagation()
+        setLocation(current?.id === id ? "/" : "/item/" + id)
+      }}
+      {...props}>
+      <Box name={id} scale={[1, 1, 0.1]} position={[0, GOLDENRATIO / 2, 0]}>
+        <meshPhongMaterial color='black' metalness={0.5} roughness={0.5} />
+        <Image raycast={() => null} ref={image} position={[0, 0, 0.63]} url={url} />
+      </Box>
+      <Box args={[1, 0.4]} position={[0, 0.12, 0]} scale={[1, 1, 0.1]}>
+        <meshPhongMaterial color='black' metalness={0.5} roughness={0.5} />
+        <Text
+          maxWidth={1.5}
+          anchorX='left'
+          anchorY='top'
+          position={[-0.5, 1.5, 0.1]}
+          fontSize={0.1}
+          color='white'>
+          {props.title}
+        </Text>
+        <Text
+          maxWidth={0.9}
+          anchorX='left'
+          anchorY='top'
+          position={[-0.45, 0.14, 0.6]}
+          fontSize={0.05}
+          color='white'>
+          {trunc(description)}
+        </Text>
+      </Box>
+    </group>
   )
 }
-
-export default BackgroundObjects

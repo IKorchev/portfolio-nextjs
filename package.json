@@ -1,31 +1,42 @@
 {
   "private": true,
   "scripts": {
-    "dev": "SET NODE_OPTIONS=--openssl-legacy-provider && next dev",
-    "build": "SET NODE_OPTIONS=--openssl-legacy-provider && next build",
-    "start": "SET NODE_OPTIONS=--openssl-legacy-provider && next start"
+    "dev": " next dev",
+    "build": " next build",
+    "start": " next start"
   },
   "dependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.16.8",
     "@heroicons/react": "^1.0.3",
+    "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "4.11.2",
+    "@pmndrs/branding": "^0.0.8",
     "@react-spring/three": "^9.4.2",
     "@react-three/drei": "^8.8.1",
     "@react-three/fiber": "^7.0.26",
+    "@react-three/postprocessing": "^2.1.2",
+    "@types/three": "^0.137.0",
     "bootstrap-icons": "^1.5.0",
     "contentful": "^8.4.2",
     "gsap": "^3.7.1",
+    "lerp": "^1.0.3",
     "next": "^12.0.10",
+    "next-transpile-modules": "^9.0.0",
+    "node": "^16.13.2",
     "nodemailer": "^6.6.3",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.0.0-rc.0",
+    "react-dom": "^18.0.0-rc.0",
     "react-merge-refs": "^1.1.0",
     "react-scroll": "^1.8.3",
     "tailwind": "^4.0.0",
-    "three": "^0.137.5"
+    "three": "^0.137.5",
+    "threejs-meshline": "^2.0.12",
+    "uuid-by-string": "^3.0.6",
+    "wouter": "^2.8.0-alpha.2"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.6",
-    "postcss": "^8.3.5",
+    "postcss": "^8.4.6",
     "tailwindcss": "^2.2.4"
   }
 }

@@ -32,7 +32,7 @@
   body,
   #root,
   html {
-    @apply overflow-x-hidden bg-black;
+    @apply overflow-x-hidden;
   }
 }
 .project-img {

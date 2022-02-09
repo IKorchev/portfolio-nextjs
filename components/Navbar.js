@@ -1,10 +1,8 @@
-import Logo from "../assets/Logo.svg"
-import Image from "next/image"
-import NavButton from "./NavButton"
+
 const Navbar = () => {
   return (
     <nav className='container mx-auto absolute z-50 pt-5 lg:px-24 flex flex-col lg:flex-row lg:justify-between lg:items-center'>
-      <div className='relative mx-auto lg:mx-0 w-16 h-12'>
+      {/* <div className='relative mx-auto lg:mx-0 w-16 h-12'>
         <NavButton title='' to='#home'>
           <Image
             objectPosition='left'
@@ -20,7 +18,7 @@ const Navbar = () => {
         <NavButton title='projects' to='#projects' duration={1} />
         <NavButton title='about' to='#about' duration={2} />
         <NavButton title='contact' to='#contact' duration={2} />
-      </div>
+      </div> */}
     </nav>
   )
 }

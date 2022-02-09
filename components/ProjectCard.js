@@ -1,6 +1,5 @@
 import gsap from "gsap"
 import Image from "next/image"
-import GithubIcon from "../assets/github.svg"
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
 import { PlayIcon } from "@heroicons/react/solid"
 import { CodeIcon } from "@heroicons/react/solid"
