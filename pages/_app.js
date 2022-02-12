@@ -1,3 +1,4 @@
+import Script from "next/script"
 import "tailwindcss/tailwind.css"
 import "../styles/Global.css"
 
@@ -16,7 +17,7 @@ function MyApp({ Component, pageProps }) {
 
   gtag('config', 'G-8LJNE4W1XW');`}
       </Script>
-      <Component {...pageProps} />{" "}
+      <Component {...pageProps} />
     </>
   )
 }
