@@ -21,18 +21,6 @@ const Meta = () => {
       <meta property='og:image' content='https://i.ibb.co/SBmGbrd/ikorchev-com.png' />
       <meta property='og:image:secure_url' content='https://i.ibb.co/SBmGbrd/ikorchev-com.png' />
       <meta property='og:url' content='https://ikorchev.com/' />
-      <Script
-        strategy='lazyOnLoad'
-        async
-        src='https://www.googletagmanager.com/gtag/js?id=G-8LJNE4W1XW'
-      />
-      <Script strategy='lazyOnload'>
-        {` window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-8LJNE4W1XW');`}
-      </Script>
     </Head>
   )
 }
