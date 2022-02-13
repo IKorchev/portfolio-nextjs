@@ -9,8 +9,8 @@ const CustomSphere = ({ position, scale, color }) => {
   const [hovered, setHovered] = useState(true)
   useFrame((_, dt) => {
     // offset the camera on every frame dependent on the mouse
-    camera.position.x = mouse.x * 0.2
-    camera.position.y = mouse.y * 0.2
+    camera.position.x = mouse.x * 0.02
+    camera.position.y = mouse.y * 0.02
     // camera.position.z = 20
     //if the object is not hovered, rotate
     if (hovered) {

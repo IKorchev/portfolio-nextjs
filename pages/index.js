@@ -4,19 +4,21 @@ import { Canvas } from "@react-three/fiber"
 import { Loader } from "@react-three/drei"
 import { Suspense, useRef } from "react"
 import Scene from "../components/Landing/CanvasScene/Scene"
-import LandingPage from "../components/Landing/LandingPage"
 import Projects from "../components/Projects/Projects"
 import Contact from "../components/Footer/Contact"
 import FloatingSocials from "../components/FloatingSocials"
 import Aboutme from "../components/About/Aboutme"
 import useScroll from "../utils/useScroll"
+import Navbar from "../components/Navbar/Navbar"
 export default function Home({ data }) {
   const overlay = useRef()
   const scroll = useScroll()
-  console.log(scroll.current)
   return (
     <>
       <Meta />
+      <header className='w-screen z-50'>
+        <Navbar />
+      </header>
       <div className='z-0 bg-black absolute top-0 left-0 h-screen w-screen mr-5 overflow-x-hidden'>
         <Suspense>
           <Canvas
@@ -29,7 +31,7 @@ export default function Home({ data }) {
         <Loader />
       </div>
       <div className='bg-black' ref={overlay}>
-        <LandingPage />
+        <div className='h-screen w-screen' /> {/* just to take space */}
         <Projects data={data} />
         <Aboutme />
         <Contact />

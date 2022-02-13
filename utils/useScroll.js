@@ -7,9 +7,6 @@ const useScroll = () => {
       const top = e.target.documentElement.scrollTop
       const max = e.target.documentElement.scrollHeight
       scroll.current = (top / max) * 100
-      console.log(window.scrollY)
-      console.log(top)
-      console.log(max)
     }
     window.addEventListener("scroll", handleScroll)
     return () => {

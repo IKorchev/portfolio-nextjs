@@ -4,8 +4,8 @@ import NavButton from "./NavButton"
 
 const Navbar = () => {
   return (
-    <nav className='container z-50 mx-auto pt-5 lg:px-24 flex flex-col lg:flex-row lg:justify-between lg:items-center'>
-      <div className='relative mx-auto lg:mx-0 w-16 h-12'>
+    <nav className='container w-full z-50 mx-auto pt-5 lg:px-24 flex flex-col lg:flex-row lg:justify-between lg:items-center'>
+      <div className='relative hidden lg:block mx-auto lg:mx-0 w-16 h-12'>
         <NavButton title='' to='#home'>
           <Image
             objectPosition='left'
@@ -16,7 +16,7 @@ const Navbar = () => {
           />
         </NavButton>
       </div>
-      <div className='flex mt-8 lg:mt-0 justify-around z-50'>
+      <div className='flex mt-2 lg:mt-0 justify-around z-50'>
         <NavButton title='home' to='#home' />
         <NavButton title='projects' to='#projects' duration={1} />
         <NavButton title='about' to='#about' duration={1} />

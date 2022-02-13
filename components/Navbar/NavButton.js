@@ -7,7 +7,7 @@ const NavButton = ({ children, title, to, duration }) => {
         e.preventDefault()
         handleScrollDown(to, duration)
       }}
-      className='pointer-events-auto nav-link whitespace-nowrap text-white'>
+      className='pointer-events-auto nav-link whitespace-nowrap z-50 text-white'>
       {title}
       {children}
     </button>
