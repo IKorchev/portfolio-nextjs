@@ -1,22 +1,34 @@
+import { useEffect, useRef } from "react"
 import gsap from "gsap"
 import Image from "next/image"
-import GithubIcon from "../assets/github.svg"
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
-import { PlayIcon } from "@heroicons/react/solid"
-import { CodeIcon } from "@heroicons/react/solid"
+import ScrollTrigger from "gsap/dist/ScrollTrigger"
+import { PlayIcon, CodeIcon } from "@heroicons/react/solid"
+
 gsap.registerPlugin(ScrollTrigger)
 const ProjectCard = ({ project }) => {
-  const { projectImage, title, projectDescription, githubLink, demoLink, techStack } =
-    project
-  const imageURL = `https:${projectImage.fields.file.url}`
+  const ref = useRef()
+
+  useEffect(() => {
+    gsap.from(ref.current, {
+      opacity: 0,
+      y: 100,
+      scrollTrigger: {
+        trigger: ref.current,
+        start: "top 95%",
+      },
+    })
+  }, [])
+
+  const { projectImage, title, projectDescription, githubLink, demoLink, techStack } = project
+  const imageURL = `https:${projectImage.fields.file.url}` //contentful formats the url without the protocol
   return (
-    <div className='project'>
-      <div className='project-img relative w-full min-h-60 lg:h-max'>
+    <div ref={ref} className='project min-h-[25rem]'>
+      <div className='project-img relative  w-full '>
         <a href={demoLink} target='_blank' rel='noreferrer'>
           <Image
             layout='fill'
             objectFit='cover'
-            className='transition duration-300 filter saturate-100 hover:saturate-50'
+            className='transition duration-300 filter saturate-100 hover:saturate-200'
             objectPosition='top'
             src={imageURL}
           />
@@ -27,14 +39,12 @@ const ProjectCard = ({ project }) => {
           <h1 className='text-teal-400 text-4xl font-normal'>{title}</h1>
           <div className='pr-12 text-gray-500 flex flex-wrap justify-start py-5'>
             {techStack?.map((el) => (
-              <span
-                key={el}
-                className='text-lg text-gray-100 bg-customgray px-2 mr-4 mt-2'>
+              <span key={el} className='text-lg text-gray-100 bg-customgray px-2 mr-4 mt-2'>
                 {el}
               </span>
             ))}
           </div>
-          <p className='text-gray-400 mt-8 text-xl'>{projectDescription}</p>
+          <p className='text-gray-400 mt-8 text-xl flex-grow'>{projectDescription}</p>
           <div className='flex place-items-center mt-10'>
             <a
               href={demoLink}

@@ -1,4 +1,4 @@
-import { handleScrollDown } from "../utils/animations"
+import { handleScrollDown } from "../../utils/animations"
 
 const NavButton = ({ children, title, to, duration }) => {
   return (
@@ -7,7 +7,7 @@ const NavButton = ({ children, title, to, duration }) => {
         e.preventDefault()
         handleScrollDown(to, duration)
       }}
-      className='nav-link whitespace-nowrap'>
+      className='pointer-events-auto nav-link whitespace-nowrap text-white'>
       {title}
       {children}
     </button>

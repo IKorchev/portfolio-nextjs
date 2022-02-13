@@ -4,6 +4,7 @@ import ScrollTrigger from "gsap/dist/ScrollTrigger"
 import { useRef } from "react"
 import { useEffect } from "react"
 gsap.registerPlugin(ScrollTrigger)
+
 export const SectionTitle = ({ name }) => {
   const titleRef = useRef()
   useEffect(() => {

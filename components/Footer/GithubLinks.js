@@ -12,15 +12,17 @@ const GithubLinks = () => {
   }, [])
   return (
     <div className='container px-36 mx-auto mt-5 max-w-48 xl:mt-12'>
-      <h3 className='mb-8 text-3xl mt-10 text-center text-white font-bold'>
-        Github Repositories
-      </h3>
-      <ul className=' mx-auto grid grid-cols-1 place-items-center lg:place-items-center md:grid-cols-2 lg:grid-cols-3'>
+      <h3 className='mb-8 text-3xl mt-10 text-center text-white font-bold'>Github Repositories</h3>
+      <ul className='lg:px-36 mx-auto grid grid-cols-1 xl:grid-cols-3 justify-items-center'>
         {repos?.map(({ name, html_url }) => (
           <li
             key={name}
-            className='text-trueGray-200 text-lg md:text-base whitespace-nowrap underline hover:text-trueGray-100'>
-            <a href={html_url} target='_blank' rel='noreferrer'>
+            className=' inline-flex text-start md:text-base whitespace-nowrap underline '>
+            <a
+              href={html_url}
+              target='_blank'
+              className='text-lg text-trueGray-200 hover:text-trueGray-100'
+              rel='noreferrer'>
               {name}
             </a>
           </li>

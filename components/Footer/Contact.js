@@ -1,7 +1,7 @@
+import { SectionTitle } from "../SectionTitle"
+import SocialLinks from "./SocialLinks"
 import Form from "./Form"
 import GithubLinks from "./GithubLinks"
-import { SectionTitle } from "./SectionTitle"
-import SocialLinks from "./SocialLinks"
 const Contact = () => {
   return (
     <footer id='contact'>

@@ -1,6 +1,6 @@
 import { useState } from "react"
+import { sendForm } from "../../utils/sendForm"
 import Alert from "./Alert"
-import { sendForm } from "../utils/sendForm"
 
 const Form = () => {
   const [alertType, setAlertType] = useState("hidden")

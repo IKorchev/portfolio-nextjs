@@ -1,23 +1,41 @@
-import LandingPage from "../components/LandingPage"
-import Navbar from "../components/Navbar"
-import Projects from "../components/Projects"
-import Aboutme from "../components/Aboutme"
-import Contact from "../components/Contact"
 import { fetchContentfulData } from "../utils/contentfulProjects"
 import Meta from "../components/Meta"
+import { Canvas } from "@react-three/fiber"
+import { Loader } from "@react-three/drei"
+import { Suspense, useRef } from "react"
+import Scene from "../components/Landing/CanvasScene/Scene"
+import LandingPage from "../components/Landing/LandingPage"
+import Projects from "../components/Projects/Projects"
+import Contact from "../components/Footer/Contact"
 import FloatingSocials from "../components/FloatingSocials"
-
+import Aboutme from "../components/About/Aboutme"
+import useScroll from "../utils/useScroll"
 export default function Home({ data }) {
+  const overlay = useRef()
+  const scroll = useScroll()
+  console.log(scroll.current)
   return (
-    <div className='bg-black'>
-      <FloatingSocials />
+    <>
       <Meta />
-      <Navbar />
-      <LandingPage />
-      <Projects data={data} />
-      <Aboutme />
-      <Contact />
-    </div>
+      <div className='z-0 bg-black absolute top-0 left-0 h-screen w-screen mr-5 overflow-x-hidden'>
+        <Suspense>
+          <Canvas
+            camera={{
+              fov: 50,
+            }}>
+            <Scene scroll={scroll} />
+          </Canvas>
+        </Suspense>
+        <Loader />
+      </div>
+      <div className='bg-black' ref={overlay}>
+        <LandingPage />
+        <Projects data={data} />
+        <Aboutme />
+        <Contact />
+        <FloatingSocials />
+      </div>
+    </>
   )
 }
 

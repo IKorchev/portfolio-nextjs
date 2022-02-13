@@ -1,5 +1,5 @@
 import ProjectCard from "./ProjectCard"
-import { SectionTitle } from "./SectionTitle"
+import { SectionTitle } from "../SectionTitle"
 
 const Projects = ({ data }) => {
   data.sort((el1, el2) => (el1.id == el2.id ? 0 : el1.id > el2.id ? 1 : -1))
