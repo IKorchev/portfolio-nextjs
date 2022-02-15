@@ -31,7 +31,7 @@ export default function Home({ data }) {
         <Loader />
       </div>
       <div className='bg-black' ref={overlay}>
-        <div className='h-screen w-screen' /> {/* just to take space */}
+        <div className='h-screen w-screen' />
         <Projects data={data} />
         <Aboutme />
         <Contact />

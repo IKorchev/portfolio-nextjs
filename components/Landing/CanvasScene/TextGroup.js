@@ -64,7 +64,7 @@ const TextGroup = () => {
             size={0.5}
             hAlign='right'
             rotation={[0, 0.2, 0]}
-            colors={["#464f4f", "#464f4f", "#464f4f"]}
+            colors={["#89a19d", "#89a19d", "#89a19d"]}
             position={[0, -4.5, -20]}
             children='FRONT END'
           />
@@ -72,13 +72,14 @@ const TextGroup = () => {
             size={0.5}
             hAlign='right'
             rotation={[0, 0.2, 0]}
-            colors={["#464f4f", "#464f4f", "#464f4f"]}
+            colors={["#89a19d", "#89a19d", "#89a19d"]}
             position={[0, -6.5, -20]}
             children='DEVELOPER'
           />
         </group>
       </Float>
-      <Environment preset='sunset' />
+      <pointLight intensity={2} position={[-20, 20, 20]} />
+      {/* <Environment preset='sunset' /> */}
     </group>
   )
 }
