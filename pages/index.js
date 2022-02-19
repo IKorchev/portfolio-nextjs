@@ -20,14 +20,17 @@ export default function Home({ data }) {
         <Navbar />
       </header>
       <div className='z-0 bg-black absolute top-0 left-0 h-screen w-screen mr-5 overflow-x-hidden'>
-        <Suspense>
-          <Canvas
-            camera={{
-              fov: 50,
-            }}>
+        <Canvas
+          gl={{
+            precision: "mediump",
+          }}
+          camera={{
+            fov: 50,
+          }}>
+          <Suspense fallback={null}>
             <Scene scroll={scroll} />
-          </Canvas>
-        </Suspense>
+          </Suspense>
+        </Canvas>
         <Loader />
       </div>
       <div className='bg-black' ref={overlay}>

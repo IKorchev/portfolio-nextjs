@@ -41,7 +41,7 @@ const CustomText = ({
     [fontPoppins]
   )
   return (
-    <group {...props} scale={[0.1 * size, 0.1 * size, 0.1]}>
+    <group {...props} scale={[0.1 * size, 0.1 * size, 0.05]}>
       <mesh castShadow receiveShadow ref={mesh}>
         <textGeometry attach='geometry' args={[children, config]} />
         <meshStandardMaterial metalness={0.3} roughness={0.1}>
