@@ -4,8 +4,8 @@ import { FontLoader } from "three-stdlib"
 import { TextGeometry } from "three-stdlib"
 import { useRef } from "react"
 import * as THREE from "three"
-import { Environment, GradientTexture } from "@react-three/drei"
-import { LayerMaterial, Base, Noise } from "lamina"
+import { GradientTexture } from "@react-three/drei"
+
 extend({ TextGeometry })
 
 const CustomText = ({
@@ -14,7 +14,7 @@ const CustomText = ({
   hAlign = "center",
   size = 0.5,
   color = "black",
-  colors = ["#008c7b", "#17a382", "white"],
+  colors = ["#17a382", "#17a382", "#73f5d6"],
   ...props
 }) => {
   const mesh = useRef()
@@ -41,7 +41,7 @@ const CustomText = ({
     [fontPoppins]
   )
   return (
-    <group {...props} scale={[0.1 * size, 0.1 * size, 0.05]}>
+    <group {...props} scale={[0.1 * size, 0.1 * size, 0.1 * size]}>
       <mesh castShadow receiveShadow ref={mesh}>
         <textGeometry attach='geometry' args={[children, config]} />
         <meshStandardMaterial metalness={0.3} roughness={0.1}>

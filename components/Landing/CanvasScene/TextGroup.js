@@ -22,7 +22,7 @@ const TextGroup = () => {
     //initial animation
     const tl = gsap.timeline()
     tl.from([titleRef.current.children[0].position, titleRef.current.children[1].position], {
-      y: -40,
+      y: 40,
       duration: 0.7,
       stagger: 0.3,
     })
@@ -47,14 +47,14 @@ const TextGroup = () => {
           <Text
             size={1}
             hAlign='right'
-            rotation={[0, 0.2, 0]}
+            rotation={[0.1, 0.4, 0]}
             position={[0, 3, -20]}
             children='IVAYLO'
           />
           <Text
             size={1}
             hAlign='right'
-            rotation={[0, 0.2, 0]}
+            rotation={[0.1, 0.4, 0]}
             position={[0, -1.5, -20]}
             children='KORCHEV'
           />
@@ -63,7 +63,7 @@ const TextGroup = () => {
           <Text
             size={0.5}
             hAlign='right'
-            rotation={[0, 0.2, 0]}
+            rotation={[0, 0.4, 0]}
             colors={["#89a19d", "#89a19d", "#89a19d"]}
             position={[0, -4.5, -20]}
             children='FRONT END'
@@ -71,7 +71,7 @@ const TextGroup = () => {
           <Text
             size={0.5}
             hAlign='right'
-            rotation={[0, 0.2, 0]}
+            rotation={[0, 0.4, 0]}
             colors={["#89a19d", "#89a19d", "#89a19d"]}
             position={[0, -6.5, -20]}
             children='DEVELOPER'
