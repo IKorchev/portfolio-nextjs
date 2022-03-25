@@ -15,18 +15,16 @@ const SkillsGroup = () => {
     tl.from(
       positions,
       {
+        duration: 0.5,
         y: -10,
         stagger: 0.1,
       },
-      "+=1.5"
+      "+=1.2"
     )
   }, [])
 
   return (
-    <group
-      ref={skillsGroup}
-      position={[width * 0.9, height * -0.9, -20]}
-      scale={Math.min((width / height) * 1.5, 1.5)}>
+    <group ref={skillsGroup} position={[width * 0.8, height * -1.2, -25]} scale={Math.min((width / height) * 2, 2)}>
       <Text size={0.15} rotation={[0, -0.3, 0]} position={[1.8, 1.4, 0]} children='SKILLS' />
       {skillsImages.map((el, i) => {
         return <SkillBox key={el} name={el} index={i} />

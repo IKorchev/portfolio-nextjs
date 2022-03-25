@@ -22,7 +22,7 @@ export default function Home({ data }) {
       <div className='z-0 bg-black absolute top-0 left-0 h-screen w-screen mr-5 overflow-x-hidden'>
         <Canvas
           gl={{
-            precision: "mediump",
+            precision: "highp",
           }}
           camera={{
             fov: 50,

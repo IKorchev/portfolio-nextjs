@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { useTexture, Box, useCursor } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import { useRef } from "react"
-import gsap from "gsap"
 const SkillBox = ({ name, index }) => {
   const boxRef = useRef()
   const image = useTexture(`/${name}.svg`)
   const isSecondRow = index >= 4
   const [hovered, setHovered] = useState(false)
-
 
   useCursor(hovered)
   useFrame((state, delta) => {
