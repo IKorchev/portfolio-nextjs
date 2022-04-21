@@ -17,11 +17,15 @@ export default function Model({ scroll, ...props }) {
     group.current.position.lerp(posv, delta * 4)
   })
   useEffect(() => {
-    actions[names[0]].play()
+    names.forEach((name) => actions[name].play().setDuration(25))
   }, [])
   const scale = (((viewport.width * 1.2) / viewport.height) * 4) / 3
   return (
-    <group ref={group} {...props} scale={props.scale || 1 * Math.min(scale, 1.5)} dispose={null}>
+    <group
+      ref={group}
+      {...props}
+      scale={props.scale || 1 * Math.min(scale, 1.5)}
+      dispose={null}>
       <group name='Scene'>
         <group name='Sketchfab_model' rotation={[-Math.PI / 2, 0, 0]} scale={0.21}>
           <group name='Root'>
@@ -102,10 +106,16 @@ export default function Model({ scroll, ...props }) {
                   />
                 </group>
               </group>
-              <group name='Point002' position={[4.38, 3.42, -0.14]} rotation={[-0.07, 0.01, 1.56]}>
+              <group
+                name='Point002'
+                position={[4.38, 3.42, -0.14]}
+                rotation={[-0.07, 0.01, 1.56]}>
                 <group name='Point001' />
               </group>
-              <group name='Point003' position={[4.73, -3.45, -0.14]} rotation={[-0.07, 0.01, 1.56]}>
+              <group
+                name='Point003'
+                position={[4.73, -3.45, -0.14]}
+                rotation={[-0.07, 0.01, 1.56]}>
                 <group name='Point004' />
               </group>
               <mesh

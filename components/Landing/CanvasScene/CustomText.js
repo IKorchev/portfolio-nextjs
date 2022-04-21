@@ -23,9 +23,12 @@ const CustomText = ({
     const size = new THREE.Vector3()
     mesh.current.geometry.computeBoundingBox()
     mesh.current.geometry.boundingBox.getSize(size)
-    mesh.current.position.x = hAlign === "center" ? -size.x / 2 : hAlign === "right" ? 0 : -size.x
-    mesh.current.position.y = vAlign === "center" ? -size.y / 2 : vAlign === "top" ? 0 : -size.y
+    mesh.current.position.x =
+      hAlign === "center" ? -size.x / 2 : hAlign === "right" ? 0 : -size.x
+    mesh.current.position.y =
+      vAlign === "center" ? -size.y / 2 : vAlign === "top" ? 0 : -size.y
   }, [children])
+
   const config = useMemo(
     () => ({
       font: fontPoppins,
@@ -40,6 +43,7 @@ const CustomText = ({
     }),
     [fontPoppins]
   )
+
   return (
     <group {...props} scale={[0.1 * size, 0.1 * size, 0.1 * size]}>
       <mesh castShadow receiveShadow ref={mesh}>

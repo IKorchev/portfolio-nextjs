@@ -1,1 +1,10 @@
-export default ["html5", "css", "tailwind", "javascript", "react", "express", "git", "github"]
+export default [
+  "html5",
+  "css",
+  "javascript",
+  "tailwind",
+  "react",
+  "nextjs",
+  "express",
+  "git",
+]

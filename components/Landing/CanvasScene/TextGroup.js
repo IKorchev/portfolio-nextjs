@@ -24,14 +24,15 @@ const TextGroup = () => {
     tl.from([titleRef.current.children[0].position, titleRef.current.children[1].position], {
       y: 40,
       duration: 0.7,
-      stagger: 0.3,
-    })
-    tl.from(
+      ease: "back.out(1.3)",
+      stagger: 0.1,
+    }).from(
       [subtitleRef.current.children[0].position, subtitleRef.current.children[1].position],
       {
         x: -40,
         duration: 0.7,
-        stagger: 0.2,
+        ease: "back.out(1.2)",
+        stagger: 0.1,
       },
       "-=0.2"
     )
