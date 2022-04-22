@@ -11,7 +11,7 @@ const Contact = () => {
         <SocialLinks />
       </div>
 
-      <div className='container px-36 mx-auto mt-12 pb-5 text-gray-200'>
+      <div className='container  mx-auto mt-12 pb-5 text-gray-200'>
         <p className='text-center'>
           Copyright &copy; 2021
           <a
