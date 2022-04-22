@@ -23,11 +23,11 @@ const Form = () => {
   }
   return (
     <form
-      className='max-w-[35rem] p-3 mx-auto rounded-lg  my-10 xl:my-0'
+      className='max-w-[35rem] w-full p-3 mx-auto rounded-lg  my-10 xl:my-0'
       onSubmit={sendMessage}>
       <h3 className='text-3xl mb-5'>Contact me</h3>
       <div>
-        <div className='flex gap-5'>
+        <div className='flex  flex-col sm:flex-row gap-5'>
           <div className='flex flex-col flex-grow'>
             <label htmlFor='firstName'>Name *</label>
             <input

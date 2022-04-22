@@ -14,7 +14,7 @@ export default function Model({ scroll, ...props }) {
       group.current.position.y -= scroll.current * 0.1
       group.current.position.x += scroll.current * 0.1
     }
-    group.current.position.lerp(posv, delta * 4)
+    group.current.position.lerp(posv, delta)
   })
   useEffect(() => {
     names.forEach((name) => actions[name].play().setDuration(25))

@@ -26,7 +26,7 @@ export default function Home({ data }) {
             precision: "highp",
           }}
           camera={{
-            fov: 60,
+            fov: 55,
           }}>
           <Suspense fallback={null}>
             <Scene data={data} scroll={scroll} />

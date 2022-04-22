@@ -20,7 +20,7 @@ const ProjectsPlanes = ({ data, scroll, ...props }) => {
   return (
     <group ref={projectsGroupRef} {...props}>
       <Float
-        position={[0, data.length * 1.1 + 1, 0]}
+        position={[0, data.length * 1 + 0.1, 0]}
         speed={0.5}
         rotationIntensity={0.5}
         floatIntensity={0.2}>

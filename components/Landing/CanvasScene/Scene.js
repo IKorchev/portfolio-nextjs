@@ -10,7 +10,6 @@ import { Vector3 } from "three"
 import * as THREE from "three"
 import ProjectsPlanes from "./Projects"
 
-
 const colors = ["#797a7a", "#a1ffff", "#fcc921", "#ab00ab", "#f3f3f3"]
 
 const Scene = ({ data, scroll }) => {
@@ -18,9 +17,9 @@ const Scene = ({ data, scroll }) => {
   useFrame((state, delta) => {
     if (scroll.current) {
       const p = new Vector3(width * 1, height * 1, -21)
-      state.camera.position.lerp(p, scroll.current * delta * 0.4)
+      state.camera.position.lerp(p, scroll.current * delta * 0.1)
     }
-    const p = new Vector3(0, 0, 5)
+    const p = new Vector3(0, 0, 6)
     state.camera.position.lerp(p, delta * 4)
   })
 
@@ -29,7 +28,6 @@ const Scene = ({ data, scroll }) => {
       {/* 3D Title and Subtitle text */}
       <TextGroup />
       <CustomSphere position={[width * -1.2, height * 0.8, -5]} scale={10} color={colors[0]} />
-
       <CustomSphere position={[width * 5.4, height * 10, -90]} scale={10} color={colors[4]} />
       <CustomSphere position={[width * -3.4, height * 9, -100]} scale={10} color={colors[4]} />
       <Stars count={200} />
@@ -42,7 +40,7 @@ const Scene = ({ data, scroll }) => {
       <DroneModel position={[-width * 1, -height * 1, -10]} rotation={[0, 0, 0]} />
       <ProjectsPlanes
         scale={THREE.MathUtils.clamp((2 * width) / height, 2, 2.5)}
-        position={[width * 2.5, -height * 1.8, -35]}
+        position={[width * 2.5, -height * 1.2, -35]}
         rotation={[0, -0.5, 0]}
         scroll={scroll}
         data={data}
@@ -51,6 +49,5 @@ const Scene = ({ data, scroll }) => {
     </group>
   )
 }
-
 
 export default Scene
