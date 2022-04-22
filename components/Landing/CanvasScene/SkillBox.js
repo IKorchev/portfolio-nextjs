@@ -32,6 +32,11 @@ const SkillBox = ({ name, index }) => {
         duration: 0.2,
       }
     )
+    gsap.to(boxRef.current.material.color, {
+      r: !hovered ? 0.4 : 255 / 150,
+      g: !hovered ? 0.4 : 182 / 150,
+      b: !hovered ? 0.4 : 0,
+    })
   }, [hovered])
 
   return (
@@ -50,17 +55,13 @@ const SkillBox = ({ name, index }) => {
         ref={textRef}
         position={[0, !isSecondRow ? 1 : -0.8, 0]}
         color='white'
-        fontSize={0.3}
+        fontSize={0.35}
         anchorX='center'
         anchorY='top'>
         {name.toUpperCase()}
       </Text>
       <Box ref={boxRef}>
-        <meshPhysicalMaterial
-          attach='material'
-          map={image}
-          color={!hovered ? "white" : "#17a382"}
-        />
+        <meshPhysicalMaterial attach='material' map={image} />
       </Box>
     </group>
   )

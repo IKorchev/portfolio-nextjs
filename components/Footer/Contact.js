@@ -10,8 +10,8 @@ const Contact = () => {
         <Form />
         <SocialLinks />
       </div>
-      <GithubLinks />
-      <div className='container px-36 mx-auto mt-12 pb-5 text-trueGray-500'>
+
+      <div className='container px-36 mx-auto mt-12 pb-5 text-gray-200'>
         <p className='text-center'>
           Copyright &copy; 2021
           <a

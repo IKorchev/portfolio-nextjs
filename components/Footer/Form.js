@@ -22,51 +22,56 @@ const Form = () => {
     setTextInput("")
   }
   return (
-    <form className='w-full lg:w-2/3 mx-auto my-10 xl:my-0 ' onSubmit={sendMessage}>
-      <div className='border p-8 rounded-md bg-trueGray-900'>
-        <h3 className='text-3xl mb-5 text-center'>Contact form</h3>
-        <div className='flex flex-col'>
-          <label htmlFor='firstName'>Name</label>
-          <input
-            required
-            value={nameInput}
-            name='name'
-            type='text'
-            id='firstName'
-            className='form-input'
-            onChange={(e) => setNameInput(e.target.value)}
-          />
-          <span className='text-gray-200 ml-2 text-xs'>*required field</span>
-        </div>
-        <div className='flex flex-col mt-3'>
-          <label htmlFor='lastName'>Email</label>
-          <input
-            required
-            value={emailInput}
-            name='email'
-            type='text'
-            id='lastName'
-            className='form-input'
-            onChange={(e) => setEmailInput(e.target.value)}
-          />
-          <span className='text-gray-200 ml-2 text-xs'>*required field</span>
+    <form
+      className='max-w-[35rem] p-3 mx-auto rounded-lg  my-10 xl:my-0'
+      onSubmit={sendMessage}>
+      <h3 className='text-3xl mb-5'>Contact me</h3>
+      <div>
+        <div className='flex gap-5'>
+          <div className='flex flex-col flex-grow'>
+            <label htmlFor='firstName'>Name *</label>
+            <input
+              required
+              value={nameInput}
+              name='name'
+              type='text'
+              id='firstName'
+              placeholder='required'
+              className='form-input rounded-lg'
+              onChange={(e) => setNameInput(e.target.value)}
+            />
+          </div>
+          <div className='flex flex-col flex-grow'>
+            <label htmlFor='email'>Email *</label>
+            <input
+              required
+              value={emailInput}
+              placeholder='required'
+              name='email'
+              type='email'
+              id='email'
+              className='form-input'
+              onChange={(e) => setEmailInput(e.target.value)}
+            />
+          </div>
         </div>
         <div className='flex flex-col mt-3'>
           <label htmlFor='textarea'>Message</label>
           <textarea
             required
             value={textInput}
+            placeholder='How can I help?'
             name='message'
             id='textarea'
             className='form-input'
-            rows='5'
+            rows='4'
             onChange={(e) => setTextInput(e.target.value)}
           />
         </div>
         <button
-          className='form-input rounded-sm cto-link bg-white border text-center w-full text-black mt-5 transition duration-300 hover:bg-transparent hover:text-white'
+          className='form-input font-oswald rounded-sm font-bold bg-customyellow  text-center  text-black mt-5 transition duration-300 hover:bg-yellow-600 focus:bg-yellow-600  focus:ring-white'
           type='submit'>
-          SUBMIT
+          Send Message
         </button>
         <Alert type={alertType} />
       </div>

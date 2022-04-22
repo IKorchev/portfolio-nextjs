@@ -2,15 +2,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
   html {
-    @apply overflow-x-hidden;
+    @apply overflow-x-hidden font-oswald;
   }
   h1 {
     @apply font-oswald text-5xl text-black font-bold md:text-left md:text-8xl;
   }
   h2 {
-    @apply font-oswald text-4xl  md:text-left md:text-5xl;
+    @apply font-oswald text-4xl  md:text-left text-customyellow md:text-5xl;
   }
 
   a {
@@ -23,16 +24,36 @@
     @apply px-4 py-2 shadow-md  text-white font-semibold text-sm md:text-xl active:scale-95 transition-all duration-300;
   }
   .project {
-    @apply w-full container mb-12 flex flex-col bg-darkgray 
-    lg:flex-row-reverse lg:odd:flex-row lg:even:border-l-4 lg:odd:border-r-4 border-teal-500;
+    @apply w-full container mb-12 flex flex-col bg-darkgray border-customgray border
+    lg:flex-row-reverse lg:odd:flex-row lg:even:border-l-4 lg:odd:border-r-4 lg:even:border-l-customyellow lg:odd:border-r-customyellow;
   }
   .form-input {
-    @apply px-3 py-1 text-lg text-black rounded-sm;
+    @apply px-3 py-1 text-lg text-black rounded-lg focus:outline-none focus:ring-customyellow focus:ring;
   }
   label {
-    @apply text-xl;
+    @apply text-base;
   }
 }
 .project-img {
   min-height: 20rem;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #ffb600;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #c78e03;
 }

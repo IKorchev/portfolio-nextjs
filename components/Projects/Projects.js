@@ -7,7 +7,7 @@ const Projects = ({ data }) => {
   return (
     <main id='projects' className='-mt-36'>
       <SectionTitle name='projects' />
-      <div className='container flex flex-col mt-12 mx-auto px-0 xl:px-48 place-items-start'>
+      <div className='container flex flex-col mt-12 mx-auto px-3 xl:px-48 place-items-start'>
         {data.map((project) => (
           <ProjectCard key={project.title} project={project} />
         ))}

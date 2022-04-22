@@ -1,33 +1,32 @@
 import { useEffect, useState } from "react"
+import Badge from "../Badge"
 
 const GithubLinks = () => {
   const [repos, setRepos] = useState(null)
+
   useEffect(() => {
     const getGithubRepos = async () => {
       const data = await fetch("https://api.github.com/users/ikorchev/repos")
       const jsonData = await data.json()
+      console.log(jsonData)
       setRepos(jsonData)
     }
     getGithubRepos()
   }, [])
   return (
-    <div className='container px-36 mx-auto mt-5 max-w-48 xl:mt-12'>
-      <h3 className='mb-8 text-3xl mt-10 text-center text-white font-bold'>Github Repositories</h3>
-      <ul className='lg:px-36 mx-auto grid grid-cols-1 xl:grid-cols-3 justify-items-center'>
-        {repos?.map(({ name, html_url }) => (
-          <li
-            key={name}
-            className=' inline-flex text-start md:text-base whitespace-nowrap underline '>
-            <a
-              href={html_url}
-              target='_blank'
-              className='text-lg text-trueGray-200 hover:text-trueGray-100'
-              rel='noreferrer'>
-              {name}
-            </a>
-          </li>
-        ))}
-      </ul>
+    <div className='p-5'>
+      <details className='container max-w-7xl bg-darkgray border border-customgray mx-auto rounded-lg'>
+        <summary className='text-xl py-5 px-5 cursor-pointer rounded-lg  text-white font-bold'>
+          Github Repositories - <span className='self-end'>{repos?.length}</span>
+        </summary>
+        <ul className='flex gap-3 p-5 border-t border-customgray flex-wrap  mx-auto '>
+          {repos?.map(({ name, html_url, id }) => (
+            <li key={id}>
+              <Badge text={name} link={html_url} />
+            </li>
+          ))}
+        </ul>
+      </details>
     </div>
   )
 }

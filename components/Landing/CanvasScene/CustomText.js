@@ -14,7 +14,7 @@ const CustomText = ({
   hAlign = "center",
   size = 0.5,
   color = "black",
-  colors = ["#17a382", "#17a382", "#73f5d6"],
+  colors = ["#ffb600", "#ffb600", "#ffb600"],
   ...props
 }) => {
   const mesh = useRef()
@@ -48,7 +48,7 @@ const CustomText = ({
     <group {...props} scale={[0.1 * size, 0.1 * size, 0.1 * size]}>
       <mesh castShadow receiveShadow ref={mesh}>
         <textGeometry attach='geometry' args={[children, config]} />
-        <meshStandardMaterial metalness={0.3} roughness={0.1}>
+        <meshStandardMaterial metalness={0.5} roughness={0.1}>
           <GradientTexture stops={[0, 0.8, 1]} colors={colors} />
         </meshStandardMaterial>
       </mesh>

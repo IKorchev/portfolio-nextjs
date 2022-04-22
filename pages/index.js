@@ -10,6 +10,7 @@ import FloatingSocials from "../components/FloatingSocials"
 import Aboutme from "../components/About/Aboutme"
 import useScroll from "../utils/useScroll"
 import Navbar from "../components/Navbar/Navbar"
+import GithubLinks from "../components/Footer/GithubLinks"
 export default function Home({ data }) {
   const overlay = useRef()
   const scroll = useScroll()
@@ -25,18 +26,19 @@ export default function Home({ data }) {
             precision: "highp",
           }}
           camera={{
-            fov: 50,
+            fov: 60,
           }}>
           <Suspense fallback={null}>
-            <Scene scroll={scroll} />
+            <Scene data={data} scroll={scroll} />
           </Suspense>
         </Canvas>
         <Loader />
       </div>
-      <div className='bg-black' ref={overlay}>
+      <div className='bg-[#181a1e]' ref={overlay}>
         <div className='h-screen w-screen' />
         <Projects data={data} />
         <Aboutme />
+        <GithubLinks />
         <Contact />
         <FloatingSocials />
       </div>

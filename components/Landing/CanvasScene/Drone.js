@@ -50,7 +50,7 @@ export default function Model(props) {
           name='RobotR1'
           ref={drone}
           position={[0, 0, 0]}
-          rotation={[0, 0, 0]}
+          rotation={[-Math.PI / 2.5, Math.PI, 0]}
           scale={0.01}>
           <group name='Hand' position={[0, 16.74, 0]}>
             <group name='Gun1' position={[4.79, 0, 0]}>
