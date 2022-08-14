@@ -1,41 +1,32 @@
-import { fetchContentfulData } from "../utils/contentfulProjects"
-import Meta from "../components/Meta"
-import { Canvas } from "@react-three/fiber"
-import { Loader } from "@react-three/drei"
-import { Suspense, useRef } from "react"
-import Scene from "../components/Landing/CanvasScene/Scene"
-import Projects from "../components/Projects/Projects"
-import Contact from "../components/Footer/Contact"
-import FloatingSocials from "../components/FloatingSocials"
-import Aboutme from "../components/About/Aboutme"
-import useScroll from "../utils/useScroll"
-import Navbar from "../components/Navbar/Navbar"
-import GithubLinks from "../components/Footer/GithubLinks"
+import { fetchContentfulData } from '../utils/contentfulProjects'
+import Meta from '../components/Meta'
+// import { Canvas } from '@react-three/fiber'
+// import { Loader } from '@react-three/drei'
+// import { Suspense, useRef } from 'react'
+// import Scene from '../components/Landing/CanvasScene/Scene'
+import Projects from '../components/Projects/Projects'
+import Contact from '../components/Footer/Contact'
+import FloatingSocials from '../components/FloatingSocials'
+import Aboutme from '../components/About/Aboutme'
+import Navbar from '../components/Navbar/Navbar'
+import GithubLinks from '../components/Footer/GithubLinks'
+
+import LandingSection from '../components/Landing/LandingSection'
 export default function Home({ data }) {
-  const overlay = useRef()
-  const scroll = useScroll()
   return (
     <>
       <Meta />
-      <header className='w-screen z-50'>
-        <Navbar />
-      </header>
-      <div className='z-0 bg-black absolute top-0 left-0 h-screen w-screen mr-5 overflow-x-hidden'>
-        <Canvas
-          gl={{
-            precision: "highp",
-          }}
-          camera={{
-            fov: 55,
-          }}>
-          <Suspense fallback={null}>
-            <Scene data={data} scroll={scroll} />
-          </Suspense>
-        </Canvas>
-        <Loader />
-      </div>
-      <div className='bg-[#181a1e]' ref={overlay}>
-        <div className='h-screen w-screen' />
+      {/* <Suspense>{typeof window !== 'undefined' && <Loader />}</Suspense>
+        <Canvas gl={{ precision: 'highp' }} camera={{ fov: 55 }}>
+        <Suspense fallback={null}>
+        <Scene data={data} scroll={scroll} />
+        </Suspense>
+      </Canvas> */}
+      <div className='bg-customdarkgray main-content'>
+        <div style={{ backgroundImage: 'url("/bg.svg")', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
+          <Navbar />
+          <LandingSection data={data} />
+        </div>
         <Projects data={data} />
         <Aboutme />
         <GithubLinks />
@@ -46,9 +37,8 @@ export default function Home({ data }) {
   )
 }
 
-export const getStaticProps = async (context) => {
+export const getStaticProps = async () => {
   const data = await fetchContentfulData()
-  !data && { notFound: true }
 
   return {
     props: { data },

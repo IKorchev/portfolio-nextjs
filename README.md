@@ -8,7 +8,3 @@
 Using Github API to get data about my repositories
 
 ### [See live - ikorchev.com](https://ikorchev.com/)
-
-
-
-

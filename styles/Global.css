@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Oswald&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -56,4 +56,11 @@
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #c78e03;
+}
+
+body,
+html,
+.main-content {
+  scroll-behavior: smooth;
+  scroll-margin-top: 100px;
 }

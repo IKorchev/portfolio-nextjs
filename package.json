@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "dev": "SET NODE_OPTIONS=--openssl-legacy-provider && next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start"
   },
@@ -14,7 +14,7 @@
     "contentful": "^8.4.2",
     "gsap": "^3.7.1",
     "lamina": "^1.0.6",
-    "next": "latest",
+    "next": "^12.2.2",
     "nodemailer": "^6.6.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

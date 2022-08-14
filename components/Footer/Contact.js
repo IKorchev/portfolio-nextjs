@@ -1,7 +1,7 @@
-import { SectionTitle } from "../SectionTitle"
-import SocialLinks from "./SocialLinks"
-import Form from "./Form"
-import GithubLinks from "./GithubLinks"
+import { SectionTitle } from '../SectionTitle'
+import SocialLinks from './SocialLinks'
+import Form from './Form'
+
 const Contact = () => {
   return (
     <footer id='contact'>
@@ -14,11 +14,7 @@ const Contact = () => {
       <div className='container  mx-auto mt-12 pb-5 text-gray-200'>
         <p className='text-center'>
           Copyright &copy; 2021
-          <a
-            href='https://ikorchev.com/'
-            rel='noreferrer'
-            target='_blank'
-            className='text-center lg:text-right ml-2'>
+          <a href='https://ikorchev.com/' rel='noreferrer' target='_blank' className='text-center lg:text-right ml-2'>
             IKORCHEV.COM
           </a>
         </p>

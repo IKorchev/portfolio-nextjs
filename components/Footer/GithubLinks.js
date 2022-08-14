@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react"
-import Badge from "../Badge"
+import { useEffect, useState } from 'react'
+import Badge from '../Badge'
 
 const GithubLinks = () => {
   const [repos, setRepos] = useState(null)
 
   useEffect(() => {
     const getGithubRepos = async () => {
-      const data = await fetch("https://api.github.com/users/ikorchev/repos")
+      const data = await fetch('https://api.github.com/users/ikorchev/repos')
       const jsonData = await data.json()
-      console.log(jsonData)
       setRepos(jsonData)
     }
     getGithubRepos()

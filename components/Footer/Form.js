@@ -1,12 +1,20 @@
-import { useState } from "react"
-import { sendForm } from "../../utils/sendForm"
-import Alert from "./Alert"
+import { useState } from 'react'
+import Alert from './Alert'
+
+const sendForm = async (data) => {
+  const response = await fetch('/api/send', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  })
+  const { status } = await response.json()
+  return status
+}
 
 const Form = () => {
-  const [alertType, setAlertType] = useState("hidden")
-  const [nameInput, setNameInput] = useState("")
-  const [emailInput, setEmailInput] = useState("")
-  const [textInput, setTextInput] = useState("")
+  const [alertType, setAlertType] = useState('hidden')
+  const [nameInput, setNameInput] = useState('')
+  const [emailInput, setEmailInput] = useState('')
+  const [textInput, setTextInput] = useState('')
 
   const sendMessage = async (e) => {
     e.preventDefault()
@@ -17,14 +25,12 @@ const Form = () => {
     }
     const alertStatus = await sendForm(data)
     setAlertType(alertStatus)
-    setNameInput("")
-    setEmailInput("")
-    setTextInput("")
+    setNameInput('')
+    setEmailInput('')
+    setTextInput('')
   }
   return (
-    <form
-      className='max-w-[35rem] w-full p-3 mx-auto rounded-lg  my-10 xl:my-0'
-      onSubmit={sendMessage}>
+    <form className='max-w-[35rem] w-full p-3 mx-auto rounded-lg  my-10 xl:my-0' onSubmit={sendMessage}>
       <h3 className='text-3xl mb-5'>Contact me</h3>
       <div>
         <div className='flex  flex-col sm:flex-row gap-5'>
@@ -43,16 +49,7 @@ const Form = () => {
           </div>
           <div className='flex flex-col flex-grow'>
             <label htmlFor='email'>Email *</label>
-            <input
-              required
-              value={emailInput}
-              placeholder='required'
-              name='email'
-              type='email'
-              id='email'
-              className='form-input'
-              onChange={(e) => setEmailInput(e.target.value)}
-            />
+            <input required value={emailInput} placeholder='required' name='email' type='email' id='email' className='form-input' onChange={(e) => setEmailInput(e.target.value)} />
           </div>
         </div>
         <div className='flex flex-col mt-3'>

@@ -1,14 +1,10 @@
-import {
-  Sphere,
-  useTexture,
-  Float,
-} from "@react-three/drei"
-import { useFrame, useThree } from "@react-three/fiber"
-import React, { useRef, useState } from "react"
+import { Sphere, useTexture, Float } from '@react-three/drei'
+import { useFrame, useThree } from '@react-three/fiber'
+import React, { useRef, useState } from 'react'
 
 const CustomSphere = ({ position, scale, color }) => {
   const { mouse, camera, viewport } = useThree()
-  const texture = useTexture("/planettexture.jpg")
+  const texture = useTexture('/planettexture.jpg')
   const sphereRef = useRef()
   const [hovered, setHovered] = useState(true)
   useFrame((_, dt) => {

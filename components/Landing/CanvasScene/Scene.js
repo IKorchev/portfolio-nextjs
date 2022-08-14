@@ -1,16 +1,15 @@
-"../../../utils/animations"
-import { useFrame, useThree } from "@react-three/fiber"
-import { Environment, Stars } from "@react-three/drei"
-import CustomSphere from "./Planet"
-import SkillsGroup from "./SkillsGroup"
-import TextGroup from "./TextGroup"
-import Ship from "./Ship"
-import DroneModel from "./Drone"
-import { Vector3 } from "three"
-import * as THREE from "three"
-import ProjectsPlanes from "./Projects"
+import { useFrame, useThree } from '@react-three/fiber'
+import { Environment, Stars } from '@react-three/drei'
+import CustomSphere from './Planet'
+import SkillsGroup from './SkillsGroup'
+import TextGroup from './TextGroup'
+import Ship from './Ship'
+import DroneModel from './Drone'
+import { Vector3 } from 'three'
+import * as THREE from 'three'
+import ProjectsPlanes from './Projects'
 
-const colors = ["#797a7a", "#a1ffff", "#fcc921", "#ab00ab", "#f3f3f3"]
+const colors = ['#797a7a', '#a1ffff', '#fcc921', '#ab00ab', '#f3f3f3']
 
 const Scene = ({ data, scroll }) => {
   const { width, height } = useThree((state) => state.viewport)
@@ -32,11 +31,7 @@ const Scene = ({ data, scroll }) => {
       <CustomSphere position={[width * -3.4, height * 9, -100]} scale={10} color={colors[4]} />
       <Stars count={200} />
       <SkillsGroup />
-      <Ship
-        scroll={scroll}
-        position={[-width * 0.8, height * 1.4, -12]}
-        rotation={[-Math.PI / 1.3, Math.PI / 0.8, 6]}
-      />
+      <Ship scroll={scroll} position={[-width * 0.8, height * 1.4, -12]} rotation={[-Math.PI / 1.3, Math.PI / 0.8, 6]} />
       <DroneModel position={[-width * 1, -height * 1, -10]} rotation={[0, 0, 0]} />
       <ProjectsPlanes
         scale={THREE.MathUtils.clamp((2 * width) / height, 2, 2.5)}

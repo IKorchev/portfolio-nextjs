@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef } from 'react'
 
 const useScroll = () => {
   const scroll = useRef(0)
@@ -8,9 +8,9 @@ const useScroll = () => {
       const max = e.target.documentElement.scrollHeight
       scroll.current = (top / max) * 100
     }
-    window.addEventListener("scroll", handleScroll)
+    window.addEventListener('scroll', handleScroll)
     return () => {
-      window.removeEventListener("scroll", handleScroll)
+      window.removeEventListener('scroll', handleScroll)
     }
   }, [])
   return scroll
