@@ -6,9 +6,7 @@ const LandingSection = ({ data }) => {
     <div className='p-5 py-16 lg:pt-32 lg:pb-56 md:px-12 xl:px-48 flex flex-col lg:gap-12 justify-center items-center lg:flex-row lg:justify-between'>
       <div>
         <h1 className='text-customyellow my-auto text-center lg:text-left'>Ivaylo Korchev</h1>
-        <h2 className='text-white mt-5 text-center lg:text-left'>
-          Front-end Developer and <br /> Software Engineer
-        </h2>
+        <h2 className='text-white mt-5 text-center lg:text-left'>Front-end Developer</h2>
         <div className='flex flex-col mt-24'>
           <h3 className='text-2xl uppercase text-[#ccc] text-center lg:text-left'>My Skills</h3>
           <div className='flex gap-5 mt-5'>
