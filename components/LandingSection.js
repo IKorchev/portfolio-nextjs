@@ -1,4 +1,4 @@
-import images from '../../utils/images'
+import images from '../utils/images'
 import Image from 'next/image'
 
 const LandingSection = ({ data }) => {

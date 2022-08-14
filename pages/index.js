@@ -1,17 +1,17 @@
-import { fetchContentfulData } from '../utils/contentfulProjects'
-import Meta from '../components/Meta'
 // import { Canvas } from '@react-three/fiber'
 // import { Loader } from '@react-three/drei'
 // import { Suspense, useRef } from 'react'
 // import Scene from '../components/Landing/CanvasScene/Scene'
+import { fetchContentfulData } from '../utils/contentfulProjects'
+import Meta from '../components/Meta'
 import Projects from '../components/Projects/Projects'
 import Contact from '../components/Footer/Contact'
 import FloatingSocials from '../components/FloatingSocials'
 import Aboutme from '../components/About/Aboutme'
 import Navbar from '../components/Navbar/Navbar'
 import GithubLinks from '../components/Footer/GithubLinks'
+import LandingSection from '../components/LandingSection'
 
-import LandingSection from '../components/Landing/LandingSection'
 export default function Home({ data }) {
   return (
     <>

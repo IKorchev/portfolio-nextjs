@@ -3,9 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-}
-
 @layer base {
   html {
     @apply overflow-x-hidden font-oswald;
