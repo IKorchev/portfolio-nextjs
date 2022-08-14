@@ -1,8 +1,11 @@
-import { useEffect, useState } from 'react'
+import {} from 'react'
+import { useEffect, useState, useRef } from 'react'
 import Badge from '../Badge'
 
 const GithubLinks = () => {
   const [repos, setRepos] = useState(null)
+  const [expanded, setExpanded] = useState(false)
+  const detailsRef = useRef()
 
   useEffect(() => {
     const getGithubRepos = async () => {
@@ -10,11 +13,13 @@ const GithubLinks = () => {
       const jsonData = await data.json()
       setRepos(jsonData)
     }
-    getGithubRepos()
-  }, [])
+    if (expanded && repos === null) {
+      getGithubRepos()
+    }
+  }, [expanded])
   return (
     <div className='p-5'>
-      <details className='container max-w-7xl bg-darkgray border border-customgray mx-auto rounded-lg'>
+      <details ref={detailsRef} onToggle={(e) => setExpanded(e.currentTarget.open)} className='container max-w-7xl bg-darkgray border border-customgray mx-auto rounded-lg'>
         <summary className='text-xl py-5 px-5 cursor-pointer rounded-lg  text-white font-bold'>
           Github Repositories - <span className='self-end'>{repos?.length}</span>
         </summary>
