@@ -3,15 +3,18 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  html {
-    @apply overflow-x-hidden font-oswald;
-  }
+@layer components {
   h1 {
     @apply font-oswald text-5xl text-black font-bold md:text-left md:text-8xl;
   }
   h2 {
     @apply font-oswald text-4xl  md:text-left text-customyellow md:text-5xl;
+  }
+}
+
+@layer base {
+  html {
+    @apply overflow-x-hidden font-oswald;
   }
 
   a {
