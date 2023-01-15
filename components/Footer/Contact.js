@@ -1,3 +1,6 @@
+'use client';
+
+
 import { SectionTitle } from '../SectionTitle'
 import SocialLinks from './SocialLinks'
 import Form from './Form'

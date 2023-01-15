@@ -6,5 +6,5 @@ export const SectionTitle = ({ name }) => {
       </h1>
       <div className='bg-white h-1 w-full -mt-8 z-0' />
     </div>
-  )
-}
+  );
+};

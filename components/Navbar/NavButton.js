@@ -1,17 +1,12 @@
-import { handleScrollDown } from "../../utils/animations"
+'use client';
 
-const NavButton = ({ children, title, to, duration }) => {
+const NavButton = ({ children, title, to }) => {
   return (
-    <a
-      onClick={(e) => {
-        e.preventDefault()
-        handleScrollDown(to, duration)
-      }}
-      className=' nav-link whitespace-nowrap z-50 text-white'>
+    <a href={to} className='nav-link whitespace-nowrap z-50 text-white'>
       {title}
       {children}
     </a>
-  )
-}
+  );
+};
 
-export default NavButton
+export default NavButton;

@@ -1,5 +1,5 @@
-import images from '../utils/images'
-import Image from 'next/image'
+import images from '../utils/images';
+import Image from 'next/image';
 
 const LandingSection = ({ data }) => {
   return (
@@ -8,8 +8,8 @@ const LandingSection = ({ data }) => {
         <h1 className='text-customyellow my-auto text-center lg:text-left'>Ivaylo Korchev</h1>
         <h2 className='text-white mt-5 text-center lg:text-left'>Front-end Developer</h2>
         <div className='flex flex-col mt-24'>
-          <h3 className='text-2xl uppercase text-[#ccc] text-center lg:text-left'>My Skills</h3>
-          <div className='flex gap-5 mt-5'>
+          <h3 className='text-2xl uppercase text-[#eee] text-center lg:text-left'>My Skills</h3>
+          <div className='flex gap-5 mt-5 flex-wrap  relative justify-center md:justify-start'>
             {images.map((img) => (
               <Image key={img} src={`/${img}.svg`} width={50} height={50} />
             ))}
@@ -18,23 +18,20 @@ const LandingSection = ({ data }) => {
       </div>
       <div>
         <div className='flex flex-col mt-12 lg:mt-0 max-w-md'>
-          <h3 className='text-2xl uppercase text-[#ccc] text-center'>My Projects</h3>
+          <h3 className='text-2xl uppercase text-[#eee] text-center'>My Projects</h3>
           <div className='flex flex-wrap justify-center h-max mt-5 gap-5 '>
             {data
               .sort((el1, el2) => (el1.id == el2.id ? 0 : el1.id > el2.id ? 1 : -1))
               .map((project) => (
-                <a
-                  key={project.projectImage.sys.id}
-                  className='h-24 w-32 relative border border-customyellow hover:border-customyellow/60'
-                  href={`#project_${project.projectImage.sys.id}`}>
-                  <Image className='bg-black flex' src={`https:${project.projectImage.fields.file.url}`} layout='fill' />
+                <a key={project.projectImage.sys.id} className='h-24 w-32 relative border border-customyellow hover:border-customyellow/60' href={`#project_${project.projectImage.sys.id}`}>
+                  <Image className='bg-black flex' src={`https:${project.projectImage.fields.file.url}`} fill />
                 </a>
               ))}
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default LandingSection
+export default LandingSection;

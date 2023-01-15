@@ -32,35 +32,13 @@
     @apply w-full container mb-12 flex flex-col bg-darkgray border-customgray border
     lg:flex-row-reverse lg:odd:flex-row lg:even:border-l-4 lg:odd:border-r-4 lg:even:border-l-customyellow lg:odd:border-r-customyellow;
   }
+
   .form-input {
     @apply px-3 py-1 text-lg text-black rounded-lg focus:outline-none focus:ring-customyellow focus:ring;
   }
   label {
     @apply text-base;
   }
-}
-.project-img {
-  min-height: 20rem;
-}
-
-/* width */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #ffb600;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #c78e03;
 }
 
 body,
