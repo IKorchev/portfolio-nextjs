@@ -6,11 +6,13 @@ import Aboutme from '../components/About/Aboutme';
 import Navbar from '../components/Navbar/Navbar';
 import GithubLinks from '../components/Footer/GithubLinks';
 import LandingSection from '../components/LandingSection';
+import GTM from '../components/GTM';
 
 export default async function Page() {
   const data = await fetchContentfulData();
   return (
     <div className='bg-customdarkgray main-content'>
+      <GTM />
       <div
         style={{
           backgroundImage: 'url("/bg.svg")',
