@@ -9,7 +9,7 @@ import GTM from '../components/GTM';
 
 async function getContentfulData() {
     try {
-        const data = await contentfulClient.getEntries(process.env.CONTENTFUL_API_KEY);
+        const data = await contentfulClient.getEntries();
         console.log(data);
         return data;
     } catch (error) {
