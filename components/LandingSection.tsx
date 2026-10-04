@@ -25,8 +25,7 @@ const LandingSection = ({ projects }: { projects: Project[] }) => {
                         </span>
                     </h1>
                     <p className='mt-6 max-w-lg text-lg text-muted-foreground'>
-                        Software engineer building web and mobile apps with React, React Native and a growing focus
-                        on AI.
+                        Building web and mobile apps with React, React Native and a growing focus on AI.
                     </p>
                     <div className='mt-8 flex flex-wrap gap-3'>
                         <Button size='lg' asChild className='rounded-full'>
