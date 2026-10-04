@@ -1,49 +1,107 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --radius: 0.75rem;
+  --background: oklch(0.985 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.8 0.17 75);
+  --primary-foreground: oklch(0.2 0.02 60);
+  --secondary: oklch(0.96 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.96 0 0);
+  --muted-foreground: oklch(0.5 0 0);
+  --accent: oklch(0.96 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.91 0 0);
+  --input: oklch(0.91 0 0);
+  --ring: oklch(0.75 0.16 70);
+  /* amber that stays readable as text on light backgrounds */
+  --brand: oklch(0.6 0.15 60);
+  --grid-line: oklch(0.145 0 0 / 0.05);
+}
+
+.dark {
+  --background: oklch(0.13 0.005 285);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.17 0.005 285);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.17 0.005 285);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.82 0.17 78);
+  --primary-foreground: oklch(0.2 0.02 60);
+  --secondary: oklch(0.24 0.005 285);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.24 0.005 285);
+  --muted-foreground: oklch(0.7 0.01 285);
+  --accent: oklch(0.24 0.005 285);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.82 0.17 78 / 60%);
+  --brand: oklch(0.82 0.17 78);
+  --grid-line: oklch(1 0 0 / 0.04);
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-brand: var(--brand);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
 
 @layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
   html {
-    @apply overflow-x-hidden font-oswald;
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
   }
 
   body {
-    @apply font-oswald;
+    @apply overflow-x-hidden bg-background font-sans text-foreground antialiased;
   }
 
-  h1 {
-    @apply font-oswald text-5xl text-black font-bold md:text-left md:text-8xl;
-  }
-  h2 {
-    @apply font-oswald text-4xl  md:text-left text-customyellow md:text-5xl;
-  }
-
-  a {
-    @apply cursor-pointer;
-  }
-  .nav-link {
-    @apply font-oswald lg:px-4 py-2 text-2xl  text-center  text-white hover:underline hover:text-gray-200;
-  }
-  .cta-link {
-    @apply px-4 py-2 shadow-md  text-white font-semibold text-sm md:text-xl active:scale-95 transition-all duration-300;
-  }
-  .project {
-    @apply w-full container mb-12 flex flex-col bg-darkgray border-customgray border
-    lg:flex-row-reverse lg:odd:flex-row lg:even:border-l-4 lg:odd:border-r-4 lg:even:border-l-customyellow lg:odd:border-r-customyellow;
-  }
-
-  .form-input {
-    @apply px-3 py-1 text-lg text-black rounded-lg focus:outline-none focus:ring-customyellow focus:ring;
-  }
-  label {
-    @apply text-base;
+  ::selection {
+    @apply bg-primary text-primary-foreground;
   }
 }
 
-body,
-html,
-.main-content {
-  scroll-behavior: smooth;
-  scroll-margin-top: 100px;
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 60%, transparent 100%);
 }

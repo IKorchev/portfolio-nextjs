@@ -1,0 +1,37 @@
+import contentfulClient, { type AboutEntry, type Project } from '@/utils/contentfulClient';
+import Projects from '@/components/Projects/Projects';
+import Contact from '@/components/Footer/Contact';
+import Aboutme from '@/components/About/Aboutme';
+import Navbar from '@/components/Navbar/Navbar';
+import GithubLinks from '@/components/GithubLinks';
+import LandingSection from '@/components/LandingSection';
+import GTM from '@/components/GTM';
+
+async function getContentfulData() {
+    try {
+        return (await contentfulClient.getEntries()).items;
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+}
+export default async function Page() {
+    const items = await getContentfulData();
+    const description = items.find((item) => item.sys.contentType.sys.id === 'richText') as AboutEntry | undefined;
+    const projects = items
+        .filter((item) => item.sys.contentType.sys.id === 'portfolio')
+        .map((p) => p.fields as unknown as Project);
+    return (
+        <>
+            <GTM />
+            <Navbar />
+            <main>
+                <LandingSection projects={projects} />
+                <Projects projects={projects} />
+                <Aboutme data={description} />
+                <GithubLinks />
+            </main>
+            <Contact />
+        </>
+    );
+}
