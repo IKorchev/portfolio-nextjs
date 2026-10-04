@@ -1,5 +1,5 @@
 # Portfolio with some of my work 
-## Built with Next.js + Tailwind CSS and hosted on [Vercel](https://vercel.com/)
+## Built with Next.js, TypeScript, Tailwind CSS and shadcn/ui, hosted on [Vercel](https://vercel.com/)
 
 </br>
 
