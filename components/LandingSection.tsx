@@ -15,7 +15,7 @@ const LandingSection = ({ projects }: { projects: Project[] }) => {
                 <div>
                     <Badge variant='outline' className='gap-2 bg-card px-3 py-1 text-muted-foreground'>
                         <span className='size-1.5 rounded-full bg-primary' />
-                        Front-end Developer
+                        Software Engineer
                     </Badge>
                     <h1 className='mt-6 text-5xl font-semibold tracking-tighter sm:text-6xl lg:text-7xl'>
                         Ivaylo
@@ -25,8 +25,8 @@ const LandingSection = ({ projects }: { projects: Project[] }) => {
                         </span>
                     </h1>
                     <p className='mt-6 max-w-lg text-lg text-muted-foreground'>
-                        I build fast, responsive and accessible web applications with React, Next.js and modern
-                        tooling.
+                        I build polished products for web and mobile, from fast React and React Native interfaces
+                        to AI-powered features that people actually find useful.
                     </p>
                     <div className='mt-8 flex flex-wrap gap-3'>
                         <Button size='lg' asChild className='rounded-full'>
