@@ -1,12 +1,32 @@
 import Image from 'next/image';
-import { Code, Play } from 'lucide-react';
+import { Calendar, Code, Play } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import type { Project } from '@/utils/contentfulClient';
 
+// Read year and month straight from the string so a timezone offset can't shift the month
+const formatDate = (date: string) => {
+  const [year, month] = date.split('-').map(Number);
+  if (!year || !month) return null;
+  return new Date(Date.UTC(year, month - 1)).toLocaleDateString('en-US', {
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'UTC',
+  });
+};
+
 const ProjectCard = ({ project }: { project: Project }) => {
-  const { projectImage, title, projectDescription, githubLink, demoLink, techStack } = project;
+  const { projectImage, title, projectDescription, githubLink, demoLink, techStack, date } = project;
+  const formattedDate = date && formatDate(date);
   const imageURL = `https:${projectImage.fields.file.url}`; //contentful formats the url without the protocol
   return (
     <Card
@@ -23,6 +43,16 @@ const ProjectCard = ({ project }: { project: Project }) => {
       </a>
       <CardHeader className='pt-6'>
         <CardTitle className='text-xl tracking-tight'>{title}</CardTitle>
+        {formattedDate && (
+          <CardAction>
+            <time
+              dateTime={date}
+              className='flex items-center gap-1.5 font-mono text-xs whitespace-nowrap text-muted-foreground'>
+              <Calendar className='size-3.5' />
+              {formattedDate}
+            </time>
+          </CardAction>
+        )}
         <CardDescription className='text-base'>{projectDescription}</CardDescription>
       </CardHeader>
       <CardContent className='flex-1 pt-5'>

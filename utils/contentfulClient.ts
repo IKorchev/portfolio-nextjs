@@ -19,6 +19,8 @@ export type Project = {
   githubLink?: string;
   demoLink?: string;
   techStack?: string[];
+  /** Contentful Date field, e.g. "2024-03-01" or "2024-03-01T00:00+01:00" */
+  date?: string;
   projectImage: {
     sys: { id: string };
     fields: { file: { url: string } };
