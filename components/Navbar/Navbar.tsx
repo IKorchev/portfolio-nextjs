@@ -1,4 +1,5 @@
 import { BsGithub } from 'react-icons/bs';
+import { CommandMenu } from '@/components/command-menu';
 import { ModeToggle } from '@/components/mode-toggle';
 import { Button } from '@/components/ui/button';
 import NavButton from './NavButton';
@@ -12,6 +13,7 @@ const Navbar = () => {
           <span className='hidden sm:inline'>com</span>
         </a>
         <div className='flex items-center sm:gap-1'>
+          <CommandMenu />
           <NavButton title='Experience' to='#experience' />
           <NavButton title='Projects' to='#projects' />
           <NavButton title='About' to='#about' className='hidden sm:inline-flex' />

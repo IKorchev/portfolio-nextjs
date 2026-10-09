@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { ArrowDown, Mail } from 'lucide-react';
+import { HeroBackground } from '@/components/hero-background';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import type { Project } from '@/utils/contentfulClient';
@@ -9,8 +10,8 @@ const LandingSection = ({ projects }: { projects: Project[] }) => {
     const featured = projects.filter((p) => p.projectImage?.fields?.file).slice(0, 4);
     return (
         <section id='home' className='relative overflow-hidden'>
+            <HeroBackground />
             <div className='bg-grid pointer-events-none absolute inset-0' />
-            <div className='pointer-events-none absolute -top-40 left-1/2 h-[30rem] w-[50rem] -translate-x-1/2 rounded-full bg-primary/15 blur-3xl' />
             <div className='relative mx-auto grid max-w-6xl items-center gap-16 px-4 pt-20 pb-24 sm:px-6 lg:grid-cols-[1.2fr_1fr] lg:pt-32 lg:pb-32'>
                 <div>
                     <Badge variant='outline' className='gap-2 bg-card px-3 py-1 text-muted-foreground'>

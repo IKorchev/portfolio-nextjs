@@ -1,3 +1,4 @@
+import { Reveal } from '@/components/reveal';
 import { SectionHeading } from '@/components/SectionHeading';
 import { Card, CardContent } from '@/components/ui/card';
 import type { AboutEntry, RichTextNode } from '@/utils/contentfulClient';
@@ -33,16 +34,20 @@ export const Aboutme = ({ data }: { data?: AboutEntry }) => {
     return (
         <section id='about' className='mx-auto max-w-6xl px-4 py-24 sm:px-6'>
             <div className='grid gap-10 lg:grid-cols-[1fr_2fr]'>
-                <SectionHeading eyebrow='Get to know me' title='About me' />
-                <Card>
-                    <CardContent className='space-y-4 text-lg leading-relaxed text-muted-foreground sm:px-8'>
-                        {data?.fields?.description ? (
-                            <MarkdownRenderer node={data.fields.description} />
-                        ) : (
-                            'No description available.'
-                        )}
-                    </CardContent>
-                </Card>
+                <Reveal>
+                    <SectionHeading eyebrow='Get to know me' title='About me' />
+                </Reveal>
+                <Reveal>
+                    <Card data-spotlight>
+                        <CardContent className='space-y-4 text-lg leading-relaxed text-muted-foreground sm:px-8'>
+                            {data?.fields?.description ? (
+                                <MarkdownRenderer node={data.fields.description} />
+                            ) : (
+                                'No description available.'
+                            )}
+                        </CardContent>
+                    </Card>
+                </Reveal>
             </div>
         </section>
     );
