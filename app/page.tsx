@@ -6,6 +6,10 @@ import Navbar from '@/components/Navbar/Navbar';
 import GithubLinks from '@/components/GithubLinks';
 import LandingSection from '@/components/LandingSection';
 import GTM from '@/components/GTM';
+import Experience from '@/components/Experience';
+
+// Re-render hourly so Contentful edits and the "Present" durations stay current without a redeploy
+export const revalidate = 3600;
 
 async function getContentfulData() {
     try {
@@ -27,6 +31,7 @@ export default async function Page() {
             <Navbar />
             <main>
                 <LandingSection projects={projects} />
+                <Experience />
                 <Projects projects={projects} />
                 <Aboutme data={description} />
                 <GithubLinks />
