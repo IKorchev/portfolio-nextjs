@@ -11,22 +11,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { formatMonthYear } from '@/lib/date';
 import type { Project } from '@/utils/contentfulClient';
-
-// Read year and month straight from the string so a timezone offset can't shift the month
-const formatDate = (date: string) => {
-  const [year, month] = date.split('-').map(Number);
-  if (!year || !month) return null;
-  return new Date(Date.UTC(year, month - 1)).toLocaleDateString('en-US', {
-    month: 'short',
-    year: 'numeric',
-    timeZone: 'UTC',
-  });
-};
 
 const ProjectCard = ({ project }: { project: Project }) => {
   const { projectImage, title, projectDescription, githubLink, demoLink, techStack, date } = project;
-  const formattedDate = date && formatDate(date);
+  const formattedDate = date && formatMonthYear(date);
   const imageURL = `https:${projectImage.fields.file.url}`; //contentful formats the url without the protocol
   return (
     <Card
