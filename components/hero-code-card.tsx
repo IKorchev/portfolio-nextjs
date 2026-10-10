@@ -1,3 +1,4 @@
+import { CodeWindow, type OutputLine } from '@/components/code-window';
 import { Tilt } from '@/components/tilt';
 import { formatDuration, monthsBetween } from '@/lib/date';
 import type { Profile, Role } from '@/utils/contentfulClient';
@@ -51,42 +52,46 @@ export function HeroCodeCard({ profile, roles }: { profile: Profile; roles: Role
     // First name as a JS identifier, e.g. "Ivaylo Korchev" → "ivaylo"
     const variable = profile.name.split(/\s+/)[0].toLowerCase().replace(/[^a-z0-9_$]/g, '') || 'me';
     const lines = buildLines(profile, roles, variable);
+    const filename = `${variable}.ts`;
+    // What the Run button prints. The last line points at the search-menu easter egg.
+    const output: OutputLine[] = [
+        { text: `$ npx tsx ${filename}`, tone: 'muted' },
+        { text: `✓ Compiled ${filename} in 0.42s`, tone: 'success' },
+        { text: `✓ 1 engineer found${profile.location ? ` · ${profile.location}` : ''}`, tone: 'success' },
+        { text: `→ Psst: try "sudo hire ${variable}" in search`, tone: 'hint' },
+    ];
     return (
         <Tilt className='min-w-0'>
             <figure
                 aria-label={`Code snippet introducing ${profile.name}`}
                 className='overflow-hidden rounded-2xl border bg-card/80 shadow-2xl shadow-black/10 backdrop-blur-md'>
-                <div className='flex items-center gap-1.5 border-b px-4 py-3'>
-                    <span className='size-3 rounded-full bg-[#ff5f57]' />
-                    <span className='size-3 rounded-full bg-[#febc2e]' />
-                    <span className='size-3 rounded-full bg-[#28c840]' />
-                    <span className='ml-3 font-mono text-xs text-muted-foreground'>{variable}.ts</span>
-                </div>
-                <pre className='py-4 font-mono text-xs leading-6 sm:text-sm sm:leading-7'>
-                    <code>
-                        {lines.map((tokens, i) => (
-                            <div key={i} className='flex pr-4 sm:pr-6'>
-                                <span className='w-8 shrink-0 pr-3 text-right text-muted-foreground/50 select-none sm:w-10 sm:pr-4'>
-                                    {i + 1}
-                                </span>
-                                {/* Long lines wrap on narrow screens, hanging under the value like a formatter would */}
-                                <span className='min-w-0 -indent-[4ch] pl-[4ch] whitespace-pre-wrap'>
-                                    {tokens.map((token, j) => (
-                                        <span key={j} className={token.kind && tokenClass[token.kind]}>
-                                            {token.text}
-                                        </span>
-                                    ))}
-                                    {i === lines.length - 1 && (
-                                        <span
-                                            aria-hidden
-                                            className='ml-0.5 inline-block h-[1.1em] w-[2px] translate-y-[0.2em] bg-primary motion-safe:animate-pulse'
-                                        />
-                                    )}
-                                </span>
-                            </div>
-                        ))}
-                    </code>
-                </pre>
+                <CodeWindow filename={filename} output={output}>
+                    <pre className='py-4 font-mono text-xs leading-6 sm:text-sm sm:leading-7'>
+                        <code>
+                            {lines.map((tokens, i) => (
+                                <div key={i} className='flex pr-4 sm:pr-6'>
+                                    <span className='w-8 shrink-0 pr-3 text-right text-muted-foreground/50 select-none sm:w-10 sm:pr-4'>
+                                        {i + 1}
+                                    </span>
+                                    {/* Long lines wrap on narrow screens, hanging under the value like a formatter would */}
+                                    <span className='min-w-0 -indent-[4ch] pl-[4ch] whitespace-pre-wrap'>
+                                        {tokens.map((token, j) => (
+                                            <span key={j} className={token.kind && tokenClass[token.kind]}>
+                                                {token.text}
+                                            </span>
+                                        ))}
+                                        {i === lines.length - 1 && (
+                                            <span
+                                                aria-hidden
+                                                className='ml-0.5 inline-block h-[1.1em] w-[2px] translate-y-[0.2em] bg-primary motion-safe:animate-pulse'
+                                            />
+                                        )}
+                                    </span>
+                                </div>
+                            ))}
+                        </code>
+                    </pre>
+                </CodeWindow>
             </figure>
         </Tilt>
     );
