@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { getHeroFinish, onHeroFinish, type HeroFinish } from '@/lib/easter-eggs';
 
 const VERTEX = `
 attribute vec2 position;
@@ -12,11 +13,19 @@ void main() {
 
 // Slow, domain-warped noise shaded like molten metal: teal in light theme, silver in dark. Output is premultiplied
 // alpha so the page background shows through and the theme still decides the base.
+// The cursor presses a soft dent into the surface and clicks send out a ripple; easter eggs
+// can swap the finish (1 gold, 2 chrome, 3 holographic, 4 matrix), blended in by uFinishMix.
 const FRAGMENT = `
 precision mediump float;
 uniform vec2 uResolution;
 uniform float uTime;
 uniform float uDark;
+uniform vec2 uMouse;
+uniform float uMouseAmt;
+uniform vec2 uRipple;
+uniform float uRippleAge;
+uniform float uFinish;
+uniform float uFinishMix;
 varying vec2 vUv;
 
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
@@ -38,6 +47,17 @@ float fbm(vec2 p) {
     a *= 0.5;
   }
   return v;
+}
+
+// Height added by the cursor: a dent under the pointer plus a ring travelling out from the last click
+float press(vec2 uv) {
+  vec2 aspect = vec2(uResolution.x / uResolution.y, 1.0);
+  float d = length((uv - uMouse) * aspect);
+  float dent = -exp(-d * d * 70.0) * uMouseAmt * 0.22;
+  float rd = length((uv - uRipple) * aspect);
+  float front = rd - uRippleAge * 0.45;
+  float ripple = sin(front * 55.0) * exp(-front * front * 140.0) * exp(-uRippleAge * 1.4) * 0.08;
+  return dent + ripple;
 }
 
 void main() {
@@ -62,6 +82,9 @@ void main() {
   // ignores how r changes between samples, which is close enough for a soft surface.
   float e = 0.03;
   vec2 slope = vec2(fbm(w + vec2(e, 0.0)) - n, fbm(w + vec2(0.0, e)) - n) / e;
+  float ep = 0.004;
+  float pressed = press(vUv);
+  slope += vec2(press(vUv + vec2(ep, 0.0)) - pressed, press(vUv + vec2(0.0, ep)) - pressed) / ep * 0.5;
   vec3 normal = normalize(vec3(-slope * 0.45, 1.0));
   vec3 reflected = reflect(vec3(0.0, 0.0, -1.0), normal);
   vec3 light = normalize(vec3(0.5, 0.8, 0.9));
@@ -71,12 +94,24 @@ void main() {
   float diffuse = max(dot(normal, light), 0.0);
   float specular = pow(max(dot(reflected, light), 0.0), 40.0);
   float fresnel = pow(1.0 - normal.z, 1.5);
+
+  // Easter-egg finishes
+  float lq = clamp(length(q) * 0.9, 0.0, 1.0);
+  vec3 finish = color;
+  if (uFinish < 1.5) finish = mix(vec3(1.0, 0.8, 0.35), vec3(0.8, 0.5, 0.12), lq);
+  else if (uFinish < 2.5) finish = mix(vec3(1.0), vec3(0.4, 0.43, 0.5), lq);
+  else if (uFinish < 3.5) finish = 0.6 + 0.4 * cos(6.2831 * (vec3(0.0, 0.33, 0.67) + reflected.x * 0.9 + reflected.y * 0.6 + t * 2.0));
+  else finish = vec3(0.15, 1.0, 0.4) * (0.75 + 0.25 * step(0.5, fract(vUv.y * 140.0)));
+  color = mix(color, finish, uFinishMix);
+
   vec3 metal = color * (0.25 + 0.6 * diffuse + 0.7 * strips)
     + vec3(1.0, 0.95, 0.85) * (specular * 1.1 + fresnel * 0.5);
 
   // Strongest toward the top-right, fading out toward the bottom and the text side
   float falloff = smoothstep(1.15, 0.1, distance(vUv, vec2(0.75, 1.0)));
   float alpha = smoothstep(0.35, 0.8, n) * falloff * mix(0.55, 0.75, uDark);
+  // The dent and ripples also raise a little metal where the surface was clear
+  alpha = min(alpha + abs(pressed) * 1.6 * mix(0.35, 1.0, falloff), 0.85);
   gl_FragColor = vec4(min(metal, 1.0) * alpha, alpha);
 }`;
 
@@ -123,6 +158,12 @@ export function HeroBackground() {
     const uResolution = gl.getUniformLocation(program, 'uResolution');
     const uTime = gl.getUniformLocation(program, 'uTime');
     const uDark = gl.getUniformLocation(program, 'uDark');
+    const uMouse = gl.getUniformLocation(program, 'uMouse');
+    const uMouseAmt = gl.getUniformLocation(program, 'uMouseAmt');
+    const uRipple = gl.getUniformLocation(program, 'uRipple');
+    const uRippleAge = gl.getUniformLocation(program, 'uRippleAge');
+    const uFinish = gl.getUniformLocation(program, 'uFinish');
+    const uFinishMix = gl.getUniformLocation(program, 'uFinishMix');
 
     const root = document.documentElement;
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -132,7 +173,34 @@ export function HeroBackground() {
     let last = 0;
     let visible = true;
 
+    // Pointer state in canvas UV space (0–1, y up). Eased toward the targets every frame.
+    const mouse = { x: 0.5, y: 0.5, amt: 0, targetX: 0.5, targetY: 0.5, targetAmt: 0 };
+    const ripple = { x: 0.5, y: 0.5, at: -Infinity };
+    // Finishes fade out to the default before the next one fades in
+    const finishCodes: Record<HeroFinish, number> = { default: 0, gold: 1, chrome: 2, holo: 3, matrix: 4 };
+    const finish = { code: finishCodes[getHeroFinish()], next: getHeroFinish(), mix: getHeroFinish() === 'default' ? 0 : 1 };
+
+    const step = (now: number) => {
+      mouse.x += (mouse.targetX - mouse.x) * 0.2;
+      mouse.y += (mouse.targetY - mouse.y) * 0.2;
+      mouse.amt += (mouse.targetAmt - mouse.amt) * 0.12;
+      const wantsCode = finishCodes[finish.next];
+      if (finish.code !== wantsCode && finish.mix > 0.01) finish.mix = Math.max(0, finish.mix - 0.08);
+      else {
+        finish.code = wantsCode;
+        finish.mix += ((wantsCode ? 1 : 0) - finish.mix) * 0.08;
+      }
+      gl.uniform2f(uMouse, mouse.x, mouse.y);
+      gl.uniform1f(uMouseAmt, mouse.amt);
+      gl.uniform2f(uRipple, ripple.x, ripple.y);
+      // Capped so an old (or never-made) ripple stays a small finite number on mediump GPUs
+      gl.uniform1f(uRippleAge, Math.min((now - ripple.at) / 1000, 10));
+      gl.uniform1f(uFinish, finish.code);
+      gl.uniform1f(uFinishMix, finish.mix);
+    };
+
     const draw = (now: number) => {
+      step(now);
       gl.uniform1f(uTime, (now - start) / 1000);
       gl.uniform1f(uDark, root.classList.contains('dark') ? 1 : 0);
       gl.clearColor(0, 0, 0, 0);
@@ -180,11 +248,57 @@ export function HeroBackground() {
     };
     canvas.addEventListener('webglcontextlost', onContextLost);
 
+    // Mouse only: touch scrolling shouldn't dent the metal, and reduced motion keeps it still
+    const section = canvas.parentElement!;
+    const toUv = (e: PointerEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      return { x: (e.clientX - rect.left) / rect.width, y: 1 - (e.clientY - rect.top) / rect.height };
+    };
+    const onPointerMove = (e: PointerEvent) => {
+      if (e.pointerType !== 'mouse' || reduceMotion.matches) return;
+      const uv = toUv(e);
+      mouse.targetX = uv.x;
+      mouse.targetY = uv.y;
+      if (!mouse.targetAmt) {
+        // Appear where the cursor enters instead of sliding in from the last spot
+        mouse.x = uv.x;
+        mouse.y = uv.y;
+      }
+      mouse.targetAmt = 1;
+    };
+    const onPointerLeave = () => {
+      mouse.targetAmt = 0;
+    };
+    const onPointerDown = (e: PointerEvent) => {
+      if (e.pointerType !== 'mouse' || reduceMotion.matches) return;
+      const uv = toUv(e);
+      ripple.x = uv.x;
+      ripple.y = uv.y;
+      ripple.at = performance.now();
+    };
+    section.addEventListener('pointermove', onPointerMove);
+    section.addEventListener('pointerleave', onPointerLeave);
+    section.addEventListener('pointerdown', onPointerDown);
+
+    const offFinish = onHeroFinish((next) => {
+      finish.next = next;
+      // When paused there's no loop to ease it in, so jump straight to it
+      if (reduceMotion.matches) {
+        finish.code = finishCodes[next];
+        finish.mix = next === 'default' ? 0 : 1;
+        draw(performance.now());
+      }
+    });
+
     resize();
     update();
     setReady(true);
 
     return () => {
+      section.removeEventListener('pointermove', onPointerMove);
+      section.removeEventListener('pointerleave', onPointerLeave);
+      section.removeEventListener('pointerdown', onPointerDown);
+      offFinish();
       cancelAnimationFrame(frame);
       resizeObserver.disconnect();
       intersectionObserver.disconnect();

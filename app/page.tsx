@@ -7,6 +7,7 @@ import Aboutme from '@/components/About/Aboutme';
 import Navbar from '@/components/Navbar/Navbar';
 import LandingSection from '@/components/LandingSection';
 import GTM from '@/components/GTM';
+import { EasterEggs } from '@/components/easter-eggs';
 import Experience from '@/components/Experience';
 
 // Re-render hourly so the "Present" durations stay current. Contentful publishes also
@@ -35,6 +36,7 @@ export default async function Page() {
     return (
         <>
             <GTM />
+            <EasterEggs githubUrl={profile.githubUrl} />
             <Navbar profile={profile} />
             <main>
                 <LandingSection profile={profile} roles={roles} skills={skills} />

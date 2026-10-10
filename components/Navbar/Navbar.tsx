@@ -14,7 +14,7 @@ const Navbar = ({ profile }: { profile: Profile }) => {
           <span className='hidden sm:inline'>com</span>
         </a>
         <div className='flex items-center sm:gap-1'>
-          <CommandMenu email={profile.email} githubUrl={profile.githubUrl} linkedinUrl={profile.linkedinUrl} />
+          <CommandMenu name={profile.name} email={profile.email} githubUrl={profile.githubUrl} linkedinUrl={profile.linkedinUrl} />
           <NavButton title='Experience' to='#experience' />
           <NavButton title='Projects' to='#projects' />
           <NavButton title='About' to='#about' className='hidden sm:inline-flex' />
