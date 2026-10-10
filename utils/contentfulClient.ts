@@ -21,6 +21,8 @@ export type Project = {
   techStack?: string[];
   /** Contentful Date field, e.g. "2024-03-01" or "2024-03-01T00:00+01:00" */
   date?: string;
+  /** Contentful Boolean field. Archived projects move to the compact "Earlier work" section */
+  archived?: boolean;
   projectImage: {
     sys: { id: string };
     fields: { file: { url: string } };

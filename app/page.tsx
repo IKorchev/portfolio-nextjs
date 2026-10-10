@@ -1,5 +1,6 @@
 import contentfulClient, { type AboutEntry, type Project } from '@/utils/contentfulClient';
 import Projects from '@/components/Projects/Projects';
+import ArchivedProjects from '@/components/Projects/ArchivedProjects';
 import Contact from '@/components/Footer/Contact';
 import Aboutme from '@/components/About/Aboutme';
 import Navbar from '@/components/Navbar/Navbar';
@@ -31,7 +32,8 @@ export default async function Page() {
             <main>
                 <LandingSection />
                 <Experience />
-                <Projects projects={projects} />
+                <Projects projects={projects.filter((p) => !p.archived)} />
+                <ArchivedProjects projects={projects.filter((p) => p.archived)} />
                 <Aboutme data={description} />
             </main>
             <Contact />
