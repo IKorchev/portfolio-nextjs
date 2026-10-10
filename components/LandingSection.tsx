@@ -19,7 +19,7 @@ const LandingSection = () => {
                     <h1 className='mt-6 text-5xl font-semibold tracking-tighter sm:text-6xl lg:text-7xl'>
                         Ivaylo
                         <br />
-                        <span className='bg-gradient-to-r from-brand to-orange-500 bg-clip-text text-transparent'>
+                        <span className='bg-gradient-to-r from-brand to-sky-500 bg-clip-text text-transparent'>
                             Korchev
                         </span>
                     </h1>

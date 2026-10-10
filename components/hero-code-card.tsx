@@ -5,7 +5,7 @@ import { roles } from '@/utils/experience';
 type Token = { text: string; kind?: 'keyword' | 'key' | 'string' | 'comment' | 'punct' };
 
 const tokenClass: Record<NonNullable<Token['kind']>, string> = {
-    keyword: 'text-sky-600 dark:text-sky-400',
+    keyword: 'text-violet-600 dark:text-violet-400',
     key: 'text-foreground',
     string: 'text-brand',
     comment: 'text-muted-foreground italic',

@@ -10,7 +10,7 @@ void main() {
   gl_Position = vec4(position, 0.0, 1.0);
 }`;
 
-// Slow, domain-warped noise shaded like molten metal: gold in light theme, silver in dark. Output is premultiplied
+// Slow, domain-warped noise shaded like molten metal: teal in light theme, silver in dark. Output is premultiplied
 // alpha so the page background shows through and the theme still decides the base.
 const FRAGMENT = `
 precision mediump float;
@@ -49,12 +49,12 @@ void main() {
   vec2 w = p + 2.0 * r;
   float n = fbm(w);
 
-  vec3 amber = vec3(1.0, 0.71, 0.0);
-  vec3 orange = vec3(0.98, 0.42, 0.12);
-  vec3 rose = vec3(0.93, 0.29, 0.45);
-  vec3 color = mix(amber, orange, clamp(length(q) * 0.9, 0.0, 1.0));
-  color = mix(color, rose, clamp(r.x * r.x, 0.0, 1.0) * 0.5);
-  // Dark theme swaps the gold for cool silver
+  vec3 teal = vec3(0.1, 0.72, 0.66);
+  vec3 sky = vec3(0.2, 0.58, 0.92);
+  vec3 violet = vec3(0.52, 0.42, 0.95);
+  vec3 color = mix(teal, sky, clamp(length(q) * 0.9, 0.0, 1.0));
+  color = mix(color, violet, clamp(r.x * r.x, 0.0, 1.0) * 0.35);
+  // Dark theme swaps the teal for cool silver
   vec3 silver = mix(vec3(0.95, 0.96, 0.98), vec3(0.62, 0.65, 0.72), clamp(length(q) * 0.9, 0.0, 1.0));
   color = mix(color, silver, uDark);
 

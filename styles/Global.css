@@ -11,8 +11,9 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.8 0.17 75);
-  --primary-foreground: oklch(0.2 0.02 60);
+  /* Teal, deep enough for white button text to pass AA */
+  --primary: oklch(0.55 0.11 185);
+  --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.96 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.96 0 0);
@@ -22,9 +23,9 @@
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.91 0 0);
   --input: oklch(0.91 0 0);
-  --ring: oklch(0.75 0.16 70);
-  /* amber that stays readable as text on light backgrounds */
-  --brand: oklch(0.6 0.15 60);
+  --ring: oklch(0.6 0.11 185);
+  /* teal that stays readable as text on light backgrounds */
+  --brand: oklch(0.5 0.1 185);
   --grid-line: oklch(0.145 0 0 / 0.05);
 }
 
@@ -35,8 +36,8 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.17 0.005 285);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.82 0.17 78);
-  --primary-foreground: oklch(0.2 0.02 60);
+  --primary: oklch(0.8 0.13 180);
+  --primary-foreground: oklch(0.2 0.03 185);
   --secondary: oklch(0.24 0.005 285);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.24 0.005 285);
@@ -46,8 +47,8 @@
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.82 0.17 78 / 60%);
-  --brand: oklch(0.82 0.17 78);
+  --ring: oklch(0.8 0.13 180 / 60%);
+  --brand: oklch(0.8 0.13 180);
   --grid-line: oklch(1 0 0 / 0.04);
 }
 
