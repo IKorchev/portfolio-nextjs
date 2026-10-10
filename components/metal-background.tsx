@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { accentInfo, getAccent, type Accent } from '@/lib/accents';
 import { getHeroFinish, onHeroFinish, type HeroFinish } from '@/lib/easter-eggs';
+import { cn } from '@/lib/utils';
 
 const VERTEX = `
 attribute vec2 position;
@@ -14,6 +15,7 @@ void main() {
 
 // Slow, domain-warped noise shaded like molten metal: the colour theme's tones in light mode, silver in dark. Output is premultiplied
 // alpha so the page background shows through and the theme still decides the base.
+// It covers the whole viewport behind the page: full strength over the hero, a faint wash elsewhere.
 // The cursor presses a soft dent into the surface and clicks send out a ripple; easter eggs
 // can swap the finish (1 gold, 2 chrome, 3 holographic, 4 matrix), blended in by uFinishMix.
 const FRAGMENT = `
@@ -32,6 +34,8 @@ uniform vec3 uTintB;
 uniform vec3 uTintC;
 uniform float uSilverTint;
 uniform float uHighContrast;
+uniform float uSpread;
+uniform vec3 uAccent;
 varying vec2 vUv;
 
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
@@ -64,6 +68,18 @@ float press(vec2 uv) {
   float front = rd - uRippleAge * 0.45;
   float ripple = sin(front * 55.0) * exp(-front * front * 140.0) * exp(-uRippleAge * 1.4) * 0.08;
   return dent + ripple;
+}
+
+// How much the accent colour shows through: a light tint under the cursor and a bright ring
+// travelling out from the last click
+float pressGlow(vec2 uv) {
+  vec2 aspect = vec2(uResolution.x / uResolution.y, 1.0);
+  float d = length((uv - uMouse) * aspect);
+  float dent = exp(-d * d * 40.0) * uMouseAmt * 0.3;
+  float rd = length((uv - uRipple) * aspect);
+  float front = rd - uRippleAge * 0.45;
+  float ring = exp(-front * front * 220.0) * exp(-uRippleAge * 1.2);
+  return clamp(dent + ring * 0.85, 0.0, 1.0);
 }
 
 void main() {
@@ -111,12 +127,19 @@ void main() {
 
   vec3 metal = color * (0.25 + 0.6 * diffuse + 0.7 * strips)
     + vec3(1.0, 0.95, 0.85) * (specular * 1.1 + fresnel * 0.5);
+  // The cursor and ripples tint the metal with the theme's accent, still lit like metal
+  float glow = pressGlow(vUv);
+  metal = mix(metal, uAccent * (0.55 + 0.6 * diffuse + 0.5 * strips) + vec3(specular * 0.6), glow);
 
-  // Strongest toward the top-right, fading out toward the bottom and the text side
+  // Over the hero: strongest toward the top-right, fading out toward the bottom and the text side.
+  // It hands over to a faint, even wash of metal across the screen as the page scrolls (uSpread).
+  float strength = mix(0.55, 0.75, uDark);
   float falloff = smoothstep(1.15, 0.1, distance(vUv, vec2(0.75, 1.0)));
-  float alpha = smoothstep(0.35, 0.8, n) * falloff * mix(0.55, 0.75, uDark);
+  float heroAlpha = smoothstep(0.35, 0.8, n) * falloff * strength * (1.0 - uSpread);
+  float washAlpha = smoothstep(0.45, 0.85, n) * strength * 0.32;
+  float alpha = max(heroAlpha, washAlpha);
   // The dent and ripples also raise a little metal where the surface was clear
-  alpha = min(alpha + abs(pressed) * 1.6 * mix(0.35, 1.0, falloff), 0.85);
+  alpha = min(max(alpha + abs(pressed) * 1.6 * mix(0.35, 1.0, falloff), glow * 0.6), 0.85);
   // High contrast keeps the metal faint so it never competes with the text
   alpha *= mix(1.0, 0.4, uHighContrast);
   gl_FragColor = vec4(min(metal, 1.0) * alpha, alpha);
@@ -132,28 +155,32 @@ function compile(gl: WebGLRenderingContext, type: number, source: string) {
   return gl.getShaderParameter(shader, gl.COMPILE_STATUS) ? shader : null;
 }
 
+type Status = 'loading' | 'ready' | 'failed';
+
 /**
- * Animated gradient behind the hero. Runs at 30fps and half resolution, pauses when
- * off screen or in a background tab, draws a single still frame for reduced motion,
- * and leaves the plain CSS glow in place if WebGL isn't available.
+ * Animated liquid metal fixed behind the whole page. Runs at 30fps and half resolution,
+ * pauses in a background tab, draws a single still frame for reduced motion, and leaves
+ * a plain CSS glow in place if WebGL isn't available. Until the first frame is drawn, the
+ * glow pulses and (after a moment) a small "warming up" pill shows.
  */
-export function HeroBackground() {
+export function MetalBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [ready, setReady] = useState(false);
+  const [status, setStatus] = useState<Status>('loading');
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const gl = canvas?.getContext('webgl', { premultipliedAlpha: true, antialias: false });
-    if (!canvas || !gl) return;
+    const fail = () => setStatus('failed');
+    if (!canvas || !gl) return fail();
 
     const vertex = compile(gl, gl.VERTEX_SHADER, VERTEX);
     const fragment = compile(gl, gl.FRAGMENT_SHADER, FRAGMENT);
-    if (!vertex || !fragment) return;
+    if (!vertex || !fragment) return fail();
     const program = gl.createProgram()!;
     gl.attachShader(program, vertex);
     gl.attachShader(program, fragment);
     gl.linkProgram(program);
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return;
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return fail();
     gl.useProgram(program);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
@@ -174,10 +201,15 @@ export function HeroBackground() {
     const uTints = ['uTintA', 'uTintB', 'uTintC'].map((name) => gl.getUniformLocation(program, name));
     const uSilverTint = gl.getUniformLocation(program, 'uSilverTint');
     const uHighContrast = gl.getUniformLocation(program, 'uHighContrast');
+    const uSpread = gl.getUniformLocation(program, 'uSpread');
+    const uAccent = gl.getUniformLocation(program, 'uAccent');
     const applyAccentColours = (accent: Accent) => {
-      const { metal, silverTint } = accentInfo(accent);
+      const { metal, silverTint, swatch } = accentInfo(accent);
       metal.forEach((rgb, i) => gl.uniform3f(uTints[i], ...rgb));
       gl.uniform1f(uSilverTint, silverTint);
+      // "#14b8a6" → 0–1 RGB for the cursor and ripple tint
+      const [r, g, b] = [1, 3, 5].map((i) => parseInt(swatch.slice(i, i + 2), 16) / 255);
+      gl.uniform3f(uAccent, r, g, b);
     };
     applyAccentColours(getAccent());
 
@@ -187,7 +219,6 @@ export function HeroBackground() {
     const start = performance.now() - 20_000;
     let frame = 0;
     let last = 0;
-    let visible = true;
 
     // Pointer state in canvas UV space (0–1, y up). Eased toward the targets every frame.
     const mouse = { x: 0.5, y: 0.5, amt: 0, targetX: 0.5, targetY: 0.5, targetAmt: 0 };
@@ -195,8 +226,13 @@ export function HeroBackground() {
     // Finishes fade out to the default before the next one fades in
     const finishCodes: Record<HeroFinish, number> = { default: 0, gold: 1, chrome: 2, holo: 3, matrix: 4 };
     const finish = { code: finishCodes[getHeroFinish()], next: getHeroFinish(), mix: getHeroFinish() === 'default' ? 0 : 1 };
+    // 0 at the top of the page, 1 once the hero has mostly scrolled away
+    const scrollSpread = () => Math.min(1, window.scrollY / (window.innerHeight * 0.7));
+    const spread = { value: scrollSpread(), target: scrollSpread() };
 
     const step = (now: number) => {
+      spread.value += (spread.target - spread.value) * 0.15;
+      gl.uniform1f(uSpread, spread.value);
       mouse.x += (mouse.targetX - mouse.x) * 0.2;
       mouse.y += (mouse.targetY - mouse.y) * 0.2;
       mouse.amt += (mouse.targetAmt - mouse.amt) * 0.12;
@@ -242,16 +278,25 @@ export function HeroBackground() {
 
     const update = () => {
       cancelAnimationFrame(frame);
-      if (visible && !document.hidden && !reduceMotion.matches) frame = requestAnimationFrame(loop);
+      if (!document.hidden && !reduceMotion.matches) frame = requestAnimationFrame(loop);
     };
 
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(canvas);
-    const intersectionObserver = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting;
-      update();
-    });
-    intersectionObserver.observe(canvas);
+
+    // Scrolling hands the hero's metal over to the page-wide wash. While paused (reduced
+    // motion) there's no loop to ease it, so redraw once per frame of scrolling instead.
+    let scrollFrame = 0;
+    const onScroll = () => {
+      spread.target = scrollSpread();
+      if (!reduceMotion.matches || scrollFrame) return;
+      scrollFrame = requestAnimationFrame(() => {
+        scrollFrame = 0;
+        spread.value = spread.target;
+        draw(performance.now());
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
     // Redraw on theme and colour changes, which matters while paused
     const themeObserver = new MutationObserver(() => {
       applyAccentColours(getAccent());
@@ -264,12 +309,12 @@ export function HeroBackground() {
     // Fall back to the CSS glow if the GPU drops the context
     const onContextLost = () => {
       cancelAnimationFrame(frame);
-      setReady(false);
+      setStatus('failed');
     };
     canvas.addEventListener('webglcontextlost', onContextLost);
 
-    // Mouse only: touch scrolling shouldn't dent the metal, and reduced motion keeps it still
-    const section = canvas.parentElement!;
+    // Mouse only: touch scrolling shouldn't dent the metal, and reduced motion keeps it still.
+    // The canvas sits behind everything, so listen on the whole document.
     const toUv = (e: PointerEvent) => {
       const rect = canvas.getBoundingClientRect();
       return { x: (e.clientX - rect.left) / rect.width, y: 1 - (e.clientY - rect.top) / rect.height };
@@ -296,9 +341,9 @@ export function HeroBackground() {
       ripple.y = uv.y;
       ripple.at = performance.now();
     };
-    section.addEventListener('pointermove', onPointerMove);
-    section.addEventListener('pointerleave', onPointerLeave);
-    section.addEventListener('pointerdown', onPointerDown);
+    root.addEventListener('pointermove', onPointerMove);
+    root.addEventListener('pointerleave', onPointerLeave);
+    root.addEventListener('pointerdown', onPointerDown);
 
     const offFinish = onHeroFinish((next) => {
       finish.next = next;
@@ -312,40 +357,55 @@ export function HeroBackground() {
 
     resize();
     update();
-    setReady(true);
+    setStatus('ready');
 
     return () => {
-      section.removeEventListener('pointermove', onPointerMove);
-      section.removeEventListener('pointerleave', onPointerLeave);
-      section.removeEventListener('pointerdown', onPointerDown);
+      root.removeEventListener('pointermove', onPointerMove);
+      root.removeEventListener('pointerleave', onPointerLeave);
+      root.removeEventListener('pointerdown', onPointerDown);
+      window.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(scrollFrame);
       offFinish();
       cancelAnimationFrame(frame);
       resizeObserver.disconnect();
-      intersectionObserver.disconnect();
       themeObserver.disconnect();
       document.removeEventListener('visibilitychange', update);
       reduceMotion.removeEventListener('change', update);
       canvas.removeEventListener('webglcontextlost', onContextLost);
       // Don't lose the context here: a canvas hands back the same context on the next
       // getContext call, so a remount (Strict Mode, fast refresh) would get a dead one
-      setReady(false);
+      setStatus('loading');
     };
   }, []);
 
+  const ready = status === 'ready';
   return (
     <>
-      <div
-        className={`pointer-events-none absolute -top-40 left-1/2 h-[30rem] w-[50rem] -translate-x-1/2 rounded-full bg-primary/15 blur-3xl dark:bg-foreground/10 transition-opacity duration-1000 ${
-          ready ? 'opacity-0' : 'opacity-100'
-        }`}
-      />
-      <canvas
-        ref={canvasRef}
-        aria-hidden
-        className={`pointer-events-none absolute inset-0 size-full transition-opacity duration-1000 [mask-image:linear-gradient(to_bottom,#000_55%,transparent)] ${
-          ready ? 'opacity-100' : 'opacity-0'
-        }`}
-      />
+      {/* Behind all content: the body background paints below it, sections above it */}
+      <div aria-hidden className='pointer-events-none fixed inset-0 -z-10 overflow-hidden'>
+        {/* Stand-in glow: pulses while loading, stays still if WebGL isn't available */}
+        <div
+          className={cn(
+            'absolute -top-40 left-1/2 h-[30rem] w-[50rem] -translate-x-1/2 rounded-full bg-primary/15 blur-3xl transition-opacity duration-1000 dark:bg-foreground/10',
+            ready ? 'opacity-0' : 'opacity-100',
+            status === 'loading' && 'motion-safe:animate-pulse',
+          )}
+        />
+        <canvas
+          ref={canvasRef}
+          className={cn('absolute inset-0 size-full transition-opacity duration-1000', ready ? 'opacity-100' : 'opacity-0')}
+        />
+      </div>
+      {/* Server-rendered so it covers the wait for JavaScript too. A CSS delay keeps it hidden
+          on fast loads, so it only appears when the metal is genuinely slow to start. */}
+      {status === 'loading' && (
+        <div
+          role='status'
+          className='pointer-events-none fixed right-4 bottom-4 z-40 flex animate-[metal-loader-in_0.4s_ease-out_0.6s_both] items-center gap-2 rounded-full border bg-card/80 px-3 py-1.5 font-mono text-xs text-muted-foreground shadow-sm backdrop-blur-md print:hidden'>
+          <span className='size-3 rounded-full border-2 border-primary/30 border-t-primary motion-safe:animate-spin' />
+          Warming up the metal…
+        </div>
+      )}
     </>
   );
 }

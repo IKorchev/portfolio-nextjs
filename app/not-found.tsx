@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ArrowLeft, FolderGit2 } from 'lucide-react';
-import { HeroBackground } from '@/components/hero-background';
+import { MetalBackground } from '@/components/metal-background';
 import Navbar from '@/components/Navbar/Navbar';
 import { Button } from '@/components/ui/button';
 import { getContent } from '@/lib/content';
@@ -16,7 +16,7 @@ export default async function NotFound() {
       <title>Page not found · ikorchev.com</title>
       {profile && <Navbar profile={profile} />}
       <main className='relative flex min-h-[calc(100dvh-4rem)] items-center overflow-hidden'>
-        <HeroBackground />
+        <MetalBackground />
         <div className='bg-grid pointer-events-none absolute inset-0' />
         <div className='relative mx-auto max-w-xl px-4 py-24 text-center sm:px-6'>
           <p className='font-mono text-xs tracking-[0.2em] text-brand uppercase'>Error 404</p>

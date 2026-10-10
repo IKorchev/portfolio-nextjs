@@ -277,6 +277,18 @@
   mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 60%, transparent 100%);
 }
 
+/* The "warming up the metal" pill (components/metal-background.tsx) */
+@keyframes metal-loader-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* Printing swaps the site for the CV in components/print-cv.tsx, always on white paper */
 @media print {
   @page {

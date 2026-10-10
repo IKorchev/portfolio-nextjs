@@ -8,6 +8,7 @@ import Navbar from '@/components/Navbar/Navbar';
 import LandingSection from '@/components/LandingSection';
 import GTM from '@/components/GTM';
 import { EasterEggs } from '@/components/easter-eggs';
+import { MetalBackground } from '@/components/metal-background';
 import { PrintCV } from '@/components/print-cv';
 import Experience from '@/components/Experience';
 
@@ -39,6 +40,7 @@ export default async function Page() {
             <GTM />
             {/* On paper the site is swapped for a plain CV */}
             <div className='print:hidden'>
+                <MetalBackground />
                 <EasterEggs githubUrl={profile.githubUrl} />
                 <Navbar profile={profile} />
                 <main>
