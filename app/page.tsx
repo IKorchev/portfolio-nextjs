@@ -29,7 +29,7 @@ export default async function Page() {
             <GTM />
             <Navbar />
             <main>
-                <LandingSection projects={projects} />
+                <LandingSection />
                 <Experience />
                 <Projects projects={projects} />
                 <Aboutme data={description} />

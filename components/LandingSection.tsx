@@ -1,13 +1,11 @@
-import Image from 'next/image';
 import { ArrowDown, Mail } from 'lucide-react';
 import { HeroBackground } from '@/components/hero-background';
+import { HeroCodeCard } from '@/components/hero-code-card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import type { Project } from '@/utils/contentfulClient';
 import skills from '@/utils/skills';
 
-const LandingSection = ({ projects }: { projects: Project[] }) => {
-    const featured = projects.filter((p) => p.projectImage?.fields?.file).slice(0, 4);
+const LandingSection = () => {
     return (
         <section id='home' className='relative overflow-hidden'>
             <HeroBackground />
@@ -51,27 +49,7 @@ const LandingSection = ({ projects }: { projects: Project[] }) => {
                         ))}
                     </ul>
                 </div>
-                {featured.length > 0 && (
-                    <div className='grid grid-cols-2 gap-4'>
-                        {featured.map((project, i) => (
-                            <a
-                                key={project.projectImage.sys.id}
-                                href={`#project_${project.projectImage.sys.id}`}
-                                aria-label={project.title}
-                                className={`group relative aspect-[4/3] overflow-hidden rounded-2xl border bg-card shadow-xl shadow-black/5 transition hover:-translate-y-1 hover:border-primary ${
-                                    i % 2 ? 'lg:translate-y-8 lg:hover:translate-y-7' : ''
-                                }`}>
-                                <Image
-                                    src={`https:${project.projectImage.fields.file.url}`}
-                                    alt={project.title || ''}
-                                    fill
-                                    sizes='(min-width: 1024px) 240px, 50vw'
-                                    className='object-cover transition duration-500 group-hover:scale-105'
-                                />
-                            </a>
-                        ))}
-                    </div>
-                )}
+                <HeroCodeCard />
             </div>
         </section>
     );
