@@ -107,6 +107,25 @@
   mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 60%, transparent 100%);
 }
 
+/* Printing swaps the site for the CV in components/print-cv.tsx, always on white paper */
+@media print {
+  @page {
+    margin: 14mm 16mm;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  /* Dialogs (like the command menu) and easter-egg layers live outside the hidden site wrapper,
+     and a dialog's full-screen overlay would otherwise sit on top of the CV */
+  [data-slot='dialog-overlay'],
+  [data-slot='dialog-content'],
+  [data-print-hidden] {
+    display: none !important;
+  }
+}
+
 /* Circular theme reveal (lib/theme-transition.ts) */
 ::view-transition-old(root),
 ::view-transition-new(root) {

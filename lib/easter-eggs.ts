@@ -42,6 +42,7 @@ export function emojiRain(emoji: string, count = 36) {
   if (prefersReducedMotion()) return;
   const layer = document.createElement('div');
   layer.setAttribute('aria-hidden', 'true');
+  layer.setAttribute('data-print-hidden', '');
   layer.style.cssText = 'position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:100';
   document.body.appendChild(layer);
 

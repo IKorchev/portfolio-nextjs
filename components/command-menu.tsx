@@ -11,6 +11,7 @@ import {
   Mail,
   Monitor,
   Moon,
+  Printer,
   Search,
   Sun,
   Terminal,
@@ -115,6 +116,19 @@ export function CommandMenu({
     setTimeout(action, 150);
   };
 
+  // print() freezes the page as it is, so wait until the dialog has finished closing and
+  // released its scroll lock, otherwise the closing menu ends up in the print preview
+  const printCV = () => {
+    setOpen(false);
+    const started = performance.now();
+    const waitForClose = () => {
+      const closed = !document.querySelector('[data-slot="dialog-content"]') && !document.body.hasAttribute('data-scroll-locked');
+      if (closed || performance.now() - started > 1000) window.print();
+      else requestAnimationFrame(waitForClose);
+    };
+    requestAnimationFrame(waitForClose);
+  };
+
   const copyEmail = async () => {
     await navigator.clipboard.writeText(email);
     setCopied(true);
@@ -190,6 +204,9 @@ export function CommandMenu({
                 <BsLinkedin /> Open LinkedIn
               </CommandItem>
             )}
+            <CommandItem onSelect={printCV} keywords={['cv', 'resume', 'pdf', 'download']}>
+              <Printer /> Print as CV
+            </CommandItem>
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading='Theme'>
