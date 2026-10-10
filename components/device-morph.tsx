@@ -1,11 +1,97 @@
 'use client';
 
-import { motion, useTransform, type MotionValue } from 'motion/react';
+import { useEffect, useState } from 'react';
+import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useTransform, type MotionValue } from 'motion/react';
 import { cn } from '@/lib/utils';
+
+// For the hidden Whiff screen: the picker reel spins through these before landing
+const FRAGRANCES = ['Aventus', 'Sauvage', 'Bleu de Chanel', 'Santal 33', 'Oud Wood', 'Light Blue', 'Tobacco Vanille'];
+
+/** A tiny version of Whiff, my fragrance app, shown when the phone is tapped */
+function WhiffScreen() {
+  const reduce = useReducedMotion();
+  const [pick, setPick] = useState(0);
+  const [settled, setSettled] = useState(!!reduce);
+
+  useEffect(() => {
+    const final = Math.floor(Math.random() * FRAGRANCES.length);
+    if (reduce) {
+      setPick(final);
+      return;
+    }
+    // Each step waits a little longer, so the reel slows down before it lands
+    let ticks = 0;
+    let timer: ReturnType<typeof setTimeout>;
+    const spin = () => {
+      ticks++;
+      if (ticks >= 14) {
+        setPick(final);
+        setSettled(true);
+        return;
+      }
+      setPick((p) => (p + 1) % FRAGRANCES.length);
+      timer = setTimeout(spin, 50 + ticks * ticks * 2);
+    };
+    timer = setTimeout(spin, 50);
+    return () => clearTimeout(timer);
+  }, [reduce]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className='absolute inset-0 flex flex-col bg-card px-3 pt-2.5 pb-2'>
+      <div className='flex items-center justify-between px-1 font-mono text-[8px] font-semibold'>
+        <span>9:41</span>
+        <span className='flex gap-0.5'>
+          <span className='h-1.5 w-2.5 rounded-sm bg-foreground/60' />
+          <span className='h-1.5 w-3.5 rounded-sm bg-foreground/60' />
+        </span>
+      </div>
+      <p className='mt-4 text-[13px] font-semibold tracking-tight'>
+        Whiff<span className='text-brand'>.</span>
+      </p>
+      <p className='text-[8px] text-muted-foreground'>Today&apos;s pick</p>
+      <div className='mt-2 rounded-xl border border-primary/40 bg-primary/10 p-2'>
+        <div className='h-4 overflow-hidden'>
+          <motion.p
+            key={pick}
+            initial={reduce ? false : { y: -10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.06 }}
+            className={cn('text-[11px] font-semibold', settled && 'text-brand')}>
+            {FRAGRANCES[pick]}
+          </motion.p>
+        </div>
+        <p className='mt-0.5 text-[7px] text-muted-foreground'>{settled ? 'Worn 12× · last worn 4 days ago' : 'Spinning…'}</p>
+      </div>
+      <span className='mt-2 self-start rounded-full bg-primary px-2 py-0.5 text-[8px] font-semibold text-primary-foreground'>
+        Wear today
+      </span>
+      <p className='mt-3 text-[8px] font-semibold text-muted-foreground'>Most worn this week</p>
+      <div className='mt-1 flex flex-col gap-1'>
+        {[90, 64, 41].map((width, i) => (
+          <div key={width} className='flex items-center gap-1.5'>
+            <span className='w-2 font-mono text-[7px] text-muted-foreground'>{i + 1}</span>
+            <span className='h-1.5 rounded-full bg-primary/70' style={{ width: `${width}%` }} />
+          </div>
+        ))}
+      </div>
+      <div className='mt-auto flex justify-around border-t border-border pt-2'>
+        {[0, 1, 2, 3].map((i) => (
+          <span key={i} className={cn('size-3 rounded-full', i === 1 ? 'bg-primary' : 'bg-foreground/15')} />
+        ))}
+      </div>
+      <span className='mx-auto mt-2 h-1 w-1/3 rounded-full bg-foreground/40' />
+    </motion.div>
+  );
+}
 
 /**
  * A browser window that reshapes into a phone as `morph` goes from 0 to 1,
- * telling the web-to-mobile move in the Experience timeline.
+ * telling the web-to-mobile move in the Experience timeline. Once it's a phone,
+ * tapping it opens a tiny Whiff screen.
  */
 export function DeviceMorph({
   morph,
@@ -28,12 +114,34 @@ export function DeviceMorph({
   const webLabelOpacity = useTransform(morph, [0.3, 0.5], [1, 0]);
   const mobileLabelOpacity = useTransform(morph, [0.5, 0.7], [0, 1]);
 
+  // The Whiff screen only works on the finished phone, and closes if it turns back into a browser
+  const [isPhone, setIsPhone] = useState(false);
+  const [whiff, setWhiff] = useState(false);
+  const [opened, setOpened] = useState(false);
+  // The parent swaps in a static value for reduced motion, which never fires "change"
+  useEffect(() => setIsPhone(morph.get() > 0.9), [morph]);
+  useMotionValueEvent(morph, 'change', (v) => {
+    setIsPhone(v > 0.9);
+    if (v <= 0.9) setWhiff(false);
+  });
+  const toggleWhiff = () => {
+    if (!isPhone) return;
+    setOpened(true);
+    setWhiff((w) => !w);
+  };
+
   return (
+    // Decorative, so it stays out of the accessibility tree; the Whiff screen is a pointer-only extra
     <div className={cn('flex flex-col items-center', className)} aria-hidden>
       <div className='flex items-center justify-center' style={{ height: 360 * scale }}>
         <motion.div
           style={{ width, height, borderRadius }}
-          className='relative flex flex-col overflow-hidden border-[3px] border-foreground/15 bg-card shadow-2xl shadow-primary/10'
+          onClick={toggleWhiff}
+          whileTap={isPhone ? { scale: 0.97 } : undefined}
+          className={cn(
+            'relative flex flex-col overflow-hidden border-[3px] border-foreground/15 bg-card shadow-2xl shadow-primary/10',
+            isPhone && 'cursor-pointer',
+          )}
         >
           <motion.div
             style={{ height: chromeHeight, opacity: chromeOpacity }}
@@ -95,6 +203,8 @@ export function DeviceMorph({
               <span className='mx-auto mt-2 h-1 w-1/3 rounded-full bg-foreground/40' />
             </motion.div>
 
+            <AnimatePresence>{whiff && <WhiffScreen />}</AnimatePresence>
+
             <motion.span
               style={{ opacity: islandOpacity }}
               className='absolute top-1.5 left-1/2 h-3.5 w-12 -translate-x-1/2 rounded-full bg-foreground'
@@ -111,6 +221,13 @@ export function DeviceMorph({
           Mobile · 2025
         </motion.span>
       </div>
+      <p
+        className={cn(
+          'mt-1 h-4 text-[11px] text-muted-foreground transition-opacity duration-500',
+          isPhone && !opened ? 'opacity-100' : 'opacity-0',
+        )}>
+        psst… tap the phone
+      </p>
     </div>
   );
 }
