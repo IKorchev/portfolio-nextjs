@@ -4,21 +4,13 @@ import { Reveal } from '@/components/reveal';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import type { Profile } from '@/utils/contentfulClient';
 
-const links = [
-    {
-        href: 'https://linkedin.com/in/ivaylo-korchev/',
-        icon: BsLinkedin,
-        label: 'LinkedIn',
-    },
-    {
-        href: 'https://github.com/ikorchev/',
-        icon: BsGithub,
-        label: 'GitHub',
-    },
-];
-
-const Contact = () => {
+const Contact = ({ profile }: { profile: Profile }) => {
+    const links = [
+        { href: profile.linkedinUrl, icon: BsLinkedin, label: 'LinkedIn' },
+        { href: profile.githubUrl, icon: BsGithub, label: 'GitHub' },
+    ].filter((link) => link.href);
     return (
         <footer id='contact' className='mx-auto max-w-6xl px-4 pb-10 sm:px-6'>
             <Reveal>
@@ -28,15 +20,17 @@ const Contact = () => {
                     <div className='pointer-events-none absolute -bottom-32 left-1/2 h-64 w-[40rem] -translate-x-1/2 rounded-full bg-primary/15 blur-3xl' />
                     <div className='relative'>
                         <p className='font-mono text-xs tracking-[0.2em] text-brand uppercase'>Contact</p>
-                        <h2 className='mt-3 text-3xl font-semibold tracking-tight sm:text-5xl'>
-                            Let&apos;s build something together.
-                        </h2>
-                        <p className='mx-auto mt-4 max-w-md text-muted-foreground'>
-                            Have a project in mind or just want to say hi? My inbox is always open.
-                        </p>
+                        {profile.contactHeading && (
+                            <h2 className='mt-3 text-3xl font-semibold tracking-tight sm:text-5xl'>
+                                {profile.contactHeading}
+                            </h2>
+                        )}
+                        {profile.contactText && (
+                            <p className='mx-auto mt-4 max-w-md text-muted-foreground'>{profile.contactText}</p>
+                        )}
                         <div className='mt-8 flex flex-wrap justify-center gap-3'>
                             <Button size='lg' asChild className='rounded-full'>
-                                <a href='mailto:korchev94@gmail.com'>
+                                <a href={`mailto:${profile.email}`}>
                                     <Mail /> Say hello
                                 </a>
                             </Button>
@@ -59,7 +53,9 @@ const Contact = () => {
             </Reveal>
             <Separator className='mt-10' />
             <div className='mt-6 flex flex-col items-center justify-between gap-2 text-sm text-muted-foreground sm:flex-row'>
-                <p>&copy; {new Date().getFullYear()} Ivaylo Korchev</p>
+                <p>
+                    &copy; {new Date().getFullYear()} {profile.name}
+                </p>
                 <a href='https://ikorchev.com/' className='font-mono transition-colors hover:text-foreground'>
                     ikorchev.com
                 </a>

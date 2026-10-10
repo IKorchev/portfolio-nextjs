@@ -1,21 +1,23 @@
 import { ExperienceStory } from '@/components/experience-story';
 import { SectionHeading } from '@/components/SectionHeading';
 import { formatDuration, formatMonthYear, monthsBetween } from '@/lib/date';
-import { company, roles } from '@/utils/experience';
+import type { Role } from '@/utils/contentfulClient';
 
-const Experience = () => {
-  const totalMonths = monthsBetween(roles[roles.length - 1].start);
+/** `roles` arrive newest first */
+const Experience = ({ roles, company }: { roles: Role[]; company?: string }) => {
+  if (!roles.length) return null;
+  const totalMonths = monthsBetween(roles[roles.length - 1].startDate);
   // Oldest first, so scrolling down tells the web-to-mobile story
   const items = [...roles].reverse().map((role) => ({
-    key: role.start,
+    key: role.startDate,
     title: role.title,
     focus: role.focus,
-    period: `${formatMonthYear(role.start)} – ${role.end ? formatMonthYear(role.end) : 'Present'}`,
-    duration: formatDuration(monthsBetween(role.start, role.end)),
+    period: `${formatMonthYear(role.startDate)} – ${role.endDate ? formatMonthYear(role.endDate) : 'Present'}`,
+    duration: formatDuration(monthsBetween(role.startDate, role.endDate)),
     description: role.description,
     highlights: role.highlights,
-    stack: role.stack,
-    current: !role.end,
+    stack: role.stack ?? [],
+    current: !role.endDate,
   }));
 
   return (

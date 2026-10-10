@@ -1,6 +1,6 @@
 import { Tilt } from '@/components/tilt';
 import { formatDuration, monthsBetween } from '@/lib/date';
-import { roles } from '@/utils/experience';
+import type { Profile, Role } from '@/utils/contentfulClient';
 
 type Token = { text: string; kind?: 'keyword' | 'key' | 'string' | 'comment' | 'punct' };
 
@@ -26,35 +26,41 @@ const field = (key: string, value: Token[]): Token[] => [
     { text: ',', kind: 'punct' },
 ];
 
-// Filled from the same data as the Experience section, so it stays current
-const current = roles[0];
-const lines: Token[][] = [
-    [{ text: '// Hi, thanks for stopping by', kind: 'comment' }],
-    [
-        { text: 'export const ', kind: 'keyword' },
-        { text: 'ivaylo', kind: 'key' },
-        { text: ' = {', kind: 'punct' },
-    ],
-    field('role', str(current.title)),
-    field('focus', list([...new Set(roles.map((r) => r.focus)), 'AI'])),
-    field('stack', list(current.stack)),
-    field('experience', str(formatDuration(monthsBetween(roles[roles.length - 1].start)))),
-    field('based', str('London, UK')),
-    [{ text: '};', kind: 'punct' }],
-];
+// Filled from the site profile and the Experience roles (newest first), so it stays current
+const buildLines = (profile: Profile, roles: Role[], variable: string): Token[][] => {
+    const current = roles[0];
+    const oldest = roles[roles.length - 1];
+    return [
+        [{ text: '// Hi, thanks for stopping by', kind: 'comment' }],
+        [
+            { text: 'export const ', kind: 'keyword' },
+            { text: variable, kind: 'key' },
+            { text: ' = {', kind: 'punct' },
+        ],
+        field('role', str(current?.title ?? profile.headline)),
+        ...(profile.focusAreas?.length ? [field('focus', list(profile.focusAreas))] : []),
+        ...(current?.stack?.length ? [field('stack', list(current.stack))] : []),
+        ...(oldest ? [field('experience', str(formatDuration(monthsBetween(oldest.startDate))))] : []),
+        ...(profile.location ? [field('based', str(profile.location))] : []),
+        [{ text: '};', kind: 'punct' }],
+    ];
+};
 
 /** A small editor window introducing me, in place of a hero image */
-export function HeroCodeCard() {
+export function HeroCodeCard({ profile, roles }: { profile: Profile; roles: Role[] }) {
+    // First name as a JS identifier, e.g. "Ivaylo Korchev" → "ivaylo"
+    const variable = profile.name.split(/\s+/)[0].toLowerCase().replace(/[^a-z0-9_$]/g, '') || 'me';
+    const lines = buildLines(profile, roles, variable);
     return (
         <Tilt className='min-w-0'>
             <figure
-                aria-label='Code snippet introducing Ivaylo'
+                aria-label={`Code snippet introducing ${profile.name}`}
                 className='overflow-hidden rounded-2xl border bg-card/80 shadow-2xl shadow-black/10 backdrop-blur-md'>
                 <div className='flex items-center gap-1.5 border-b px-4 py-3'>
                     <span className='size-3 rounded-full bg-[#ff5f57]' />
                     <span className='size-3 rounded-full bg-[#febc2e]' />
                     <span className='size-3 rounded-full bg-[#28c840]' />
-                    <span className='ml-3 font-mono text-xs text-muted-foreground'>ivaylo.ts</span>
+                    <span className='ml-3 font-mono text-xs text-muted-foreground'>{variable}.ts</span>
                 </div>
                 <pre className='py-4 font-mono text-xs leading-6 sm:text-sm sm:leading-7'>
                     <code>

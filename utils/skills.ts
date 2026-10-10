@@ -1,32 +1,50 @@
 import type { IconType } from 'react-icons';
-import { HiSparkles } from 'react-icons/hi2';
+import { HiCodeBracket, HiSparkles } from 'react-icons/hi2';
 import {
   SiCss,
+  SiDocker,
   SiExpo,
   SiExpress,
+  SiFigma,
+  SiFirebase,
   SiGit,
+  SiGithub,
   SiHtml5,
   SiJavascript,
   SiNextdotjs,
+  SiNodedotjs,
+  SiPostgresql,
   SiReact,
+  SiSupabase,
   SiTailwindcss,
+  SiTypescript,
+  SiVercel,
 } from 'react-icons/si';
 import { TbBrandReactNative } from 'react-icons/tb';
 
-type Skill = { name: string; icon: IconType; color?: string };
+// Skills themselves live in Contentful; each one picks its icon by key from this map.
+// Keep the key list in the Skill "Icon key" help text (scripts/contentful-setup.mjs) in sync.
+const icons: Record<string, IconType> = {
+  html5: SiHtml5,
+  css: SiCss,
+  javascript: SiJavascript,
+  typescript: SiTypescript,
+  tailwind: SiTailwindcss,
+  react: SiReact,
+  'react-native': TbBrandReactNative,
+  expo: SiExpo,
+  nextjs: SiNextdotjs,
+  nodejs: SiNodedotjs,
+  express: SiExpress,
+  firebase: SiFirebase,
+  supabase: SiSupabase,
+  postgresql: SiPostgresql,
+  docker: SiDocker,
+  vercel: SiVercel,
+  figma: SiFigma,
+  git: SiGit,
+  github: SiGithub,
+  ai: HiSparkles,
+};
 
-const skills: Skill[] = [
-  { name: 'HTML5', icon: SiHtml5, color: '#E34F26' },
-  { name: 'CSS', icon: SiCss, color: '#663399' },
-  { name: 'JavaScript', icon: SiJavascript, color: '#F7DF1E' },
-  { name: 'Tailwind CSS', icon: SiTailwindcss, color: '#06B6D4' },
-  { name: 'React', icon: SiReact, color: '#61DAFB' },
-  { name: 'React Native', icon: TbBrandReactNative, color: '#61DAFB' },
-  { name: 'Expo', icon: SiExpo },
-  { name: 'Next.js', icon: SiNextdotjs },
-  { name: 'Express', icon: SiExpress },
-  { name: 'Git', icon: SiGit, color: '#F05032' },
-  { name: 'AI / LLM apps', icon: HiSparkles, color: '#F59E0B' },
-];
-
-export default skills;
+export const skillIcon = (key?: string): IconType => (key && icons[key]) || HiCodeBracket;

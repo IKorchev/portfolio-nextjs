@@ -33,4 +33,45 @@ export type AboutEntry = {
   fields: { description?: RichTextNode };
 };
 
+/** The single "Site profile" entry */
+export type Profile = {
+  name: string;
+  headline: string;
+  tagline?: string;
+  location?: string;
+  focusAreas?: string[];
+  company?: string;
+  email: string;
+  githubUrl?: string;
+  linkedinUrl?: string;
+  contactHeading?: string;
+  contactText?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  socialDescription?: string;
+  socialImageUrl?: string;
+  seoKeywords?: string[];
+};
+
+export type Role = {
+  title: string;
+  focus?: string;
+  /** Contentful Date fields, e.g. "2025-05-01" */
+  startDate: string;
+  /** Empty for the current role */
+  endDate?: string;
+  description?: string;
+  /** Short, concrete achievements shown as bullets */
+  highlights?: string[];
+  stack?: string[];
+};
+
+export type Skill = {
+  name: string;
+  /** Key into the icon map in utils/skills.ts */
+  iconKey?: string;
+  color?: string;
+  order?: number;
+};
+
 export default client;

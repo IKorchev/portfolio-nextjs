@@ -17,8 +17,6 @@ import {
 } from '@/components/ui/command';
 import { switchTheme } from '@/lib/theme-transition';
 
-const EMAIL = 'korchev94@gmail.com';
-
 const sections = [
   { id: 'home', label: 'Home', icon: Home },
   { id: 'experience', label: 'Experience', icon: Briefcase },
@@ -33,7 +31,15 @@ const themes = [
   { value: 'system', label: 'System theme', icon: Monitor },
 ];
 
-export function CommandMenu() {
+export function CommandMenu({
+  email,
+  githubUrl,
+  linkedinUrl,
+}: {
+  email: string;
+  githubUrl?: string;
+  linkedinUrl?: string;
+}) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isMac, setIsMac] = useState(true);
@@ -58,7 +64,7 @@ export function CommandMenu() {
   };
 
   const copyEmail = async () => {
-    await navigator.clipboard.writeText(EMAIL);
+    await navigator.clipboard.writeText(email);
     setCopied(true);
     setTimeout(() => {
       setCopied(false);
@@ -108,14 +114,18 @@ export function CommandMenu() {
           <CommandGroup heading='Contact'>
             <CommandItem onSelect={copyEmail} keywords={['email', 'mail', 'copy']}>
               <Copy /> {copied ? 'Copied!' : 'Copy email address'}
-              <CommandShortcut>{EMAIL}</CommandShortcut>
+              <CommandShortcut>{email}</CommandShortcut>
             </CommandItem>
-            <CommandItem onSelect={() => run(() => window.open('https://github.com/ikorchev/', '_blank'))}>
-              <BsGithub /> Open GitHub
-            </CommandItem>
-            <CommandItem onSelect={() => run(() => window.open('https://linkedin.com/in/ivaylo-korchev/', '_blank'))}>
-              <BsLinkedin /> Open LinkedIn
-            </CommandItem>
+            {githubUrl && (
+              <CommandItem onSelect={() => run(() => window.open(githubUrl, '_blank'))}>
+                <BsGithub /> Open GitHub
+              </CommandItem>
+            )}
+            {linkedinUrl && (
+              <CommandItem onSelect={() => run(() => window.open(linkedinUrl, '_blank'))}>
+                <BsLinkedin /> Open LinkedIn
+              </CommandItem>
+            )}
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading='Theme'>

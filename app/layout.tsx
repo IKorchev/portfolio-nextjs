@@ -8,30 +8,11 @@ import '@/styles/Global.css';
 const geistSans = Geist({ subsets: ['latin'], variable: '--font-geist-sans' });
 const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' });
 
+// Title, description and social tags come from the Contentful site profile (app/page.tsx)
 export const metadata: Metadata = {
   metadataBase: new URL('https://ikorchev.com'),
-  title: 'Ivaylo Korchev | Portfolio',
-  description: 'Portfolio showcasing my work.',
-  keywords: [
-    'Ivaylo',
-    'Korchev',
-    'Software Engineer',
-    'Web',
-    'Mobile',
-    'React',
-    'React Native',
-    'Expo',
-    'Next.js',
-    'AI',
-  ],
   robots: { index: true, follow: true },
   icons: { icon: '/favicon.ico' },
-  openGraph: {
-    title: 'Ivaylo Korchev | Portfolio',
-    description: 'Portfolio showcasing my skills and projects that I have done throughout my coding journey.',
-    url: 'https://ikorchev.com/',
-    images: ['https://i.ibb.co/SBmGbrd/ikorchev-com.png'],
-  },
 };
 
 export const viewport: Viewport = {

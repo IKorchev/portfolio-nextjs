@@ -21,10 +21,10 @@ import { cn } from '@/lib/utils';
 export type TimelineItem = {
   key: string;
   title: string;
-  focus: string;
+  focus?: string;
   period: string;
   duration: string;
-  description: string;
+  description?: string;
   highlights?: string[];
   stack: string[];
   current: boolean;
@@ -131,7 +131,7 @@ export function ExperienceStory({
                     <div className='flex flex-wrap items-center justify-between gap-x-4 gap-y-1'>
                       <h3 className='flex items-center gap-2 font-semibold'>
                         {item.title}
-                        <Badge variant='outline'>{item.focus}</Badge>
+                        {item.focus && <Badge variant='outline'>{item.focus}</Badge>}
                       </h3>
                       <p className='font-mono text-xs text-muted-foreground'>
                         {item.period}
@@ -139,7 +139,7 @@ export function ExperienceStory({
                         {item.duration}
                       </p>
                     </div>
-                    <p className='mt-3 leading-relaxed text-muted-foreground'>{item.description}</p>
+                    {item.description && <p className='mt-3 leading-relaxed text-muted-foreground'>{item.description}</p>}
                     {!!item.highlights?.length && (
                       <ul className='mt-3 space-y-1.5 text-sm leading-relaxed text-muted-foreground'>
                         {item.highlights.map((highlight) => (
@@ -150,13 +150,15 @@ export function ExperienceStory({
                         ))}
                       </ul>
                     )}
-                    <ul className='mt-4 flex flex-wrap gap-2'>
-                      {item.stack.map((tech) => (
-                        <li key={tech}>
-                          <Badge variant='secondary'>{tech}</Badge>
-                        </li>
-                      ))}
-                    </ul>
+                    {!!item.stack.length && (
+                      <ul className='mt-4 flex flex-wrap gap-2'>
+                        {item.stack.map((tech) => (
+                          <li key={tech}>
+                            <Badge variant='secondary'>{tech}</Badge>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </li>
                 ))}
               </ol>

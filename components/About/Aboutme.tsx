@@ -3,8 +3,7 @@ import { Reveal } from '@/components/reveal';
 import { SectionHeading } from '@/components/SectionHeading';
 import { Card, CardContent } from '@/components/ui/card';
 import { formatDuration, monthsBetween } from '@/lib/date';
-import type { AboutEntry, RichTextNode } from '@/utils/contentfulClient';
-import { roles } from '@/utils/experience';
+import type { AboutEntry, Profile, RichTextNode, Role } from '@/utils/contentfulClient';
 
 const MarkdownRenderer = ({ node }: { node: RichTextNode }): React.ReactNode => {
     if (node.nodeType === 'document') {
@@ -33,14 +32,19 @@ const MarkdownRenderer = ({ node }: { node: RichTextNode }): React.ReactNode => 
     return null;
 };
 
-// Experience is derived from the roles so it stays in step with the Experience section
-const facts = [
-    { icon: CalendarDays, label: 'Experience', value: formatDuration(monthsBetween(roles[roles.length - 1].start)) },
-    { icon: Smartphone, label: 'Currently', value: `${roles[0].focus} ${roles[0].title}` },
-    { icon: MapPin, label: 'Based in', value: 'London, UK' },
-];
+// Experience is derived from the roles (newest first) so it stays in step with the Experience section
+const getFacts = (profile: Profile, roles: Role[]) => {
+    const current = roles[0];
+    const oldest = roles[roles.length - 1];
+    return [
+        oldest && { icon: CalendarDays, label: 'Experience', value: formatDuration(monthsBetween(oldest.startDate)) },
+        current && { icon: Smartphone, label: 'Currently', value: [current.focus, current.title].filter(Boolean).join(' ') },
+        profile.location && { icon: MapPin, label: 'Based in', value: profile.location },
+    ].filter((fact) => !!fact);
+};
 
-export const Aboutme = ({ data }: { data?: AboutEntry }) => {
+export const Aboutme = ({ data, profile, roles }: { data?: AboutEntry; profile: Profile; roles: Role[] }) => {
+    const facts = getFacts(profile, roles);
     return (
         <section id='about' className='mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16'>
             <Reveal>
