@@ -10,7 +10,7 @@ export type OutputLine = { text: string; tone?: 'muted' | 'success' | 'hint' };
 const toneClass: Record<NonNullable<OutputLine['tone']>, string> = {
   muted: 'text-muted-foreground',
   success: 'text-brand',
-  hint: 'text-violet-600 dark:text-violet-400',
+  hint: 'text-code-keyword',
 };
 
 const LINE_DELAY = 380;

@@ -5,6 +5,7 @@ import {
   Binary,
   Briefcase,
   Coffee,
+  Contrast,
   Copy,
   FolderGit2,
   Home,
@@ -31,7 +32,9 @@ import {
   CommandShortcut,
 } from '@/components/ui/command';
 import { emojiRain, setHeroFinish, toast } from '@/lib/easter-eggs';
-import { switchTheme } from '@/lib/theme-transition';
+import { ACCENTS } from '@/lib/accents';
+import { switchAccent, switchHighContrast, switchTheme } from '@/lib/theme-transition';
+import { useAccent, useHighContrast } from '@/lib/use-accent';
 
 const sections = [
   { id: 'home', label: 'Home', icon: Home },
@@ -63,6 +66,8 @@ export function CommandMenu({
   const [copied, setCopied] = useState(false);
   const [isMac, setIsMac] = useState(true);
   const { setTheme } = useTheme();
+  const accent = useAccent();
+  const highContrast = useHighContrast();
 
   // Hidden commands: they only show up once someone types them
   const firstName = name.split(/\s+/)[0].toLowerCase();
@@ -215,6 +220,27 @@ export function CommandMenu({
                 <Icon /> {label}
               </CommandItem>
             ))}
+          </CommandGroup>
+          <CommandSeparator />
+          <CommandGroup heading='Colour'>
+            {ACCENTS.map(({ id, label, swatch }) => (
+              <CommandItem
+                key={id}
+                value={`${label} colour`}
+                keywords={['colour', 'color', 'accent', 'theme']}
+                onSelect={() => run(() => switchAccent(id))}
+              >
+                <span className='size-3.5 rounded-full ring-1 ring-foreground/10' style={{ background: swatch }} />
+                {label}
+                {accent === id && <CommandShortcut>Current</CommandShortcut>}
+              </CommandItem>
+            ))}
+            <CommandItem
+              keywords={['contrast', 'accessibility', 'a11y', 'readability']}
+              onSelect={() => run(() => switchHighContrast(!highContrast))}
+            >
+              <Contrast /> {highContrast ? 'Turn off high contrast' : 'Turn on high contrast'}
+            </CommandItem>
           </CommandGroup>
         </CommandList>
       </CommandDialog>

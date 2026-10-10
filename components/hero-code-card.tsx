@@ -6,7 +6,7 @@ import type { Profile, Role } from '@/utils/contentfulClient';
 type Token = { text: string; kind?: 'keyword' | 'key' | 'string' | 'comment' | 'punct' };
 
 const tokenClass: Record<NonNullable<Token['kind']>, string> = {
-    keyword: 'text-violet-600 dark:text-violet-400',
+    keyword: 'text-code-keyword',
     key: 'text-foreground',
     string: 'text-brand',
     comment: 'text-muted-foreground italic',

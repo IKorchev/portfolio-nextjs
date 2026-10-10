@@ -20,7 +20,7 @@ export default async function NotFound() {
         <div className='bg-grid pointer-events-none absolute inset-0' />
         <div className='relative mx-auto max-w-xl px-4 py-24 text-center sm:px-6'>
           <p className='font-mono text-xs tracking-[0.2em] text-brand uppercase'>Error 404</p>
-          <h1 className='mt-4 bg-gradient-to-r from-brand to-sky-500 bg-clip-text text-8xl font-semibold tracking-tighter text-transparent sm:text-9xl'>
+          <h1 className='mt-4 bg-gradient-to-r from-brand to-brand-2 bg-clip-text text-8xl font-semibold tracking-tighter text-transparent sm:text-9xl'>
             404
           </h1>
           <p className='mt-6 text-xl font-semibold tracking-tight sm:text-2xl'>This page dissolved into the metal.</p>

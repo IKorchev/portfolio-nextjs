@@ -27,7 +27,7 @@ const LandingSection = ({ profile, roles, skills }: { profile: Profile; roles: R
                                 <br />
                             </>
                         )}
-                        <span className='bg-gradient-to-r from-brand to-sky-500 bg-clip-text text-transparent'>
+                        <span className='bg-gradient-to-r from-brand to-brand-2 bg-clip-text text-transparent'>
                             {lastName}
                         </span>
                     </h1>

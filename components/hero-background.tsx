@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { accentInfo, getAccent, type Accent } from '@/lib/accents';
 import { getHeroFinish, onHeroFinish, type HeroFinish } from '@/lib/easter-eggs';
 
 const VERTEX = `
@@ -11,7 +12,7 @@ void main() {
   gl_Position = vec4(position, 0.0, 1.0);
 }`;
 
-// Slow, domain-warped noise shaded like molten metal: teal in light theme, silver in dark. Output is premultiplied
+// Slow, domain-warped noise shaded like molten metal: the colour theme's tones in light mode, silver in dark. Output is premultiplied
 // alpha so the page background shows through and the theme still decides the base.
 // The cursor presses a soft dent into the surface and clicks send out a ripple; easter eggs
 // can swap the finish (1 gold, 2 chrome, 3 holographic, 4 matrix), blended in by uFinishMix.
@@ -26,6 +27,11 @@ uniform vec2 uRipple;
 uniform float uRippleAge;
 uniform float uFinish;
 uniform float uFinishMix;
+uniform vec3 uTintA;
+uniform vec3 uTintB;
+uniform vec3 uTintC;
+uniform float uSilverTint;
+uniform float uHighContrast;
 varying vec2 vUv;
 
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
@@ -69,13 +75,12 @@ void main() {
   vec2 w = p + 2.0 * r;
   float n = fbm(w);
 
-  vec3 teal = vec3(0.1, 0.72, 0.66);
-  vec3 sky = vec3(0.2, 0.58, 0.92);
-  vec3 violet = vec3(0.52, 0.42, 0.95);
-  vec3 color = mix(teal, sky, clamp(length(q) * 0.9, 0.0, 1.0));
-  color = mix(color, violet, clamp(r.x * r.x, 0.0, 1.0) * 0.35);
-  // Dark theme swaps the teal for cool silver
+  // The colour theme's three metal tones (lib/accents.ts)
+  vec3 color = mix(uTintA, uTintB, clamp(length(q) * 0.9, 0.0, 1.0));
+  color = mix(color, uTintC, clamp(r.x * r.x, 0.0, 1.0) * 0.35);
+  // Dark theme swaps them for cool silver, with a hint of the accent
   vec3 silver = mix(vec3(0.95, 0.96, 0.98), vec3(0.62, 0.65, 0.72), clamp(length(q) * 0.9, 0.0, 1.0));
+  silver = mix(silver, silver * (0.55 + 0.6 * uTintA), uSilverTint * 2.0);
   color = mix(color, silver, uDark);
 
   // Treat the noise as a height field and light it like polished metal. The normal
@@ -112,6 +117,8 @@ void main() {
   float alpha = smoothstep(0.35, 0.8, n) * falloff * mix(0.55, 0.75, uDark);
   // The dent and ripples also raise a little metal where the surface was clear
   alpha = min(alpha + abs(pressed) * 1.6 * mix(0.35, 1.0, falloff), 0.85);
+  // High contrast keeps the metal faint so it never competes with the text
+  alpha *= mix(1.0, 0.4, uHighContrast);
   gl_FragColor = vec4(min(metal, 1.0) * alpha, alpha);
 }`;
 
@@ -164,6 +171,15 @@ export function HeroBackground() {
     const uRippleAge = gl.getUniformLocation(program, 'uRippleAge');
     const uFinish = gl.getUniformLocation(program, 'uFinish');
     const uFinishMix = gl.getUniformLocation(program, 'uFinishMix');
+    const uTints = ['uTintA', 'uTintB', 'uTintC'].map((name) => gl.getUniformLocation(program, name));
+    const uSilverTint = gl.getUniformLocation(program, 'uSilverTint');
+    const uHighContrast = gl.getUniformLocation(program, 'uHighContrast');
+    const applyAccentColours = (accent: Accent) => {
+      const { metal, silverTint } = accentInfo(accent);
+      metal.forEach((rgb, i) => gl.uniform3f(uTints[i], ...rgb));
+      gl.uniform1f(uSilverTint, silverTint);
+    };
+    applyAccentColours(getAccent());
 
     const root = document.documentElement;
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -203,6 +219,7 @@ export function HeroBackground() {
       step(now);
       gl.uniform1f(uTime, (now - start) / 1000);
       gl.uniform1f(uDark, root.classList.contains('dark') ? 1 : 0);
+      gl.uniform1f(uHighContrast, root.dataset.contrast === 'high' ? 1 : 0);
       gl.clearColor(0, 0, 0, 0);
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
@@ -235,9 +252,12 @@ export function HeroBackground() {
       update();
     });
     intersectionObserver.observe(canvas);
-    // Redraw on theme changes, which matters while paused
-    const themeObserver = new MutationObserver(() => draw(performance.now()));
-    themeObserver.observe(root, { attributes: true, attributeFilter: ['class'] });
+    // Redraw on theme and colour changes, which matters while paused
+    const themeObserver = new MutationObserver(() => {
+      applyAccentColours(getAccent());
+      draw(performance.now());
+    });
+    themeObserver.observe(root, { attributes: true, attributeFilter: ['class', 'data-accent', 'data-contrast'] });
     document.addEventListener('visibilitychange', update);
     reduceMotion.addEventListener('change', update);
 
