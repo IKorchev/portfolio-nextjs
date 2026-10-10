@@ -39,6 +39,8 @@ export type Profile = {
   headline: string;
   tagline?: string;
   location?: string;
+  /** IANA zone for the contact section's local time, e.g. "Europe/London" */
+  timeZone?: string;
   focusAreas?: string[];
   company?: string;
   email: string;

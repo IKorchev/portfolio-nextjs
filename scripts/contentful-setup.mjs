@@ -43,6 +43,7 @@ const contentTypes = [
       symbol('headline', 'Headline', { required: true }),
       text('tagline', 'Tagline'),
       symbol('location', 'Location'),
+      symbol('timeZone', 'Time zone'),
       list('focusAreas', 'Focus areas'),
       symbol('company', 'Company'),
       symbol('email', 'Email', { required: true, validations: [{ regexp: { pattern: '^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$' } }] }),
@@ -59,6 +60,7 @@ const contentTypes = [
     help: {
       headline: 'Shown in the badge above your name in the hero',
       tagline: 'The sentence under your name in the hero',
+      timeZone: 'IANA time zone for the local time in the contact section, e.g. Europe/London (the default)',
       focusAreas: 'Listed in the hero code card, e.g. Mobile, Web, AI',
       company: 'Optional. Shown above the roles in Experience',
       socialDescription: 'Used when the link is shared on social media. Falls back to the SEO description',
@@ -113,6 +115,7 @@ const entries = [
       headline: 'Software Engineer',
       tagline: 'Building web and mobile apps with React, React Native and a growing focus on AI.',
       location: 'London, UK',
+      timeZone: 'Europe/London',
       focusAreas: ['Mobile', 'Web', 'AI'],
       email: 'korchev94@gmail.com',
       githubUrl: 'https://github.com/ikorchev/',
