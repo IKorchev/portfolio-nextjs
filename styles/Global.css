@@ -105,3 +105,54 @@
   background-size: 48px 48px;
   mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 60%, transparent 100%);
 }
+
+/* Circular theme reveal (lib/theme-transition.ts) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Cursor spotlight on cards: a glowing border plus a faint inner glow (components/spotlight.tsx) */
+[data-spotlight] {
+  position: relative;
+}
+
+[data-spotlight]::before,
+[data-spotlight]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+[data-spotlight]::before {
+  padding: 1px;
+  background: radial-gradient(
+    360px circle at var(--spot-x, -100%) var(--spot-y, -100%),
+    color-mix(in oklch, var(--primary) 80%, transparent),
+    transparent 45%
+  );
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+}
+
+[data-spotlight]::after {
+  background: radial-gradient(
+    600px circle at var(--spot-x, -100%) var(--spot-y, -100%),
+    color-mix(in oklch, var(--primary) 7%, transparent),
+    transparent 40%
+  );
+}
+
+@media (hover: hover) {
+  [data-spotlight]:hover::before,
+  [data-spotlight]:hover::after {
+    opacity: 1;
+  }
+}

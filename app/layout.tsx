@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { MotionProvider } from '@/components/motion-provider';
+import { Spotlight } from '@/components/spotlight';
 import { ThemeProvider } from '@/components/theme-provider';
 import '@/styles/Global.css';
 
@@ -47,7 +49,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {/* Defaults to the visitor's OS setting until they pick a theme explicitly */}
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
-          {children}
+          <MotionProvider>{children}</MotionProvider>
+          <Spotlight />
         </ThemeProvider>
       </body>
     </html>

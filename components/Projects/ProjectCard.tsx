@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { Calendar, Code, Play } from 'lucide-react';
+import { Tilt } from '@/components/tilt';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -19,60 +20,67 @@ const ProjectCard = ({ project }: { project: Project }) => {
   const formattedDate = date && formatMonthYear(date);
   const imageURL = `https:${projectImage.fields.file.url}`; //contentful formats the url without the protocol
   return (
-    <Card
-      id={`project_${projectImage.sys.id}`}
-      className='group gap-0 overflow-hidden py-0 transition duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/5'>
-      <a href={demoLink} target='_blank' rel='noreferrer' className='relative block aspect-video overflow-hidden border-b'>
-        <Image
-          src={imageURL}
-          alt={title || ''}
-          fill
-          sizes='(min-width: 768px) 560px, 100vw'
-          className='object-cover transition duration-500 group-hover:scale-[1.03]'
-        />
-      </a>
-      <CardHeader className='pt-6'>
-        <CardTitle className='text-xl tracking-tight'>{title}</CardTitle>
-        {formattedDate && (
-          <CardAction>
-            <time
-              dateTime={date}
-              className='flex items-center gap-1.5 font-mono text-xs whitespace-nowrap text-muted-foreground'>
-              <Calendar className='size-3.5' />
-              {formattedDate}
-            </time>
-          </CardAction>
-        )}
-        <CardDescription className='text-base'>{projectDescription}</CardDescription>
-      </CardHeader>
-      <CardContent className='flex-1 pt-5'>
-        {!!techStack?.length && (
-          <ul className='flex flex-wrap gap-2'>
-            {techStack.map((el) => (
-              <li key={el}>
-                <Badge variant='secondary'>{el}</Badge>
-              </li>
-            ))}
-          </ul>
-        )}
-      </CardContent>
-      <CardFooter className='gap-3 py-6'>
-        {demoLink && (
-          <Button asChild className='rounded-full'>
-            <a href={demoLink} target='_blank' rel='noreferrer'>
-              <Play /> Live demo
-            </a>
-          </Button>
-        )}
-        {githubLink && (
-          <Button variant='outline' asChild className='rounded-full'>
-            <a href={githubLink} target='_blank' rel='noreferrer'>
-              <Code /> Source
-            </a>
-          </Button>
-        )}
-      </CardFooter>
-    </Card>
+    <Tilt className='h-full'>
+      <Card
+        id={`project_${projectImage.sys.id}`}
+        data-spotlight
+        className='group h-full gap-0 overflow-hidden py-0 transition duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/5'>
+        <a
+          href={demoLink}
+          target='_blank'
+          rel='noreferrer'
+          className='relative block aspect-video overflow-hidden border-b'>
+          <Image
+            src={imageURL}
+            alt={title || ''}
+            fill
+            sizes='(min-width: 768px) 560px, 100vw'
+            className='object-cover transition duration-500 group-hover:scale-[1.03]'
+          />
+        </a>
+        <CardHeader className='pt-6'>
+          <CardTitle className='text-xl tracking-tight'>{title}</CardTitle>
+          {formattedDate && (
+            <CardAction>
+              <time
+                dateTime={date}
+                className='flex items-center gap-1.5 font-mono text-xs whitespace-nowrap text-muted-foreground'>
+                <Calendar className='size-3.5' />
+                {formattedDate}
+              </time>
+            </CardAction>
+          )}
+          <CardDescription className='text-base'>{projectDescription}</CardDescription>
+        </CardHeader>
+        <CardContent className='flex-1 pt-5'>
+          {!!techStack?.length && (
+            <ul className='flex flex-wrap gap-2'>
+              {techStack.map((el) => (
+                <li key={el}>
+                  <Badge variant='secondary'>{el}</Badge>
+                </li>
+              ))}
+            </ul>
+          )}
+        </CardContent>
+        <CardFooter className='gap-3 py-6'>
+          {demoLink && (
+            <Button asChild className='rounded-full'>
+              <a href={demoLink} target='_blank' rel='noreferrer'>
+                <Play /> Live demo
+              </a>
+            </Button>
+          )}
+          {githubLink && (
+            <Button variant='outline' asChild className='rounded-full'>
+              <a href={githubLink} target='_blank' rel='noreferrer'>
+                <Code /> Source
+              </a>
+            </Button>
+          )}
+        </CardFooter>
+      </Card>
+    </Tilt>
   );
 };
 export default ProjectCard;

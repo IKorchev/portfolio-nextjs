@@ -3,7 +3,6 @@ import Projects from '@/components/Projects/Projects';
 import Contact from '@/components/Footer/Contact';
 import Aboutme from '@/components/About/Aboutme';
 import Navbar from '@/components/Navbar/Navbar';
-import GithubLinks from '@/components/GithubLinks';
 import LandingSection from '@/components/LandingSection';
 import GTM from '@/components/GTM';
 import Experience from '@/components/Experience';
@@ -34,7 +33,6 @@ export default async function Page() {
                 <Experience />
                 <Projects projects={projects} />
                 <Aboutme data={description} />
-                <GithubLinks />
             </main>
             <Contact />
         </>
