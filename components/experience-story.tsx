@@ -66,18 +66,19 @@ export function ExperienceStory({
   const [reduce, setReduce] = useState(false);
   useEffect(() => setReduce(!!prefersReducedMotion), [prefersReducedMotion]);
 
-  // Where each dot sits along the line (0–1), measured so the line and dots line up exactly
-  const [stops, setStops] = useState(() => items.map((_, i) => i / items.length));
-  const lastStop = useRef(stops[stops.length - 1]);
+  // The line runs from the first dot to the last, and each dot's stop (0–1) is where it sits along it
+  const [stops, setStops] = useState(() => items.map((_, i) => i / Math.max(1, items.length - 1)));
+  const [lineHeight, setLineHeight] = useState<number>();
   useLayoutEffect(() => {
     const list = listRef.current;
     if (!list) return;
     const measure = () => {
-      const next = Array.from(list.children)
+      const offsets = Array.from(list.children)
         .filter((el): el is HTMLLIElement => el.tagName === 'LI')
-        .map((li) => clamp01((li.offsetTop + 8) / list.offsetHeight));
-      lastStop.current = next[next.length - 1];
-      setStops(next);
+        .map((li) => li.offsetTop);
+      const span = offsets[offsets.length - 1] - offsets[0];
+      setLineHeight(span);
+      setStops(offsets.map((top) => (span ? clamp01((top - offsets[0]) / span) : 1)));
     };
     measure();
     const observer = new ResizeObserver(measure);
@@ -90,8 +91,8 @@ export function ExperienceStory({
   const smooth = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 });
   const full = useMotionValue(1);
   const progress = reduce ? full : smooth;
-  // The device turns into a phone as the line approaches the mobile role
-  const morph = useTransform(progress, (v) => clamp01((v - (lastStop.current - 0.25)) / 0.25));
+  // The device turns into a phone over the last stretch of line before the mobile role
+  const morph = useTransform(progress, (v) => clamp01((v - 0.6) / 0.4));
 
   // Mobile: the device sits above the timeline, so it morphs while it crosses the screen
   const { scrollYProgress: deviceProgress } = useScroll({
@@ -101,67 +102,68 @@ export function ExperienceStory({
   const mobileMorph = useTransform(useSpring(deviceProgress, { stiffness: 120, damping: 30 }), [0.25, 0.75], [0, 1]);
 
   return (
-    <div ref={sectionRef} className='grid gap-10 lg:grid-cols-[1fr_2fr]'>
-      <div>
-        <Reveal>{heading}</Reveal>
-        <DeviceMorph morph={reduce ? full : morph} className='mt-4 hidden lg:flex' />
+    <div ref={sectionRef}>
+      <Reveal>{heading}</Reveal>
+      <div className='grid items-center gap-10 lg:grid-cols-[1fr_2fr]'>
+        <DeviceMorph morph={reduce ? full : morph} className='hidden lg:flex' />
         <div ref={mobileDeviceRef} className='lg:hidden'>
           <DeviceMorph morph={reduce ? full : mobileMorph} size='sm' />
         </div>
-      </div>
-      <Reveal>
-        <Card data-spotlight>
-          <CardContent className='sm:px-8'>
-            {company && (
-              <p className='mb-6 flex items-center gap-2 font-semibold'>
-                <Building2 className='size-4 text-brand' />
-                {company}
-              </p>
-            )}
-            <ol ref={listRef} className='relative space-y-10'>
-              <span className='absolute top-2 bottom-2 left-[5px] w-px bg-border' />
-              <motion.span
-                style={{ scaleY: progress }}
-                className='absolute top-2 bottom-2 left-[5px] w-px origin-top bg-primary'
-              />
-              {items.map((item, i) => (
-                <li key={item.key} className='relative pl-8'>
-                  <TimelineDot progress={progress} stop={stops[i]} current={item.current} />
-                  <div className='flex flex-wrap items-center justify-between gap-x-4 gap-y-1'>
-                    <h3 className='flex items-center gap-2 font-semibold'>
-                      {item.title}
-                      <Badge variant='outline'>{item.focus}</Badge>
-                    </h3>
-                    <p className='font-mono text-xs text-muted-foreground'>
-                      {item.period}
-                      <span className='mx-1.5 opacity-50'>·</span>
-                      {item.duration}
-                    </p>
-                  </div>
-                  <p className='mt-3 leading-relaxed text-muted-foreground'>{item.description}</p>
-                  {!!item.highlights?.length && (
-                    <ul className='mt-3 space-y-1.5 text-sm leading-relaxed text-muted-foreground'>
-                      {item.highlights.map((highlight) => (
-                        <li key={highlight} className='flex gap-2.5'>
-                          <span className='mt-2 size-1 shrink-0 rounded-full bg-brand' />
-                          {highlight}
+        <Reveal>
+          <Card data-spotlight>
+            <CardContent className='sm:px-8'>
+              {company && (
+                <p className='mb-6 flex items-center gap-2 font-semibold'>
+                  <Building2 className='size-4 text-brand' />
+                  {company}
+                </p>
+              )}
+              <ol ref={listRef} className='relative space-y-10'>
+                {/* Starts at the first dot's center (top-1.5 + half its 11px) and ends at the last one */}
+                <span style={{ height: lineHeight }} className='absolute top-[11px] left-[5px] w-px bg-border' />
+                <motion.span
+                  style={{ height: lineHeight, scaleY: progress }}
+                  className='absolute top-[11px] left-[5px] w-px origin-top bg-primary'
+                />
+                {items.map((item, i) => (
+                  <li key={item.key} className='relative pl-8'>
+                    <TimelineDot progress={progress} stop={stops[i]} current={item.current} />
+                    <div className='flex flex-wrap items-center justify-between gap-x-4 gap-y-1'>
+                      <h3 className='flex items-center gap-2 font-semibold'>
+                        {item.title}
+                        <Badge variant='outline'>{item.focus}</Badge>
+                      </h3>
+                      <p className='font-mono text-xs text-muted-foreground'>
+                        {item.period}
+                        <span className='mx-1.5 opacity-50'>·</span>
+                        {item.duration}
+                      </p>
+                    </div>
+                    <p className='mt-3 leading-relaxed text-muted-foreground'>{item.description}</p>
+                    {!!item.highlights?.length && (
+                      <ul className='mt-3 space-y-1.5 text-sm leading-relaxed text-muted-foreground'>
+                        {item.highlights.map((highlight) => (
+                          <li key={highlight} className='flex gap-2.5'>
+                            <span className='mt-2 size-1 shrink-0 rounded-full bg-brand' />
+                            {highlight}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    <ul className='mt-4 flex flex-wrap gap-2'>
+                      {item.stack.map((tech) => (
+                        <li key={tech}>
+                          <Badge variant='secondary'>{tech}</Badge>
                         </li>
                       ))}
                     </ul>
-                  )}
-                  <ul className='mt-4 flex flex-wrap gap-2'>
-                    {item.stack.map((tech) => (
-                      <li key={tech}>
-                        <Badge variant='secondary'>{tech}</Badge>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
-            </ol>
-          </CardContent>
-        </Card>
-      </Reveal>
+                  </li>
+                ))}
+              </ol>
+            </CardContent>
+          </Card>
+        </Reveal>
+      </div>
     </div>
   );
 }

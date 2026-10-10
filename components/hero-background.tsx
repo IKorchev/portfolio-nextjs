@@ -10,7 +10,7 @@ void main() {
   gl_Position = vec4(position, 0.0, 1.0);
 }`;
 
-// Slow, domain-warped noise in the brand's warm colors. Output is premultiplied
+// Slow, domain-warped noise shaded like molten metal: gold in light theme, silver in dark. Output is premultiplied
 // alpha so the page background shows through and the theme still decides the base.
 const FRAGMENT = `
 precision mediump float;
@@ -46,18 +46,38 @@ void main() {
 
   vec2 q = vec2(fbm(p + t), fbm(p + vec2(5.2, 1.3) - t));
   vec2 r = vec2(fbm(p + 3.0 * q + vec2(1.7, 9.2) + 1.5 * t), fbm(p + 3.0 * q + vec2(8.3, 2.8) - t));
-  float n = fbm(p + 2.0 * r);
+  vec2 w = p + 2.0 * r;
+  float n = fbm(w);
 
   vec3 amber = vec3(1.0, 0.71, 0.0);
   vec3 orange = vec3(0.98, 0.42, 0.12);
   vec3 rose = vec3(0.93, 0.29, 0.45);
   vec3 color = mix(amber, orange, clamp(length(q) * 0.9, 0.0, 1.0));
   color = mix(color, rose, clamp(r.x * r.x, 0.0, 1.0) * 0.5);
+  // Dark theme swaps the gold for cool silver
+  vec3 silver = mix(vec3(0.95, 0.96, 0.98), vec3(0.62, 0.65, 0.72), clamp(length(q) * 0.9, 0.0, 1.0));
+  color = mix(color, silver, uDark);
+
+  // Treat the noise as a height field and light it like polished metal. The normal
+  // ignores how r changes between samples, which is close enough for a soft surface.
+  float e = 0.03;
+  vec2 slope = vec2(fbm(w + vec2(e, 0.0)) - n, fbm(w + vec2(0.0, e)) - n) / e;
+  vec3 normal = normalize(vec3(-slope * 0.45, 1.0));
+  vec3 reflected = reflect(vec3(0.0, 0.0, -1.0), normal);
+  vec3 light = normalize(vec3(0.5, 0.8, 0.9));
+
+  // Bright studio strips sliding across the reflection give the liquid-metal sheen
+  float strips = pow(0.5 + 0.5 * sin(reflected.x * 6.0 - reflected.y * 8.0 + t * 6.0), 4.0);
+  float diffuse = max(dot(normal, light), 0.0);
+  float specular = pow(max(dot(reflected, light), 0.0), 40.0);
+  float fresnel = pow(1.0 - normal.z, 1.5);
+  vec3 metal = color * (0.25 + 0.6 * diffuse + 0.7 * strips)
+    + vec3(1.0, 0.95, 0.85) * (specular * 1.1 + fresnel * 0.5);
 
   // Strongest toward the top-right, fading out toward the bottom and the text side
   float falloff = smoothstep(1.15, 0.1, distance(vUv, vec2(0.75, 1.0)));
-  float alpha = smoothstep(0.35, 0.8, n) * falloff * mix(0.5, 0.6, uDark);
-  gl_FragColor = vec4(color * alpha, alpha);
+  float alpha = smoothstep(0.35, 0.8, n) * falloff * mix(0.55, 0.75, uDark);
+  gl_FragColor = vec4(min(metal, 1.0) * alpha, alpha);
 }`;
 
 const RENDER_SCALE = 0.5; // it's a soft gradient, so half resolution is plenty
@@ -181,7 +201,7 @@ export function HeroBackground() {
   return (
     <>
       <div
-        className={`pointer-events-none absolute -top-40 left-1/2 h-[30rem] w-[50rem] -translate-x-1/2 rounded-full bg-primary/15 blur-3xl transition-opacity duration-1000 ${
+        className={`pointer-events-none absolute -top-40 left-1/2 h-[30rem] w-[50rem] -translate-x-1/2 rounded-full bg-primary/15 blur-3xl dark:bg-foreground/10 transition-opacity duration-1000 ${
           ready ? 'opacity-0' : 'opacity-100'
         }`}
       />

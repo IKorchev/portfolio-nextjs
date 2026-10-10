@@ -19,7 +19,7 @@ const Experience = () => {
   }));
 
   return (
-    <section id='experience' className='mx-auto max-w-6xl px-4 py-24 sm:px-6'>
+    <section id='experience' className='mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16'>
       <ExperienceStory
         company={company}
         items={items}

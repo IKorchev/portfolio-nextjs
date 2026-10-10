@@ -5,7 +5,7 @@ import ProjectCard from './ProjectCard';
 
 const Projects = ({ projects }: { projects: Project[] }) => {
     return (
-        <section id='projects' className='mx-auto max-w-6xl px-4 py-24 sm:px-6'>
+        <section id='projects' className='mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16'>
             <Reveal>
                 <SectionHeading eyebrow='Selected work' title='Projects'>
                     A few things I&apos;ve designed and built.
