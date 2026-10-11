@@ -32,7 +32,7 @@
   --brand-2: oklch(0.62 0.15 237);
   /* syntax colour for keywords in the code card, picked to contrast with brand-coloured strings */
   --code-keyword: oklch(0.52 0.22 293);
-  --grid-line: oklch(0.145 0 0 / 0.05);
+  --dot: oklch(0.145 0 0 / 0.16);
 }
 
 .dark {
@@ -57,7 +57,7 @@
   --brand: oklch(0.8 0.13 180);
   --brand-2: oklch(0.72 0.15 237);
   --code-keyword: oklch(0.72 0.16 293);
-  --grid-line: oklch(1 0 0 / 0.04);
+  --dot: oklch(1 0 0 / 0.11);
 }
 
 /*
@@ -193,7 +193,7 @@
   --brand: oklch(0.38 0.14 var(--hue));
   --brand-2: oklch(0.4 0.16 calc(var(--hue) + 50));
   --code-keyword: oklch(0.38 0.2 calc(var(--hue) + 110));
-  --grid-line: oklch(0 0 0 / 0.1);
+  --dot: oklch(0 0 0 / 0.3);
 }
 
 :root.dark[data-contrast='high'] {
@@ -217,7 +217,7 @@
   --brand: oklch(0.88 0.12 var(--hue));
   --brand-2: oklch(0.86 0.12 calc(var(--hue) + 50));
   --code-keyword: oklch(0.86 0.12 calc(var(--hue) + 110));
-  --grid-line: oklch(1 0 0 / 0.1);
+  --dot: oklch(1 0 0 / 0.28);
 }
 
 @theme inline {
@@ -269,11 +269,9 @@
   }
 }
 
-@utility bg-grid {
-  background-image:
-    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-  background-size: 48px 48px;
+@utility bg-dots {
+  background-image: radial-gradient(circle, var(--dot) 1.25px, transparent 1.75px);
+  background-size: 32px 32px;
   mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 60%, transparent 100%);
 }
 

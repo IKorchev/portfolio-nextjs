@@ -11,7 +11,7 @@ const LandingSection = ({ profile, roles, skills }: { profile: Profile; roles: R
     const lastName = nameParts.pop();
     return (
         <section id='home' className='relative overflow-hidden'>
-            <div className='bg-grid pointer-events-none absolute inset-0' />
+            <div className='bg-dots pointer-events-none absolute inset-0' />
             <div className='relative mx-auto grid max-w-6xl items-center gap-16 px-4 pt-20 pb-12 sm:px-6 lg:grid-cols-[1.2fr_1fr] lg:pt-32 lg:pb-20'>
                 <div>
                     <Badge variant='outline' className='gap-2 bg-card px-3 py-1 text-muted-foreground'>
