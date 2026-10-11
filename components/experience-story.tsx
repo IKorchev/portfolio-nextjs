@@ -8,7 +8,6 @@ import {
   useReducedMotion,
   useScroll,
   useSpring,
-  useTransform,
   type MotionValue,
 } from 'motion/react';
 import { Building2 } from 'lucide-react';
@@ -60,6 +59,7 @@ export function ExperienceStory({
 }) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLOListElement>(null);
+  const deviceRef = useRef<HTMLDivElement>(null);
   const mobileDeviceRef = useRef<HTMLDivElement>(null);
   // The server can't know the visitor's preference, so apply it after hydration
   const prefersReducedMotion = useReducedMotion();
@@ -86,26 +86,26 @@ export function ExperienceStory({
     return () => observer.disconnect();
   }, []);
 
-  // Desktop: the line and the device both follow the section scrolling through the viewport
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start 75%', 'end 60%'] });
+  // The line follows the section scrolling through the viewport
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start 75%', 'end 80%'] });
   const smooth = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 });
   const full = useMotionValue(1);
   const progress = reduce ? full : smooth;
-  // The device turns into a phone over the last stretch of line before the mobile role
-  const morph = useTransform(progress, (v) => clamp01((v - 0.6) / 0.4));
 
-  // Mobile: the device sits above the timeline, so it morphs while it crosses the screen
-  const { scrollYProgress: deviceProgress } = useScroll({
-    target: mobileDeviceRef,
-    offset: ['start 85%', 'end 35%'],
-  });
-  const mobileMorph = useTransform(useSpring(deviceProgress, { stiffness: 120, damping: 30 }), [0.25, 0.75], [0, 1]);
+  // The device follows its own position, so it has turned into a phone by the time it
+  // reaches the middle of the screen rather than once it has scrolled past
+  const { scrollYProgress: desktopProgress } = useScroll({ target: deviceRef, offset: ['center 85%', 'center 50%'] });
+  const { scrollYProgress: mobileProgress } = useScroll({ target: mobileDeviceRef, offset: ['center 85%', 'center 50%'] });
+  const morph = useSpring(desktopProgress, { stiffness: 120, damping: 30, restDelta: 0.001 });
+  const mobileMorph = useSpring(mobileProgress, { stiffness: 120, damping: 30, restDelta: 0.001 });
 
   return (
     <div ref={sectionRef}>
       <Reveal>{heading}</Reveal>
       <div className='grid items-center gap-10 lg:grid-cols-[1fr_2fr]'>
-        <DeviceMorph morph={reduce ? full : morph} className='hidden lg:flex' />
+        <div ref={deviceRef} className='hidden lg:block'>
+          <DeviceMorph morph={reduce ? full : morph} />
+        </div>
         <div ref={mobileDeviceRef} className='lg:hidden'>
           <DeviceMorph morph={reduce ? full : mobileMorph} size='sm' />
         </div>
