@@ -62,7 +62,7 @@ const Contact = ({ profile }: { profile: Profile }) => {
                     <p>
                         &copy; {new Date().getFullYear()} {profile.name}
                     </p>
-                    <p className='mt-1 text-xs'>Designed and built by me, with Next.js and Contentful.</p>
+                    <p className='mt-1 text-xs'>Designed and built by me with Next.js, with a little help from Claude.</p>
                 </div>
                 <div className='flex items-center gap-4 font-mono text-xs'>
                     {commitUrl && (
